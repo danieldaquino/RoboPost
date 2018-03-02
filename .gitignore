@@ -1,3 +1,6 @@
+# Annoying OS specific files
+.DS_Store
+
 # Prerequisites
 *.d
 
