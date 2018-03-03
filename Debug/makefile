@@ -134,37 +134,37 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-pwmled_CC3220S_LAUNCHXL_tirtos_gcc.out \
+FrostRims.out \
 
 EXE_OUTPUTS__QUOTED += \
-"pwmled_CC3220S_LAUNCHXL_tirtos_gcc.out" \
+"FrostRims.out" \
 
 BIN_OUTPUTS += \
-pwmled_CC3220S_LAUNCHXL_tirtos_gcc.bin \
+FrostRims.bin \
 
 BIN_OUTPUTS__QUOTED += \
-"pwmled_CC3220S_LAUNCHXL_tirtos_gcc.bin" \
+"FrostRims.bin" \
 
 
 # All Target
 all: $(OBJS) $(LDS_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "pwmled_CC3220S_LAUNCHXL_tirtos_gcc.out" secondary-outputs
+	@$(MAKE) --no-print-directory -Onone "FrostRims.out" secondary-outputs
 
 dependents:
-	-cd C:/Users/timyu/workspace_v7/tirtos_builds_CC3220S_LAUNCHXL_release_gcc/Debug && $(MAKE) clean all
+	-cd C:/Users/timyu/workspace_v7/tirtos_builds_CC3220S_LAUNCHXL_release_gcc/Debug && $(MAKE) all
 
 # Tool invocations
-pwmled_CC3220S_LAUNCHXL_tirtos_gcc.out: $(OBJS) $(LDS_SRCS) $(GEN_CMDS) C:/Users/timyu/workspace_v7/tirtos_builds_CC3220S_LAUNCHXL_release_gcc/Debug/libtirtos_builds_CC3220S_LAUNCHXL_release_gcc.a
+FrostRims.out: $(OBJS) $(LDS_SRCS) $(GEN_CMDS) C:/Users/timyu/workspace_v7/tirtos_builds_CC3220S_LAUNCHXL_release_gcc/Debug/libtirtos_builds_CC3220S_LAUNCHXL_release_gcc.a
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: GNU Linker'
-	"C:/ti/ccsv7/tools/compiler/gcc-arm-none-eabi-6-2017-q1-update/bin/arm-none-eabi-gcc.exe" -ffunction-sections -fdata-sections -g -gdwarf-3 -gstrict-dwarf -Wall -march=armv7e-m -mthumb -Wl,-Map,"pwmled_CC3220S_LAUNCHXL_tirtos_gcc.map" -nostartfiles -static -Wl,--gc-sections -L"C:/ti/simplelink_cc32xx_sdk_1_60_00_04/source" -L"C:/ti/simplelink_cc32xx_sdk_1_60_00_04/kernel/tirtos/packages" -L"C:/ti/simplelink_cc32xx_sdk_1_60_00_04/kernel/tirtos/packages/gnu/targets/arm/libs/install-native/arm-none-eabi/lib/thumb/v7e-m" -march=armv7e-m -mthumb --specs=nano.specs -o"pwmled_CC3220S_LAUNCHXL_tirtos_gcc.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv7/tools/compiler/gcc-arm-none-eabi-6-2017-q1-update/bin/arm-none-eabi-gcc.exe" -ffunction-sections -fdata-sections -g -gdwarf-3 -gstrict-dwarf -Wall -march=armv7e-m -mthumb -Wl,-Map,"FrostRims.map" -nostartfiles -static -Wl,--gc-sections -L"C:/ti/simplelink_cc32xx_sdk_1_60_00_04/source" -L"C:/ti/simplelink_cc32xx_sdk_1_60_00_04/kernel/tirtos/packages" -L"C:/ti/simplelink_cc32xx_sdk_1_60_00_04/kernel/tirtos/packages/gnu/targets/arm/libs/install-native/arm-none-eabi/lib/thumb/v7e-m" -march=armv7e-m -mthumb --specs=nano.specs -o"FrostRims.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-pwmled_CC3220S_LAUNCHXL_tirtos_gcc.bin: $(EXE_OUTPUTS)
+FrostRims.bin: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: GNU Objcopy Utility'
-	"C:/ti/ccsv7/tools/compiler/gcc-arm-none-eabi-6-2017-q1-update/bin/arm-none-eabi-objcopy.exe" -O binary $(EXE_OUTPUTS__QUOTED) "pwmled_CC3220S_LAUNCHXL_tirtos_gcc.bin"
+	"C:/ti/ccsv7/tools/compiler/gcc-arm-none-eabi-6-2017-q1-update/bin/arm-none-eabi-objcopy.exe" -O binary $(EXE_OUTPUTS__QUOTED) "FrostRims.bin"
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
