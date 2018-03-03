@@ -97,7 +97,7 @@ void *mainThread(void *arg0)
 
         duty = (duty + dutyInc);
 
-        if (duty == pwmPeriod || (!duty)) {
+        if (duty >= 0.88*(pwmPeriod) || (!duty)) {
             dutyInc = - dutyInc;
         }
 
