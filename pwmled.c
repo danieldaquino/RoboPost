@@ -37,6 +37,9 @@
 #include <unistd.h>
 #include <stddef.h>
 
+/* Local Code */
+#include "uart_term.h"
+
 /* Driver Header files */
 #include <ti/drivers/PWM.h>
 
@@ -49,6 +52,16 @@
  */
 void *mainThread(void *arg0)
 {
+	/*Setup UART Term*/
+	InitTerm();
+	
+	/*Show beginning message*/
+	UART_PRINT("       ******************\n\r");
+	UART_PRINT("       *    FrostRims   *\n\r");
+	UART_PRINT("       *       by       *\n\r");
+	UART_PRINT("       * Daniel and Tim *\n\r");
+	UART_PRINT("       ******************\n\r");
+	
     /* Period and duty in microseconds */
     uint16_t   pwmPeriod = 3000;
     uint16_t   duty = 0;

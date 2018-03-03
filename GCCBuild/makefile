@@ -7,7 +7,7 @@ KERNEL_BUILD := $(SIMPLELINK_CC32XX_SDK_INSTALL_DIR)/kernel/tirtos/builds/CC3220
 CC = "$(GCC_ARMCOMPILER)/bin/arm-none-eabi-gcc"
 LNK = "$(GCC_ARMCOMPILER)/bin/arm-none-eabi-gcc"
 
-OBJECTS = main_tirtos.obj pwmled.obj CC3220S_LAUNCHXL.obj
+OBJECTS = main_tirtos.obj uart_term.obj pwmled.obj CC3220S_LAUNCHXL.obj
 
 CONFIGPKG = $(KERNEL_BUILD)/gcc
 
@@ -64,6 +64,10 @@ main_tirtos.obj: ../main_tirtos.c $(CONFIGPKG)/compiler.opt
 	@ $(CC) $(CFLAGS) $< -c @$(CONFIGPKG)/compiler.opt -o $@
 
 pwmled.obj: ../pwmled.c $(CONFIGPKG)/compiler.opt
+	@ echo Building $@
+	@ $(CC) $(CFLAGS) $< -c @$(CONFIGPKG)/compiler.opt -o $@
+	
+uart_term.obj: ../uart_term.c $(CONFIGPKG)/compiler.opt
 	@ echo Building $@
 	@ $(CC) $(CFLAGS) $< -c @$(CONFIGPKG)/compiler.opt -o $@
 
