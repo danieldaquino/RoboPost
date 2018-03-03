@@ -29,6 +29,18 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+ /*========================================================================
+ 
+ 		CLOSED LOOP MOTOR CONTROLLER
+ 		
+ 		Controls the speed of one motor with PWM and counting with an encoder
+ 		
+ 		
+ 		MOTOR PIN:   P01
+ 		ENCODER PIN: P05
+ 
+ =========================================================================*/
 
 /*
  *  ======== pwmled.c ========
@@ -42,9 +54,60 @@
 
 /* Driver Header files */
 #include <ti/drivers/PWM.h>
+#include <ti/drivers/GPIO.h>
 
 /* Example/Board Header files */
 #include "Board.h"
+#include <ti/drivers/gpio/GPIOCC32XX.h>
+
+/*
+* =========== Global Variables ============
+*/
+
+long unsigned int encoderACount;
+
+/* 	== motorInit ==
+*
+*	Initializes the Motor Driver
+*/
+void motorInit() {
+	
+}
+
+/* 	== countEncoder ==
+*
+*	Interrupt Service routine for the encoder, in order to count
+*
+*	inputs: none
+*	outputs: none
+*	global variables affected: encoderACount
+*/
+void countEncoder(unsigned char arg) {
+	encoderACount++;
+}
+
+/* 	== encoderSetup ==
+*
+*	setups I/O for encoder counting.
+*	
+*	inputs: none
+*	outputs: none
+*	global variables affected: GPIO 05, encoderACount
+*/
+void encoderSetup() {
+	//Reset encoder counts
+	encoderACount = 0;
+	
+	// Initialize driver
+    GPIO_init();
+    //Configure the pin
+    GPIO_setConfig(Board_GPIO_BUTTON0, GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_FALLING);
+    //Configure ISR
+    GPIO_setCallback(Board_GPIO_BUTTON0, countEncoder);
+    
+    //Showtime
+    GPIO_enableInt(Board_GPIO_BUTTON0);
+}
 
 /*
  *  ======== mainThread ========
@@ -52,6 +115,7 @@
  */
 void *mainThread(void *arg0)
 {
+	//THIS UART CODE IS TEMPORARY, WHILE WE DO NOT BUILD MORE MODULES
 	/*Setup UART Term*/
 	InitTerm();
 	
@@ -62,6 +126,10 @@ void *mainThread(void *arg0)
 	UART_PRINT("       * Daniel and Tim *\n\r");
 	UART_PRINT("       ******************\n\r");
 	
+	//Setup encoder
+	encoderSetup();
+	
+	//CODE BELOW WILL GO TO MOTOR_INIT
     /* Period and duty in microseconds */
     uint16_t   pwmPeriod = 3000;
     uint16_t   duty = 0;
@@ -102,6 +170,7 @@ void *mainThread(void *arg0)
 
     /* Loop forever incrementing the PWM duty */
     while (1) {
+    	
         PWM_setDuty(pwm1, duty);
 
         if (pwm2) {
@@ -112,6 +181,7 @@ void *mainThread(void *arg0)
 
         if (duty >= 0.88*(pwmPeriod) || (!duty)) {
             dutyInc = - dutyInc;
+			UART_PRINT("[motorControl]: Encoder Counts: %d\n\r", encoderACount);
         }
 
         usleep(time);
