@@ -10,6 +10,11 @@
 *.obj
 *.elf
 
+#Flashable binary files
+*.elf
+*.hex
+*.bin
+
 # Linker output
 *.ilk
 *.map

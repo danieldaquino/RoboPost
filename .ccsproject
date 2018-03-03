@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?ccsproject version="1.0"?>
+<projectOptions>
+	<ccsVersion value="7.4.0"/>
+	<deviceVariant value="Cortex M.CC3220S"/>
+	<deviceFamily value="TMS470"/>
+	<deviceEndianness value="little"/>
+	<codegenToolVersion value="GNU_6.3.1:Linaro"/>
+	<isElfFormat value="true"/>
+	<connection value="common/targetdb/connections/TIXDS110_Connection.xml"/>
+	<rts value=""/>
+	<createSlaveProjects value=""/>
+	<ignoreDefaultDeviceSettings value="true"/>
+	<templateProperties value="id=pwmled_CC3220S_LAUNCHXL_tirtos_gcc.projectspec.pwmled_CC3220S_LAUNCHXL_tirtos_gcc,buildProfile=release,isHybrid=true,"/>
+	<origin value="C:\ti\simplelink_cc32xx_sdk_1_60_00_04\examples\rtos\CC3220S_LAUNCHXL\drivers\pwmled\tirtos\gcc\pwmled_CC3220S_LAUNCHXL_tirtos_gcc.projectspec"/>
+	<filesToOpen value=""/>
+</projectOptions>
