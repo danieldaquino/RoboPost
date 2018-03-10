@@ -8,7 +8,7 @@
 
 #define SETPOINT 250.0
 /**
- * main.c
+ * main func robopost.c
  */
 int main(void)
 {
