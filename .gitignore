@@ -4,6 +4,16 @@
 # Prerequisites
 *.d
 
+# CCS Files
+.ccsproject
+.cproject
+.launches
+.project
+.settings
+lnk_msp430f5529.cmd
+targetConfigs
+
+
 # Object files
 *.o
 *.ko
