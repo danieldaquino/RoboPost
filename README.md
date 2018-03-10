@@ -1,4 +1,4 @@
-﻿# FrostRims
+﻿# RoboPost
 An autonomous line following robot — BCIT Robotics Capstone
 
 #Components
