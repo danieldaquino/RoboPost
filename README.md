@@ -1,11 +1,13 @@
 ﻿# RoboPost
-## By Daniel Walnut and Tim Yue
+### By Daniel Walnut and Tim Yue
 An autonomous delivery system — BCIT Robotics Capstone
 
-#Components
+# Components
 
 1. MSP430
 2. Particle Photon
+3. TI DRV8871 breakout board
+4. DC Motor with and encoder
 
 # Used Resources
 
