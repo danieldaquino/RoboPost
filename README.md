@@ -7,7 +7,7 @@ An autonomous delivery system — BCIT Robotics Capstone
 1. MSP430
 2. Particle Photon
 3. TI DRV8871 breakout board
-4. DC Motor with and encoder
+4. DC Motor with an encoder
 
 # Used Resources
 
