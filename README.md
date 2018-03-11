@@ -1,4 +1,4 @@
-﻿# RoboPost
+﻿![RoboPostLogo](logo.png)
 ### By Daniel Walnut and Tim Yue
 An autonomous delivery system — BCIT Robotics Capstone
 
