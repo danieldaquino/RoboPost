@@ -6,7 +6,8 @@
 #include "DiffDriver/DualMotorDriver/DualMotorDriver.h"
 
 
-#define SETPOINT 250.0
+#define SETPOINT 300.0
+#define SETPOINT2 200.0
 /**
  * main func robopost.c
  */
@@ -22,9 +23,10 @@ int main(void)
 	while(1) {
 		//Nothing yet
 		char LeString[30];
-		sprintf(LeString, "\fCurrent Speed: %d RPM\n\r", (int) getRPM(1));
+		sprintf(LeString, "\fCurrent Speed 1: %d RPM    Speed 2: %d RPM \n\r", (int) getRPM(1), (int) getRPM(2));
 		UARTIOSend(LeString);
-		setDutyCycle(1, -(0.5 + ((SETPOINT - getRPM(1))/300)*0.5));
+		setDutyCycle(1, (0.5 + ((SETPOINT - getRPM(1))/300)*0.5));
+		setDutyCycle(2, (0.5 + ((SETPOINT2 - getRPM(2))/300)*0.5));
 		__delay_cycles(100000);
 	}
 	return 0;
