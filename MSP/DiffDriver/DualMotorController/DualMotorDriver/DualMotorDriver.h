@@ -1,9 +1,13 @@
 /*===============================
 
 	# DualMotorDriver
-	## by Daniel Walnut and Tim Yue
+	## Written by Daniel Walnut
 	
-	This module allows you to control two motors with a closed loop speed control
+	This module allows you to drive two motors with PWM signals
+	
+	## Requirements
+	1. Two DC motors
+	2. Two TI DRV8871 Motor drivers
 	
 	## Resources used:
 	
@@ -86,7 +90,7 @@ inputs:
 	(float) Duty cycle, from 0 to 1
 	
 outputs: none
-Globals affected: Timer A0
+Globals affected: Timer A0, eventually Motor pins
 =======*/
 void setDutyCycle(char motor, float D);
 

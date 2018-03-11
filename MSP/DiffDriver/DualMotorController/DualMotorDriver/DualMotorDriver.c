@@ -3,8 +3,8 @@
 	# DualMotorDriver
 	## Written by Daniel Walnut
 	
-	This module allows you to control two motors with a closed loop speed control
-	For function descriptions and usage, please visit VelocityGauge.h
+	This module allows you to drive two motors with PWM signals.
+	For function descriptions and usage, please visit DualMotorDriver.h
 	
 ===============================*/
 
