@@ -12,12 +12,12 @@
 Internal Macros
 =======*/
 // Register value for 100% duty cycle
-#define DUTY_100_REG 160 
+#define DUTY_100_REG 160.0 
 
 #include <msp430.h>
 #include "DualMotorDriver.h"
 
-void setDutyCycle(char motor, double D) {
+void setDutyCycle(char motor, float D) {
 	// CHECK FOR REVERSE CONDITIONS
 	char fwd = 1;
 	if(D < 0) {
@@ -82,7 +82,7 @@ void setupPWM() {
 	MOTOR_1_REV_TIME_CTL = OUTMOD_7;
 	
 	MOTOR_2_FWD_TIME_REG = 0;
-	MOTOR_1_FWD_TIME_CTL = OUTMOD_7;
+	MOTOR_2_FWD_TIME_CTL = OUTMOD_7;
 	
 	MOTOR_2_REV_TIME_REG = 0;
 	MOTOR_2_REV_TIME_CTL = OUTMOD_7;

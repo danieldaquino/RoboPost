@@ -83,11 +83,11 @@ DO NOT REVERSE THE MOTOR DUTY CYCLE WITHOUT BRAKING FIRST!!!
 
 inputs:
 	(char) Motor Mask to be selected. please use 1 or 2
-	(double) Duty cycle, from 0 to 1
+	(float) Duty cycle, from 0 to 1
 	
 outputs: none
 Globals affected: Timer A0
 =======*/
-void setDutyCycle(char motor, double D);
+void setDutyCycle(char motor, float D);
 
 #endif

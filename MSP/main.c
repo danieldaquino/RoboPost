@@ -22,12 +22,12 @@ int main(void)
 	__enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
 	while(1) {
 		//Nothing yet
-		char LeString[30];
-		sprintf(LeString, "\fCurrent Speed 1: %d RPM    Speed 2: %d RPM \n\r", (int) getRPM(1), (int) getRPM(2));
+		char LeString[60];
+		sprintf(LeString, "Current Speed 1: %d RPM Speed 2: %d RPM \n\r", (int) getRPM(1), (int) getRPM(2));
 		UARTIOSend(LeString);
 		setDutyCycle(1, (0.5 + ((SETPOINT - getRPM(1))/300)*0.5));
 		setDutyCycle(2, (0.5 + ((SETPOINT2 - getRPM(2))/300)*0.5));
-		__delay_cycles(100000);
+		__delay_cycles(500000);
 	}
 	return 0;
 }
