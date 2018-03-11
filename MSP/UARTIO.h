@@ -23,7 +23,7 @@
 /*=======
 Macros
 ========*/
-#define STR_BUFFER_SIZE 30
+#define STR_BUFFER_SIZE 60
 
 /*=======
 Globals

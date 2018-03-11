@@ -35,7 +35,7 @@ __interrupt void USCI_A1_ISR(void) {
     break;
   case 4:
     	//TX buffer is empty! let's write to it
-		if(strBufferToSend[strBufferPointer] == '\0' || strBufferPointer >= 30) {
+		if(strBufferToSend[strBufferPointer] == '\0' || strBufferPointer >= STR_BUFFER_SIZE) {
 			//Done sending big buffer
 			strBufferPointer = 0; // Pointer at beginning
 			strBufferReady = 1; // We are ready for more.
