@@ -20,27 +20,40 @@
 
 ===============================*/
 
+/*=======
+Includes
+=======*/
 #include <msp430.h>
-#include "VelocityGauge.h"
+#include "DualVelocityGauge.h"
+
+/*=======
+Statics
+=======*/
+static long int encoder1Count;
+static long int enc1CountsIn100ms;
+static long int encoder2Count;
+static long int enc2CountsIn100ms;
 
 //To do: Create shared port ISR driver module
-#pragma vector=PORT1_VECTOR
+#pragma vector=P_ENCODER_VECTOR
 __interrupt void encoderISR(void) {
 	switch(__even_in_range(P_ENCODER_IV,8)) {
 		case 0x0:
 			//Nothing. How did we end up here?
 			break;
 		case 0x02:
-			//P1.0 - Not interested
+			//P2.0 - Encoder 1
+			encoder1Count++; //Increase count
 			break;
 		case 0x04:
-			//P1.1 - Not interested
+			//P2.1 - Not interested
+			break;
 		case 0x06:
-			//P1.2 - Not interested
+			//P2.2 - Encoder 2
+			encoder2Count++; //Increase count
 			break;
 		case 0x08:
-			//P1.3 - an encoder count!
-			encoderCount++; //Increase count
+			//P2.3 - Not interested
 			break;
 		default:
 			//Nothing here
@@ -50,21 +63,34 @@ __interrupt void encoderISR(void) {
 
 #pragma vector = TIMER1_A1_VECTOR
 __interrupt void velocityTimerISR(void) {
-	countsIn100ms = encoderCount; // Get encoder count
-	encoderCount = 0; // Reset encoder count
+
+	enc1CountsIn100ms = encoder1Count; // Get encoder 1 count
+	encoder1Count = 0; // Reset encoder count
+	
+	enc2CountsIn100ms = encoder2Count; // Get encoder 2 count
+	encoder2Count = 0;
+	
 	TA1CTL &= ~TAIFG; // Clear interrupt flag
 }
 
-float getRPM(void){
-	return (60*((double) countsIn100ms*10)/COUNTS_PER_REV)/GEAR_RATIO;
+float getRPM(char motor) {
+	if(motor == 1) {
+		return (60*((double) enc1CountsIn100ms*10)/COUNTS_PER_REV)/GEAR_RATIO;
+	}
+	else if(motor == 2) {
+		return (60*((double) enc2CountsIn100ms*10)/COUNTS_PER_REV)/GEAR_RATIO;		
+	}
+	else {
+		return 0;
+	}
 }
 
 void velocityGaugeInit(void) {
 	//Setup pins
-	P_ENCODER_DIR &= ~ENCODER_BIT; //Encoder is an input
-	P_ENCODER_IE |= ENCODER_BIT; //Enable interrupts for encoder
-	P_ENCODER_REN |= ENCODER_BIT; //Enable Pull up/down resistor
-	P_ENCODER_OUT &= ~ENCODER_BIT; // Pull down resistor
+	P_ENCODER_DIR &= ~ENCODERS; //Encoder is an input
+	P_ENCODER_IE |= ENCODERS; //Enable interrupts for encoder
+	P_ENCODER_REN |= ENCODERS; //Enable Pull up/down resistor
+	P_ENCODER_OUT &= ~ENCODERS; // Pull down resistor
 	
 	//Setup TimerA1 for velocity measurements
 	// TASSEL_1: ACLK = 32KHz

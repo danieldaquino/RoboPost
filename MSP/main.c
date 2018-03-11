@@ -1,9 +1,9 @@
 #include <msp430.h> 
 #include <stdio.h>
 
-#include "VelocityGauge.h"
+#include "DiffDriver/DualVelocityGauge/DualVelocityGauge.h"
 #include "UARTIO.h"
-#include "PWMMotor.h"
+#include "DiffDriver/DualMotorDriver/DualMotorDriver.h"
 
 
 #define SETPOINT 250.0
@@ -22,9 +22,9 @@ int main(void)
 	while(1) {
 		//Nothing yet
 		char LeString[30];
-		sprintf(LeString, "\fCurrent Speed: %d RPM\n\r", (int) getRPM());
+		sprintf(LeString, "\fCurrent Speed: %d RPM\n\r", (int) getRPM(1));
 		UARTIOSend(LeString);
-		setDutyCycle(0.5 + ((SETPOINT - getRPM())/300)*0.5);
+		setDutyCycle(1, -(0.5 + ((SETPOINT - getRPM(1))/300)*0.5));
 		__delay_cycles(100000);
 	}
 	return 0;

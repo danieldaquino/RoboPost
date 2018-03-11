@@ -19,13 +19,17 @@ An autonomous delivery system — BCIT Robotics Capstone
 2. P4.4
 3. P4.5
 
-### PWMMotor module
+### DualMotorDriver module
 
 1. Timer A0
-2. P1.2
+2. P1.2 - Motor 1 Forward PWM
+3. P1.3 - Motor 1 Reverse PWM
+4. P1.4 - Motor 2 Forward PWM
+5. P1.5 - Motor 2 Reverse PWM
 
-### VelocityGauge module
+### DualVelocityGauge module
 
-1. Timer A1
-2. P1.3
-
+1. P2.0 - Encoder of Motor 1, channel A
+2. P2.2 - Encoder of Motor 2, channel A
+3. PORT2 ISR
+4. Timer A1
