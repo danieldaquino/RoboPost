@@ -4,9 +4,9 @@ An autonomous delivery system — BCIT Robotics Capstone
 
 # Components
 
-1. MSP430
+1. MSP4305529LP Evaluation Board
 2. Particle Photon
-3. TI DRV8871 breakout board
+3. TI DRV8871 Adafruit Breakout Board
 4. DC Motor with an encoder
 
 # Used Resources
