@@ -90,9 +90,9 @@ void UARTIOInit() {
 			 &	~UCSYNC;// UART Mode
 
 
-	UCA1BR0 = 3; // Setting system to 19200bps. Refer to table at "36.3.13 Typical Baud Rates and Errors" - Document SLAU208O
+	UCA1BR0 = 52; // Setting system to 19200bps. Refer to table at "36.3.13 Typical Baud Rates and Errors" - Document SLAU208O
 	UCA1BR1 = 0; // Setting system to 19200bps. Refer to table at "36.3.13 Typical Baud Rates and Errors" - Document SLAU208O
-	UCA1MCTL = UCBRF_6 | UCBRS_1 | UCOS16; // Setting system to 19200bps. Refer to table at "36.3.13 Typical Baud Rates and Errors" - Document SLAU208O
+	UCA1MCTL = UCBRF_1 | UCBRS_0 | UCOS16; // Setting system to 19200bps. Refer to table at "36.3.13 Typical Baud Rates and Errors" - Document SLAU208O
 	//********************
 
 	UCA1CTL1 &= ~UCSWRST; //  configured. take state machine out of reset.

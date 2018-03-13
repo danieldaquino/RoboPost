@@ -1,1 +1,1 @@
-"./PWMMotor.obj" "./UARTIO.obj" "./VelocityGauge.obj" "./main.obj" "../lnk_msp430f5529.cmd" -llibmath.a -llibc.a 
+"./I2C_modual.obj" "./PWMMotor.obj" "./UARTIO.obj" "./VelocityGauge.obj" "./main.obj" "../lnk_msp430f5529.cmd" -llibmath.a -llibc.a 
