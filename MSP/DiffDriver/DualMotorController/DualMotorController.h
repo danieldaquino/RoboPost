@@ -1,7 +1,6 @@
 /*===============================
 
 	# DualMotorController
-	## Written by Daniel Walnut
 	
 	This module allows you to control two motors with a closed loop speed control
 	For function descriptions and usage, please visit DualMotorController.h

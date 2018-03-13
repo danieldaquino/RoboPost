@@ -1,7 +1,6 @@
 /*===============================
 
 	# Dual Velocity Gauge
-	## Written by Daniel Walnut
 
 	This module gathers signals from an encoder, counts the pulses,
 	and it estimates the velocity.

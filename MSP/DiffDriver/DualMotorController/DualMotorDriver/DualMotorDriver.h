@@ -1,7 +1,6 @@
 /*===============================
 
 	# DualMotorDriver
-	## Written by Daniel Walnut
 	
 	This module allows you to drive two motors with PWM signals
 	

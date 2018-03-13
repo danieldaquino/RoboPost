@@ -6,8 +6,6 @@
 	It gathers signals from and encoder, counts the pulses,
 	and it estimates the velocity.
 	
-	Written by Daniel Walnut
-	
 	Requirements for use:
 	
 	P1.3 must be connected to a motor encoder channel
