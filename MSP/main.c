@@ -5,8 +5,8 @@
 #include "DiffDriver/DualMotorController/DualMotorController.h"
 #include "Scheduler/Scheduler.h"
 
-#define SETPOINT 250.0
-#define SETPOINT2 180.0
+#define SETPOINT 230.0
+#define SETPOINT2 230.0
 /**
  * main func robopost.c
  */
@@ -24,10 +24,14 @@ int main(void)
 	// Let's get this party started
 	setRPM(1, SETPOINT);
 	setRPM(2, SETPOINT2);
+	char counter;
+	counter = 0;
+	char parity;
+	parity = 0;
 	while(1) {
 		//Nothing yet
 		char LeString[60];
-		sprintf(LeString, "1: %d RPM | 2: %d RPM \n\r", (int) getRPM(1), (int) getRPM(2));
+		sprintf(LeString, "1: %d RPM | 2: %d RPM\n\r", (int) getRPM(1), (int) getRPM(2), TA0CCR1, TA0CCR2, TA0CCR3, TA0CCR4);
 		UARTIOSend(LeString);
 		__delay_cycles(100000);
 	}

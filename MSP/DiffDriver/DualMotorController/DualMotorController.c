@@ -15,6 +15,7 @@ Includes
 #include "DualMotorDriver/DualMotorDriver.h"
 #include "DualMotorController.h"
 #include "../../Scheduler/Scheduler.h"
+#include "../../UARTIO.h"
 
 /*=======
 Statics
@@ -59,8 +60,8 @@ static void controlRPM() {
 		if(newDutyCycle > 1) {
 			newDutyCycle = 1;
 		}
-		else if(newDutyCycle < -1) {
-			newDutyCycle = -1;
+		else if(newDutyCycle < 0) {
+			newDutyCycle = 0;
 		}
 		setDutyCycle(i+1, newDutyCycle);
 		previousDutyCycle[i] = newDutyCycle;
