@@ -314,6 +314,29 @@ void initGPIO()
 
 void initI2C()
 {
+	//Initialize variables to their initial values...
+	MasterType2[0] = 'F';
+	MasterType2[1] = '4';
+	MasterType2[2] = '1';
+	MasterType2[3] = '9';
+	MasterType2[4] = '2';
+	MasterType2[5] = 'B';	
+	MasterType1[0] = 8;
+	MasterType1[1] = 9;
+	MasterType0[0] = 11;
+	SlaveType2[0] = 0;
+	SlaveType1[0] = 0;
+	SlaveType0[0] = 0;
+	MasterMode = IDLE_MODE;
+	TransmitRegAddr = 0;
+	ReceiveBuffer[0] = 0;
+	RXByteCtr = 0;
+	ReceiveIndex = 0;
+	TransmitBuffer[0] = 0;
+	TXByteCtr = 0;
+	TransmitIndex = 0;
+	
+	//Initialize the Serial communication module
     UCB0CTL1 |= UCSWRST;                      // Enable SW reset
     UCB0CTL0 = UCMST + UCMODE_3 + UCSYNC;     // I2C Master, synchronous mode
     UCB0CTL1 = UCSSEL_2 + UCSWRST;            // Use SMCLK, keep SW reset

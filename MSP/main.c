@@ -4,7 +4,6 @@
 #include "VelocityGauge.h"
 #include "UARTIO.h"
 #include "PWMMotor.h"
-//#include "I2C_modual.c"
 #include "I2C_modual.h"
 
 #define SETPOINT 250.0

@@ -34,14 +34,14 @@
  * sent by the slave to the master.
  * */
 
-uint8_t MasterType2 [TYPE_2_LENGTH] = {'F', '4', '1', '9', '2', 'B'};
-uint8_t MasterType1 [TYPE_1_LENGTH] = { 8, 9};
-uint8_t MasterType0 [TYPE_0_LENGTH] = { 11};
+uint8_t MasterType2 [TYPE_2_LENGTH];
+uint8_t MasterType1 [TYPE_1_LENGTH];
+uint8_t MasterType0 [TYPE_0_LENGTH];
 
 
-uint8_t SlaveType2 [TYPE_2_LENGTH] = {0};
-uint8_t SlaveType1 [TYPE_1_LENGTH] = {0};
-uint8_t SlaveType0 [TYPE_0_LENGTH] = {0};
+uint8_t SlaveType2 [TYPE_2_LENGTH];
+uint8_t SlaveType1 [TYPE_1_LENGTH];
+uint8_t SlaveType0 [TYPE_0_LENGTH];
 
 //******************************************************************************
 // General I2C State Machine ***************************************************
@@ -60,10 +60,10 @@ typedef enum I2C_ModeEnum{
 } I2C_Mode;
 
 /* Used to track the state of the software state machine*/
-I2C_Mode MasterMode = IDLE_MODE;
+I2C_Mode MasterMode;
 
 /* The Register Address/Command to use*/
-uint8_t TransmitRegAddr = 0;
+uint8_t TransmitRegAddr;
 
 /* ReceiveBuffer: Buffer used to receive data in the ISR
  * RXByteCtr: Number of bytes left to receive
@@ -72,12 +72,12 @@ uint8_t TransmitRegAddr = 0;
  * TXByteCtr: Number of bytes left to transfer
  * TransmitIndex: The index of the next byte to be transmitted in TransmitBuffer
  * */
-uint8_t ReceiveBuffer[MAX_BUFFER_SIZE] = {0};
-uint8_t RXByteCtr = 0;
-uint8_t ReceiveIndex = 0;
-uint8_t TransmitBuffer[MAX_BUFFER_SIZE] = {0};
-uint8_t TXByteCtr = 0;
-uint8_t TransmitIndex = 0;
+uint8_t ReceiveBuffer[MAX_BUFFER_SIZE];
+uint8_t RXByteCtr;
+uint8_t ReceiveIndex;
+uint8_t TransmitBuffer[MAX_BUFFER_SIZE];
+uint8_t TXByteCtr;
+uint8_t TransmitIndex;
 
 /* I2C Write and Read Functions */
 
