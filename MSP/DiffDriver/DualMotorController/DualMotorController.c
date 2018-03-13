@@ -20,6 +20,7 @@ Includes
 Statics
 ========*/
 static int motorSetpoints[2] = {0, 0};
+static float previousDutyCycle[2] = {0, 0};
 
 /*=======
 Function Definitions
@@ -48,8 +49,22 @@ char setRPM(char motor, int speed) {
 }
 
 static void controlRPM() {
-	setDutyCycle(1, (0.5 + ((motorSetpoints[0] - getRPM(1))/MAX_MOTOR_SPEED)*0.5));	
-	setDutyCycle(2, (0.5 + ((motorSetpoints[1] - getRPM(2))/MAX_MOTOR_SPEED)*0.5));	
+	int i;
+	for(i=0;i < 2;i++) {
+		float normalError;
+		normalError = (motorSetpoints[i] - getRPM(i+1))/MAX_MOTOR_SPEED; // Get error (subtract block), normalize. (1/300 block)
+		float newDutyCycle;
+		newDutyCycle = previousDutyCycle[i] + normalError; // Integrate. (1/s block)
+		//Add a saturation factor
+		if(newDutyCycle > 1) {
+			newDutyCycle = 1;
+		}
+		else if(newDutyCycle < -1) {
+			newDutyCycle = -1;
+		}
+		setDutyCycle(i+1, newDutyCycle);
+		previousDutyCycle[i] = newDutyCycle;
+	}
 }
 
 void motorControllerInit() {
