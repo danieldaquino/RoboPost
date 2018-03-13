@@ -20,6 +20,8 @@
 	
 	1. DualMotorDriver module folder, on the same folder as this file.
 	2. DualVelocityGauge module folder, on the same folder as this file.
+	3. Scheduler module
+	4. Scheduler initialized before initializing this module
 	
 ===============================*/
 

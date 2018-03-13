@@ -3,10 +3,10 @@
 
 #include "UARTIO.h"
 #include "DiffDriver/DualMotorController/DualMotorController.h"
+#include "Scheduler/Scheduler.h"
 
-
-#define SETPOINT 300.0
-#define SETPOINT2 200.0
+#define SETPOINT 250.0
+#define SETPOINT2 180.0
 /**
  * main func robopost.c
  */
@@ -14,6 +14,8 @@ int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
+	// Setup scheduler before the motor controller!!
+	schedulerInit();
 	motorControllerInit();	
 	UARTIOInit(); // Initialize communication with Computer Console
 	

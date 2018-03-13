@@ -11,8 +11,15 @@
 /*=======
 Includes
 ========*/
+#include <msp430.h>
 #include "DualMotorDriver/DualMotorDriver.h"
 #include "DualMotorController.h"
+#include "../../Scheduler/Scheduler.h"
+
+/*=======
+Statics
+========*/
+static int motorSetpoints[2] = {0, 0};
 
 /*=======
 Function Definitions
@@ -26,10 +33,27 @@ char setRPM(char motor, int speed) {
 	   that maximum positive error means 100% duty cycle,
 	   and that maximum negative error means 0% duty cycle.
 	*/
-	setDutyCycle(motor, (0.5 + ((speed - getRPM(motor))/MAX_MOTOR_SPEED)*0.5));
+	if(motor == 1 || motor == 2) {
+		if(speed < MAX_MOTOR_SPEED && speed > -MAX_MOTOR_SPEED) {
+			motorSetpoints[motor-1] = speed;
+			return 0;
+		}
+		else {
+			return 1;
+		}
+	}
+	else {
+		return 2;
+	}
+}
+
+static void controlRPM() {
+	setDutyCycle(1, (0.5 + ((motorSetpoints[0] - getRPM(1))/MAX_MOTOR_SPEED)*0.5));	
+	setDutyCycle(2, (0.5 + ((motorSetpoints[1] - getRPM(2))/MAX_MOTOR_SPEED)*0.5));	
 }
 
 void motorControllerInit() {
 	velocityGaugeInit(); //Initialize Velocity Gauge
 	setupPWM(); //Setup PWM, starting with 0% duty cycle
+	scheduleCallback(&controlRPM);
 }
