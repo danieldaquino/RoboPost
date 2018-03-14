@@ -60,6 +60,23 @@ void setDutyCycle(char motor, float D) {
 	}
 }
 
+char shiftFrequency(char motor, int frequency) {
+	if(frequency > MAX_FREQUENCY || frequency < MIN_FREQUENCY) {
+		// Bad input
+		return 1;
+	}
+	if(motor == 1) {
+		TA0CCR0 = 32000/frequency;
+	}
+	else if(motor == 2) {
+		TA2CCR0 = 32000/frequency;		
+	}
+	else {
+		// Bad input.
+		return 1;
+	}
+}
+
 void setupPWM() {
 	// SETUP TIMER A0 for motor 1
 	/* 

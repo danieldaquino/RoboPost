@@ -38,6 +38,18 @@ char setRPM(char motor, int speed) {
 	if(motor == 1 || motor == 2) {
 		if(speed < MAX_MOTOR_SPEED && speed > -MAX_MOTOR_SPEED) {
 			motorSetpoints[motor-1] = speed;
+			// Let's shift gears depending on setpoint.
+			int newFrequency;
+			if(speed > GEAR2_MAX_SPEED) {
+				newFrequency = GEAR3_FREQUENCY;
+			}
+			else if(speed > GEAR1_MAX_SPEED) {
+				newFrequency = GEAR2_FREQUENCY;
+			}
+			else {
+				newFrequency = GEAR1_FREQUENCY;
+			}
+			shiftFrequency(motor, newFrequency);
 			return 0;
 		}
 		else {

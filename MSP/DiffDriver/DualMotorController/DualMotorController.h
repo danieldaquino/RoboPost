@@ -38,7 +38,12 @@ Includes
 /*=======
 Macros
 ========*/
+#define GEAR1_MAX_SPEED 100
+#define GEAR1_FREQUENCY 3000
+#define GEAR2_MAX_SPEED 200
+#define GEAR2_FREQUENCY 1000
 #define MAX_MOTOR_SPEED 300
+#define GEAR3_FREQUENCY 100
 
 /*=======
 Globals

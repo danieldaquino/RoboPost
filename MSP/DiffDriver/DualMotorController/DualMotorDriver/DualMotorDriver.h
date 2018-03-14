@@ -65,6 +65,8 @@ Macros
 #define MOTOR_2_REV_TIME_CTL TA2CCTL2
 
 #define MAX_DUTY_CYCLE 0.8
+#define MIN_FREQUENCY 100
+#define MAX_FREQUENCY 3000
 
 /*=======
 Globals
@@ -82,9 +84,23 @@ Sets up timer A for PWM
 
 inputs: none
 outputs: none
-Globals affected: Timer A0, P1.2, P1.3, P1.4, P1.5 pins
+Globals affected: Timer A0, A2, and motor pins
 =======*/
 void setupPWM();
+
+/*======
+~~shiftFrequency~~
+
+function to change the frequency. Use higher frequencies if you want to achieve lower stable speeds
+Use 100Hz for high stable speeds.
+
+inputs:
+	(char) Motor to be selected. please use 1 or 2
+	(int) frequency: frequency within the established range in MACROS
+outputs: return status... 0 is ok. 1 means failed.
+Globals affected: Timer A0 or Timer A2
+=======*/
+char shiftFrequency(char motor, int frequency);
 
 /*======
 ~~setDutyCycle~~
@@ -95,7 +111,7 @@ the reverse signal will be PWM'ed, and motor will spin to the other direction.
 DO NOT REVERSE THE MOTOR DUTY CYCLE WITHOUT BRAKING FIRST!!!
 
 inputs:
-	(char) Motor Mask to be selected. please use 1 or 2
+	(char) Motor to be selected. please use 1 or 2
 	(float) Duty cycle, from 0 to 1
 	
 outputs: none
