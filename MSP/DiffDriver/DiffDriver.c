@@ -64,7 +64,7 @@ char diffDrive(float speed, float curveRadius) {
 	if(speed > MAX_SPEED) {
 		return 1;
 	}
-	if(curveRadius < WHEEL_BASE) {
+	if(curveRadius < WHEEL_BASE/2 && curveRadius > -WHEEL_BASE/2) {
 		return 2;
 	}
 	// Approximate huge curvature radius to a straight line

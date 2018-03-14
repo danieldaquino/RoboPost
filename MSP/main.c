@@ -23,10 +23,8 @@ int main(void)
 	__enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
 	
 	// Let's get this party started
-	// Go at 40cm/s 
-	//diffDrive(40, 10000);	
-	setRPM(1, 90);
-	setRPM(2, 250);
+	// Go at 40cm/s, 40cm
+	diffDrive(60, -20);
 	while(1) {
 		//Nothing yet
 		char LeString[60];
