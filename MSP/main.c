@@ -24,7 +24,9 @@ int main(void)
 	
 	// Let's get this party started
 	// Go at 40cm/s 
-	diffDrive(80, 80);	
+	//diffDrive(40, 10000);	
+	setRPM(1, 250);
+	setRPM(2, 250);
 	while(1) {
 		//Nothing yet
 		char LeString[60];

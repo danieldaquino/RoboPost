@@ -6,11 +6,12 @@
 	
 	## Resources used (by this and its children):
 	
-	1. P1.2 for the Motor-1 Forward PWM output
-	2. P1.3 for the Motor-1 Reverse PWM output
-	3. P1.4 for the Motor-2 Forward PWM output
-	4. P1.5 for the Motor-2 Reverse PWM output
-	5. Timer A0 to generate PWM signals to the motors.
+	1. P1.2 for the Motor-1 Forward FPWM output
+	2. P1.3 for the Motor-1 Reverse FPWM output
+	3. P2.4 for the Motor-2 Forward FPWM output
+	4. P2.5 for the Motor-2 Reverse FPWM output
+	5. Timer A0 to generate FPWM signals to the motors.
+	6. Timer A2 to generate FPWM signals to the motors.
 	6. P2.0 for the Motor-1 Encoder
 	7. P2.2 for the Motor-2 Encoder
 	8. Timer A1 to setup the Velocity Calculations.
@@ -56,9 +57,8 @@ MAKE SURE SCHEDULER IS INITIALIZED BEFORE CALLING THIS FUNCTION!
 
 inputs: none
 outputs: none
-Globals affected: 	Timer A0, eventually the motor pins
+Globals affected: 	Timer A0, A2 eventually the motor pins
 					Encoder pins (usually P2.0 and P2.2, unless this is a mod)
-					Timer A0, P1.2, P1.3, P1.4, P1.5 pins
 ======*/
 void diffDriverInit();
 
@@ -76,7 +76,7 @@ outputs:
 	(char) Return Status:	0 means ok
 							1 means too fast
 							2 means curvature too small
-Globals affected: 	Timer A0, eventually the motor pins
+Globals affected: 	Timer A0, A2, eventually the motor pins
 ======*/
 char diffDrive(float speed, float curveRadius);
 
