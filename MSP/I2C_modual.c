@@ -1,29 +1,17 @@
-//******************************************************************************
-//   MSP430F552x Demo - USCI_B0, I2C Master multiple byte TX/RX
-//
-//   Description: I2C master communicates to I2C slave sending and receiving
-//   3 different messages of different length. I2C master will enter LPM0 mode
-//   while waiting for the messages to be sent/receiving using I2C interrupt.
-//   ACLK = NA, MCLK = SMCLK = DCO 16MHz.
-//
-//                                     /|\ /|\
-//                   MSP430F5529       4.7k |
-//                 -----------------    |  4.7k
-//            /|\ |             P3.1|---+---|-- I2C Clock (UCB0SCL)
-//             |  |                 |       |
-//             ---|RST          P3.0|-------+-- I2C Data (UCB0SDA)
-//                |                 |
-//                |                 |
-//                |                 |
-//                |                 |
-//                |                 |
-//                |                 |
-//
-//   Nima Eskandari
-//   Texas Instruments Inc.
-//   April 2017
-//   Built with CCS V7.0
-//******************************************************************************
+/*===============================
+
+    I2C_MODUAL
+
+    this C module is part of sensor interfacing.
+    It provides functions that allow you to communicate with sensors.
+
+    Written by some TI people, modified by Tim Yue andd Dianiel Walnut
+
+    Requirements for use:
+
+    port 3.0(SDA) & port 3.1（SCL)
+    power pins 5V and GND
+===============================*/
 
 #include <msp430.h> 
 #include <stdint.h>
@@ -33,10 +21,6 @@
 //#include <stdio.h>
 //#include <string.h>
 
-
-//******************************************************************************
-// Example Commands ************************************************************
-//******************************************************************************
 
 
 
@@ -347,58 +331,7 @@ void initI2C()
     UCB0IE |= UCNACKIE;
 }
 
-//******************************************************************************
-// Main ************************************************************************
-// Send and receive three messages containing the example commands *************
-//******************************************************************************
-/**
-int main(void) {
 
-    WDTCTL = WDTPW | WDTHOLD;                 // Stop watchdog timer
-
-    increaseVCoreToLevel2();
-    initClockTo16MHz();
-    initGPIO();
-    ucsiA1UartInit();
-    //ucsiA1UartTxString(&sen);
-    initI2C();
-
-    unsigned char data=0xff;
-    unsigned char data1=0xFC;
-    unsigned char data2=0X0;
-    unsigned char data3=0x12;
-    unsigned char data4=0x34;
-    int num;
-    int sen[30];
-
-    I2C_Master_WriteReg(SLAVE_ADDR, 0x7D, &data3, TYPE_0_LENGTH);
-    I2C_Master_WriteReg(SLAVE_ADDR, 0X7D, &data4, TYPE_0_LENGTH);
-    I2C_Master_WriteReg(SLAVE_ADDR, 0X0F, &data, TYPE_0_LENGTH);
-    I2C_Master_WriteReg(SLAVE_ADDR, 0X0E, &data1, TYPE_0_LENGTH);
-    I2C_Master_WriteReg(SLAVE_ADDR, 0X10, &data2, TYPE_0_LENGTH);
-    while(1)
-    {
-        I2C_Master_ReadReg(SLAVE_ADDR, 0x11, TYPE_0_LENGTH);
-        CopyArray(ReceiveBuffer, SlaveType0, TYPE_0_LENGTH);
-        sprintf(sen,"\n\rreading:%d\n\r",SlaveType0[0]);
-        ucsiA1UartTxString(&sen);
-        //__bis_SR_register(LPM0_bits + GIE);
-
-
-    }
-
-   /* I2C_Master_ReadReg(SLAVE_ADDR, CMD_TYPE_0_SLAVE, TYPE_0_LENGTH);
-    CopyArray(ReceiveBuffer, SlaveType0, TYPE_0_LENGTH);
-
-    I2C_Master_ReadReg(SLAVE_ADDR, CMD_TYPE_1_SLAVE, TYPE_1_LENGTH);
-    CopyArray(ReceiveBuffer, SlaveType1, TYPE_1_LENGTH);
-
-    I2C_Master_ReadReg(SLAVE_ADDR, CMD_TYPE_2_SLAVE, TYPE_2_LENGTH);
-    CopyArray(ReceiveBuffer, SlaveType2, TYPE_2_LENGTH);
-
-    __bis_SR_register(LPM0_bits + GIE);
-    return 0;
-}**/
 
 //******************************************************************************
 // I2C Interrupt ***************************************************************

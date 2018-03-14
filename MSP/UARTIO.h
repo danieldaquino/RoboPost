@@ -60,7 +60,7 @@ outputs:
 	(char) Return status: 0 means successful. -1 means busy, try again later.
 Globals affected: strBufferToSend, strBufferPointer, strBufferReady
 =======*/
-char UARTSend(unsigned char *txBuffer);
+char UARTIOSend(unsigned char *txBuffer);
 
 /*======
 ~~velocityTimerISR~~

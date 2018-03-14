@@ -1,5 +1,6 @@
 #include <msp430.h> 
 #include <stdio.h>
+#include <string.h>
 
 #include "VelocityGauge.h"
 #include "UARTIO.h"
@@ -20,6 +21,7 @@ int main(void)
 
    LineSensorinit();
    int sen[10];
+   char status_UART;
 
     __enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
     while (1)
@@ -27,6 +29,7 @@ int main(void)
         I2C_Master_ReadReg(SLAVE_ADDR, 0x11, TYPE_0_LENGTH);
                 CopyArray(ReceiveBuffer, SlaveType0, TYPE_0_LENGTH);
                 sprintf(sen,"\n\rreading:%d\n\r",SlaveType0[0]);
+                status_UART=UARTIOSend(&sen);
 
     }
     return 0;

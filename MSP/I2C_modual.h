@@ -1,3 +1,21 @@
+ /*===============================
+
+    I2C_MODUAL
+
+    this C module is part of sensor interfacing.
+    It provides functions that allow you to communicate with sensors.
+
+    Written by some TI people, modified by Tim Yue andd Dianiel Walnut
+
+    Requirements for use:
+
+    port 3.0(SDA) & port 3.1（SCL)
+    power pins 5V and GND
+
+
+===============================*/
+
+
 #ifndef I2C_modual_H_
 #define I2C_modual_H_
 
@@ -5,15 +23,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/*===================
+ * sensor I2C address
+ ===================*/
 #define SLAVE_ADDR  0x3E
 
-/* CMD_TYPE_X_SLAVE are example commands the master sends to the slave.
- * The slave will send example SlaveTypeX buffers in response.
- *
- * CMD_TYPE_X_MASTER are example commands the master sends to the slave.
- * The slave will initialize itself to receive MasterTypeX example buffers.
- * */
 
+/*=====================
+ * definitions
+ ======================*/
 #define CMD_TYPE_0_SLAVE      0
 #define CMD_TYPE_1_SLAVE      1
 #define CMD_TYPE_2_SLAVE      2
@@ -25,7 +43,6 @@
 #define TYPE_0_LENGTH   1
 #define TYPE_1_LENGTH   2
 #define TYPE_2_LENGTH   6
-
 #define MAX_BUFFER_SIZE     20
 
 /* MasterTypeX are example buffers initialized in the master, they will be
@@ -34,14 +51,6 @@
  * sent by the slave to the master.
  * */
 
-uint8_t MasterType2 [TYPE_2_LENGTH];
-uint8_t MasterType1 [TYPE_1_LENGTH];
-uint8_t MasterType0 [TYPE_0_LENGTH];
-
-
-uint8_t SlaveType2 [TYPE_2_LENGTH];
-uint8_t SlaveType1 [TYPE_1_LENGTH];
-uint8_t SlaveType0 [TYPE_0_LENGTH];
 
 //******************************************************************************
 // General I2C State Machine ***************************************************
@@ -79,6 +88,21 @@ uint8_t TransmitBuffer[MAX_BUFFER_SIZE];
 uint8_t TXByteCtr;
 uint8_t TransmitIndex;
 
+/*================
+ * globals
+ ================*/
+uint8_t MasterType2 [TYPE_2_LENGTH];
+uint8_t MasterType1 [TYPE_1_LENGTH];
+uint8_t MasterType0 [TYPE_0_LENGTH];
+
+
+uint8_t SlaveType2 [TYPE_2_LENGTH];
+uint8_t SlaveType1 [TYPE_1_LENGTH];
+uint8_t SlaveType0 [TYPE_0_LENGTH];
+
+/*====================
+ * function definition
+ =====================*/
 /* I2C Write and Read Functions */
 
 /* For slave device with dev_addr, writes the data specified in *reg_data
@@ -92,8 +116,19 @@ uint8_t TransmitIndex;
  * count: The length of *reg_data
  *           Example: TYPE_0_LENGTH
  *  */
+
 I2C_Mode I2C_Master_WriteReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t count);
 
+/*=========================
+ * LineSensorinit
+ *
+ * this function is for initializing the line sensor array
+ * intput:N/A
+ * output:N/A
+ *
+ * globals affected:N/A
+ *
+ =========================*/
 void LineSensorinit();
 /* For slave device with dev_addr, read the data specified in slaves reg_addr.
  * The received data is available in ReceiveBuffer
@@ -106,6 +141,17 @@ void LineSensorinit();
  *           Example: TYPE_0_LENGTH
  *  */
 I2C_Mode I2C_Master_ReadReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t count);
+/*=================================
+ * CopyArray
+ *
+ * written by TI people
+ * copies whats in receive buffer to another array
+ *
+ * input:   Pointer to source array(receive buffer)
+ *          Pointer to array you want
+ *          how many data you want
+ * output:  data from source to dest
+===================================*/
 void CopyArray(uint8_t *source, uint8_t *dest, uint8_t count);
 
 #endif
