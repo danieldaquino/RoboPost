@@ -1,13 +1,17 @@
 #include <msp430.h> 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "UARTIO.h"
 #include "DiffDriver/DiffDriver.h"
 #include "DiffDriver/DualMotorController/DualMotorController.h"
 #include "Scheduler/Scheduler.h"
+#include "I2C_modual.h"
 
 #define SETPOINT 230.0
 #define SETPOINT2 230.0
+
 /**
  * main func robopost.c
  */
@@ -19,6 +23,11 @@ int main(void)
 	schedulerInit();
 	diffDriverInit();
 	UARTIOInit(); // Initialize communication with Computer Console
+	LineSensorinit();
+
+	int sen[10];
+	char status_UART;
+	char reading;
 	
 	__enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
 	
@@ -30,7 +39,8 @@ int main(void)
 	while(1) {
 		//Nothing yet
 		char LeString[60];
-		sprintf(LeString, "1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
+		reading=LSRead();
+		sprintf(LeString, "sensor:%d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", reading, (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
 		UARTIOSend(LeString);
 		__delay_cycles(100000);
 	}
