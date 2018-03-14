@@ -5,12 +5,12 @@
     this C module is part of sensor interfacing.
     It provides functions that allow you to communicate with sensors.
 
-    Written by some TI people, modified by Tim Yue andd Dianiel Walnut
+    forked from: Nima Eskandari(some TI people), modified by Tim Yue and Daniel Walnut
 
-    Requirements for use:
-
+    Resources used:
     port 3.0(SDA) & port 3.1（SCL)
     power pins 5V and GND
+    UCSI(B0)
 
 
 ===============================*/
@@ -119,17 +119,7 @@ uint8_t SlaveType0 [TYPE_0_LENGTH];
 
 I2C_Mode I2C_Master_WriteReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t count);
 
-/*=========================
- * LineSensorinit
- *
- * this function is for initializing the line sensor array
- * intput:N/A
- * output:N/A
- *
- * globals affected:N/A
- *
- =========================*/
-void LineSensorinit();
+
 /* For slave device with dev_addr, read the data specified in slaves reg_addr.
  * The received data is available in ReceiveBuffer
  *
