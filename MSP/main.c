@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "UARTIO.h"
+#include "DiffDriver/DiffDriver.h"
 #include "DiffDriver/DualMotorController/DualMotorController.h"
 #include "Scheduler/Scheduler.h"
 
@@ -14,24 +15,20 @@ int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
-	// Setup scheduler before the motor controller!!
+	// Setup scheduler before the diff driver!!
 	schedulerInit();
-	motorControllerInit();	
+	diffDriverInit();
 	UARTIOInit(); // Initialize communication with Computer Console
 	
 	__enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
 	
 	// Let's get this party started
-	setRPM(1, SETPOINT);
-	setRPM(2, SETPOINT2);
-	char counter;
-	counter = 0;
-	char parity;
-	parity = 0;
+	// Go at 40cm/s 
+	diffDrive(80, 80);	
 	while(1) {
 		//Nothing yet
 		char LeString[60];
-		sprintf(LeString, "1: %d RPM | 2: %d RPM\n\r", (int) getRPM(1), (int) getRPM(2), TA0CCR1, TA0CCR2, TA0CCR3, TA0CCR4);
+		sprintf(LeString, "1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
 		UARTIOSend(LeString);
 		__delay_cycles(100000);
 	}
