@@ -52,14 +52,11 @@ Function Prototypes
 
 Initializes the motor controller, and necessary drivers.
 
-inputs: 
-	(char) motor to be selected. either 1 or 2 please.
-	(int) Desired speed, from -MAX_MOTOR_SPEED to MAX_MOTOR_SPEED
-outputs: 
-	(char) Return status:	0 means "ok"
-							1 means "out of bounds, went to max"
-							2 means "No motor found"
-Globals affected: Timer A0, eventually the motor pins
+inputs: none
+outputs: none
+Globals affected: 	Timer A0, eventually the motor pins
+					Encoder pins (usually P2.0 and P2.2, unless this is a mod)
+					Timer A0, P1.2, P1.3, P1.4, P1.5 pins
 ======*/
 void motorControllerInit();
 

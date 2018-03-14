@@ -72,7 +72,7 @@ Sets up timer A for PWM
 
 inputs: none
 outputs: none
-Globals affected: Timer A0, P1.2 pin
+Globals affected: Timer A0, P1.2, P1.3, P1.4, P1.5 pins
 =======*/
 void setupPWM();
 

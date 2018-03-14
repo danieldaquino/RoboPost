@@ -88,7 +88,7 @@ void velocityTimerISR(void);
 This function initializes all parameters necessary
 inputs: none
 outputs: none
-Globals affected: Encoder pin (usually P1.3), Timer A1 configurations
+Globals affected: Encoder pin (usually P2.0 and P2.2, unless this is a mod)
 ======*/
 void velocityGaugeInit(void);
 
