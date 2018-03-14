@@ -6,8 +6,6 @@
 	It gathers signals from and encoder, counts the pulses,
 	and it estimates the velocity.
 	
-	Written by Daniel Walnut
-	
 	Requirements for use:
 	
 	P1.3 must be connected to a motor encoder channel
@@ -25,6 +23,7 @@ Includes
 =======*/
 #include <msp430.h>
 #include "DualVelocityGauge.h"
+#include "../../../Scheduler/Scheduler.h"
 
 /*=======
 Statics
@@ -61,16 +60,13 @@ __interrupt void encoderISR(void) {
 	}
 }
 
-#pragma vector = TIMER1_A1_VECTOR
-__interrupt void velocityTimerISR(void) {
+void velocityTimerISR(void) {
 
 	enc1CountsIn100ms = encoder1Count; // Get encoder 1 count
 	encoder1Count = 0; // Reset encoder count
 	
 	enc2CountsIn100ms = encoder2Count; // Get encoder 2 count
 	encoder2Count = 0;
-	
-	TA1CTL &= ~TAIFG; // Clear interrupt flag
 }
 
 float getRPM(char motor) {
@@ -92,11 +88,6 @@ void velocityGaugeInit(void) {
 	P_ENCODER_REN |= ENCODERS; //Enable Pull up/down resistor
 	P_ENCODER_OUT &= ~ENCODERS; // Pull down resistor
 	
-	//Setup TimerA1 for velocity measurements
-	// TASSEL_1: ACLK = 32KHz
-	// ID_3: Divide by 8. We are at 4KHz
-	// MC_1: Up mode. Counts to TA1CCR0
-	TA1CTL = TASSEL_1 | ID_3 | MC_1 | TAIE;
-	TA1CTL &= ~TAIFG; //Clear interrupts
-	TA1CCR0 = 400; // Make interrupts happen at 10Hz
+	// Schedule periodic calculations
+	scheduleCallback(&velocityTimerISR);
 }

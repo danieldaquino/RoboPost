@@ -1,7 +1,6 @@
 /*===============================
 
 	# Dual Velocity Gauge
-	## Written by Daniel Walnut
 
 	This module gathers signals from an encoder, counts the pulses,
 	and it estimates the velocity.
@@ -14,11 +13,18 @@
 	
 	Make sure you have GLOBAL INTERRUPTS ENABLED! OTHERWISE IT WILL NOT WORK
 	
+	## Requirements
+	
+	1. Scheduler module
+	2. scheduleInit pre called.
+	3. Frequency of 10Hz in the scheduler
+	
 	## Modifying
 	
 	1. Use Port 1 or 2 for Encoders. They need to be interrupt enabled pins.
 	2. Use the same Port for both Encoders. Otherwise significant changes to code will have to be made
 	3. Modify the switch structure in encoderISR if you change the pins
+	4. If you change the scheduler frequency, you will need to change the calculations inside DualVelocityGauge.c
 
 ===============================*/
 #ifndef DUAL_VELOCITY_GAUGE_H
@@ -82,7 +88,7 @@ void velocityTimerISR(void);
 This function initializes all parameters necessary
 inputs: none
 outputs: none
-Globals affected: Encoder pin (usually P1.3), Timer A1 configurations
+Globals affected: Encoder pin (usually P2.0 and P2.2, unless this is a mod)
 ======*/
 void velocityGaugeInit(void);
 
