@@ -21,7 +21,12 @@
 //#include <stdio.h>
 //#include <string.h>
 
+/*========
+Static variables
+=========*/
 
+static char txDone = 0;
+static char rxDone = 0;
 
 
 I2C_Mode I2C_Master_ReadReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t count)
@@ -41,8 +46,14 @@ I2C_Mode I2C_Master_ReadReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t count)
     UCB0IE |= UCTXIE;                        // Enable TX interrupt
 
     UCB0CTL1 |= UCTR + UCTXSTT;             // I2C TX, start condition
-    __bis_SR_register(LPM0_bits + GIE);              // Enter LPM0 w/ interrupts
-
+    // __bis_SR_register(LPM0_bits + GIE);              // Enter interrupts enable and turn off CPU
+    rxDone = 0; // We are not done this operation
+    __bis_SR_register(GIE);              // Enter interrupts enable and turn off CPU
+	
+	while(!rxDone) {
+		// Wait
+	}
+	// rx is Done! let's get out
     return MasterMode;
 
 }
@@ -69,8 +80,14 @@ I2C_Mode I2C_Master_WriteReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_da
     UCB0IE |= UCTXIE;                        // Enable TX interrupt
 
     UCB0CTL1 |= UCTR + UCTXSTT;             // I2C TX, start condition
-    __bis_SR_register(LPM0_bits + GIE);              // Enter LPM0 w/ interrupts
+    txDone = 0;
+    __bis_SR_register(GIE);              // Enable interrupts
+	// __bis_SR_register(LPM0_bits + GIE);              // Enter interrupts enable and turn off CPU
 
+	while(!txDone) {
+		// Keep waiting
+	}
+	
     return MasterMode;
 }
 
@@ -324,7 +341,8 @@ void initI2C()
     UCB0CTL1 |= UCSWRST;                      // Enable SW reset
     UCB0CTL0 = UCMST + UCMODE_3 + UCSYNC;     // I2C Master, synchronous mode
     UCB0CTL1 = UCSSEL_2 + UCSWRST;            // Use SMCLK, keep SW reset
-    UCB0BR0 = 160;                            // fSCL = SMCLK/160 = ~100kHz
+    UCB0BR0 = 160;                            // fSCL = SMCLK/160 = ~100kHz <-- SMCLK AT 16MHZ
+    // UCB0BR0 = 10;                            // fSCL = SMCLK/10 = ~100kHz    <--  SMCLK AT 1MHZ
     UCB0BR1 = 0;
     UCB0I2CSA = SLAVE_ADDR;                   // Slave Address is 048h
     UCB0CTL1 &= ~UCSWRST;                     // Clear SW reset, resume operation
@@ -373,7 +391,8 @@ void __attribute__ ((interrupt(USCI_B0_VECTOR))) USCI_B0_ISR (void)
         {
           UCB0IE &= ~UCRXIE;
           MasterMode = IDLE_MODE;
-          __bic_SR_register_on_exit(CPUOFF);      // Exit LPM0
+          rxDone = 1;
+          // __bic_SR_register_on_exit(CPUOFF);      // Exit LPM0
         }
         break;                      // Interrupt Vector: I2C Mode: UCRXIFG
     case USCI_I2C_UCTXIFG:
@@ -413,7 +432,8 @@ void __attribute__ ((interrupt(USCI_B0_VECTOR))) USCI_B0_ISR (void)
                   UCB0CTL1 |= UCTXSTP;     // Send stop condition
                   MasterMode = IDLE_MODE;
                   UCB0IE &= ~UCTXIE;                       // disable TX interrupt
-                  __bic_SR_register_on_exit(CPUOFF);      // Exit LPM0
+                  txDone = 1;
+                  // __bic_SR_register_on_exit(CPUOFF);      // Exit LPM0
               }
               break;
 
