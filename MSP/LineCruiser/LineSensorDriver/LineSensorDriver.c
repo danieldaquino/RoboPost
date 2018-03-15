@@ -1,18 +1,21 @@
-/*
- * LineSensorDrive
- * this file does the following:
- * -initialize Line Sensor
- * -convert sensor reading to usable data
- * must have I2C_modual.c and .h in project
- * for resources used and guides refer to I2C_modual.h
- *
- */
+/*===============================
+
+    Line Sensor Driver
+
+   this file does the following:
+   
+   1. Initialize Line Sensor
+   2. Convert sensor reading to usable data
+
+    for resources used and guides refer to I2CModule.h
+
+===============================*/
 #include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "../I2CModule/I2CModule.h"
+#include "../../I2CModule/I2CModule.h"
 #include "LineSensorDriver.h"
-#include "../ArrayUtils/ArrayUtils.h"
+#include "../../ArrayUtils/ArrayUtils.h"
 
 void lineSensorInit()
 {
@@ -84,7 +87,9 @@ float LSRead()
       
       // Get rid of rollover on extreme right.
       lastBarPositionValue--;
+      
+      lastSensorPosition = ((float) lastBarPositionValue)/128
 
-      return ((float) lastBarPositionValue)/128;
+      return lastSensorPosition;
 
     }

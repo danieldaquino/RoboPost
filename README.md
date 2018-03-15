@@ -41,3 +41,7 @@ An autonomous delivery system — BCIT Robotics Capstone
 1. UCB0 module
 2. P3.0 – SDA
 3. P3.1 - SCL
+
+### Scheduler
+
+1. Timer A1
