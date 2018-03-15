@@ -34,3 +34,9 @@ An autonomous delivery system — BCIT Robotics Capstone
 2. P2.2 - Encoder of Motor 2, channel A
 3. PORT2 ISR
 4. Timer A1
+
+### I2CModule
+
+1. UCB0 module
+2. P3.0 – SDA
+3. P3.1 - SCL
