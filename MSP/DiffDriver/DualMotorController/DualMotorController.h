@@ -45,6 +45,9 @@ Macros
 #define MAX_MOTOR_SPEED 300
 #define GEAR3_FREQUENCY 100
 
+#define KP 0.3
+#define KD 0.7
+
 /*=======
 Globals
 =======*/

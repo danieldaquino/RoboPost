@@ -15,13 +15,12 @@ Includes
 #include "DualMotorDriver/DualMotorDriver.h"
 #include "DualMotorController.h"
 #include "../../Scheduler/Scheduler.h"
-#include "../../UARTIO.h"
-
 /*=======
 Statics
 ========*/
 static int motorSetpoints[2] = {0, 0};
 static float previousDutyCycle[2] = {0, 0};
+static float previousError[2] = {0, 0};
 
 /*=======
 Function Definitions
@@ -66,8 +65,10 @@ static void controlRPM() {
 	for(i=0;i < 2;i++) {
 		float normalError;
 		normalError = (motorSetpoints[i] - getRPM(i+1))/MAX_MOTOR_SPEED; // Get error (subtract block), normalize. (1/300 block)
+		float errorGradient;
+		errorGradient = normalError - previousError[i];
 		float newDutyCycle;
-		newDutyCycle = previousDutyCycle[i] + normalError; // Integrate. (1/s block)
+		newDutyCycle = previousDutyCycle[i] + KP*normalError + KD*errorGradient; // Integrate. (1/s block)
 		//Add a saturation factor
 		if(newDutyCycle > 1) {
 			newDutyCycle = 1;
@@ -77,6 +78,7 @@ static void controlRPM() {
 		}
 		setDutyCycle(i+1, newDutyCycle);
 		previousDutyCycle[i] = newDutyCycle;
+		previousError[i] = normalError;
 	}
 }
 
