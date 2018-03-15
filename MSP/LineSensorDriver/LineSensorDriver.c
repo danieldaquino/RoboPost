@@ -10,37 +10,29 @@
 #include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "I2C_modual.h"
-#include "LineSensorDrive.h"
+#include "../I2CModule/I2CModule.h"
+#include "LineSensorDriver.h"
+#include "../ArrayUtils/ArrayUtils.h"
 
-void LineSensorinit()
+void lineSensorInit()
 {
-	increaseVCoreToLevel2();
-	initClockTo16MHz();
-	initGPIO();
-	initI2C();
+	I2CInit();
 	unsigned char data = 0xFF;
 	unsigned char data1 = 0xFC;
 	unsigned char data2 = 0x0;
 	unsigned char data3 = 0x12;
 	unsigned char data4 = 0x34;
-	int num;
-	int sen[30];
    /*
     * reset and configure line sensor
     */
-	I2C_Master_WriteReg(SLAVE_ADDR, 0x7D, &data3, TYPE_0_LENGTH);
-	I2C_Master_WriteReg(SLAVE_ADDR, 0x7D, &data4, TYPE_0_LENGTH);
-	I2C_Master_WriteReg(SLAVE_ADDR, 0x0F, &data, TYPE_0_LENGTH);
-	I2C_Master_WriteReg(SLAVE_ADDR, 0x0E, &data1, TYPE_0_LENGTH);
-	I2C_Master_WriteReg(SLAVE_ADDR, 0x10, &data2, TYPE_0_LENGTH);
+	I2CWrite(LINE_ADDRESS, 0x7D, &data3, TYPE_0_LENGTH);
+	I2CWrite(LINE_ADDRESS, 0x7D, &data4, TYPE_0_LENGTH);
+	I2CWrite(LINE_ADDRESS, 0x0F, &data, TYPE_0_LENGTH);
+	I2CWrite(LINE_ADDRESS, 0x0E, &data1, TYPE_0_LENGTH);
+	I2CWrite(LINE_ADDRESS, 0x10, &data2, TYPE_0_LENGTH);
 	// config finished
 }
 
-/*
- * LSRead
- * LS stands for Line Sensor
- */
 char LSRead()
 {
     char reading;
@@ -51,13 +43,13 @@ char LSRead()
     /*
      * read the raw data from sensor
      */
-    I2C_Master_ReadReg(SLAVE_ADDR, 0x11, TYPE_0_LENGTH);
-    CopyArray(ReceiveBuffer, SlaveType0, TYPE_0_LENGTH);
-
+    uint8_t receiveBuffer[30];
+    I2CRead(LINE_ADDRESS, 0x11, TYPE_0_LENGTH, receiveBuffer);
+    
     //count bits
     for ( i = 0; i < 8; i++ )
     {
-      if ( ((SlaveType0[0] >> i) & 0x01) == 1 )
+      if ( ((receiveBuffer[0] >> i) & 0x01) == 1 )
       {
         bitsCounted++;
       }
@@ -66,14 +58,14 @@ char LSRead()
     //Find the vector value of each positive bit and sum
       for ( i = 7; i > 3; i-- ) //iterate negative side bits
       {
-        if ( ((SlaveType0[0] >> i) & 0x01) == 1 )
+        if ( ((receiveBuffer[0] >> i) & 0x01) == 1 )
         {
           accumulator += ((-32 * (i - 3)) + 1);
         }
       }
       for ( i = 0; i < 4; i++ ) //iterate positive side bits
       {
-        if ( ((SlaveType0[0] >> i) & 0x01) == 1 )
+        if ( ((receiveBuffer[0] >> i) & 0x01) == 1 )
         {
           accumulator += ((32 * (4 - i)) - 1);
         }

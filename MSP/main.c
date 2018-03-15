@@ -3,27 +3,26 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "UARTIO.h"
+#include "UARTIO/UARTIO.h"
 #include "DiffDriver/DiffDriver.h"
 #include "DiffDriver/DualMotorController/DualMotorController.h"
 #include "Scheduler/Scheduler.h"
-#include "I2C_modual.h"
+#include "I2CModule/I2CModule.h"
+#include "LineSensorDriver/LineSensorDriver.h"
+#include "CPUClock/CPUClock.h"
 
-#define SETPOINT 230.0
-#define SETPOINT2 230.0
-
-/**
- * main func robopost.c
- */
 int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+	
+	// Setup the CPU rate. MUST BE DONE BEFORE the other modules.
+	boostClockTo16MHz();
 	
 	// Setup scheduler before the diff driver!!
 	schedulerInit();
 	diffDriverInit();
 	UARTIOInit(); // Initialize communication with Computer Console
-	LineSensorinit();
+	lineSensorInit();
 
 	int sen[10];
 	char status_UART;
@@ -32,8 +31,8 @@ int main(void)
 	__enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
 	
 	// Let's get this party started
-	// Go at 40cm/s, 40cm
-	diffDrive(60, -20);
+	// Go straight at 60cm/s
+	diffDrive(60, 10000);
 	while(1) {
 		//Nothing yet
 		char LeString[60];

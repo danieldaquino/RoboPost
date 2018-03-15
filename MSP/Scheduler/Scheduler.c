@@ -36,7 +36,6 @@ void schedulerInit(void) {
 	TA1CCR0 = (4000/FREQUENCY_HZ); // Make interrupts happen at the right frequency
 }
 
-
 char scheduleCallback(void (*callback) (void)) {
 	if(callbackSchedulePointer < MAX_CALLBACKS) {
 		callbacks[callbackSchedulePointer] = callback;
