@@ -23,7 +23,7 @@
 /*=======
 Macros
 ========*/
-#define STR_BUFFER_SIZE 60
+#define STR_BUFFER_SIZE 150
 
 /*=======
 Globals
@@ -55,7 +55,8 @@ void UARTIOInit();
 This function will send a string to the computer.
 
 inputs: 
-	(char*) txBuffer: String to send, should be of maximum size STR_BUFFER_SIZE
+	(char*) txBuffer: String to send, should be of maximum size STR_BUFFER_SIZE.
+						If string is larger than that, it will be automatically clipped.
 outputs: 
 	(char) Return status: 0 means successful. -1 means busy, try again later.
 Globals affected: strBufferToSend, strBufferPointer, strBufferReady
@@ -63,9 +64,9 @@ Globals affected: strBufferToSend, strBufferPointer, strBufferReady
 char UARTIOSend(unsigned char *txBuffer);
 
 /*======
-~~velocityTimerISR~~
+~~USCI_A1_ISR~~
 
-This function will record the number of counts within 100ms (or the Timer A setting)
+This function will handle the nitty gritty of sending each byte.
 inputs: none
 outputs: none
 Globals affected: strBufferToSend, strBufferPointer, strBufferReady
