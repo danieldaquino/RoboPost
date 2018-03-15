@@ -56,12 +56,13 @@ This function will send a string to the computer.
 
 inputs: 
 	(char*) txBuffer: String to send, should be of maximum size STR_BUFFER_SIZE.
-						If string is larger than that, it will be automatically clipped.
+						If string is larger than that, function will return -2
+	(int) size: size of the string, NOT INCLUDING NULL CHARACTER 
 outputs: 
-	(char) Return status: 0 means successful. -1 means busy, try again later.
+	(char) Return status: 0 means successful. -1 means busy, try again later. -2 means overflow.
 Globals affected: strBufferToSend, strBufferPointer, strBufferReady
 =======*/
-char UARTIOSend(unsigned char *txBuffer);
+char UARTIOSend(unsigned char *txBuffer, int size);
 
 /*======
 ~~USCI_A1_ISR~~

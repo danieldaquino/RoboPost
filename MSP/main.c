@@ -38,8 +38,9 @@ int main(void)
 		//Nothing yet
 		char LeString[60];
 		reading=LSRead();
-		sprintf(LeString, "sensor:%d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", reading, (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
-		UARTIOSend(LeString);
+		int strSize;
+		strSize = sprintf(LeString, "sensor:%d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", reading, (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
+		UARTIOSend(LeString, strSize);
 		__delay_cycles(100000);
 	}
 	return 0;

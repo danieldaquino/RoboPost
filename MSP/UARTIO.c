@@ -50,14 +50,15 @@ __interrupt void USCI_A1_ISR(void) {
   }
 }
 
-char UARTIOSend(unsigned char *txBuffer) {
+char UARTIOSend(unsigned char *txBuffer, int size) {
 	if(strBufferReady) {
 		//Ok, setup everything for sending away...
-		/*
-		 Force a null to the last possible char of the txBuffer. This prevents memory conflict,
-		 but it might clip the string
-		*/
-		txBuffer[STR_BUFFER_SIZE - 1] = '\0'; 
+		// Check if input string is bigger than allowed.
+		if(size > STR_BUFFER_SIZE-1) {
+			return -2;
+		}
+		// Force a null character right after the string, to prevent memory conflicts.
+		txBuffer[size] = '\0';
 		strcpy(strBufferToSend, txBuffer);
 		strBufferReady = 0; // We are busy
 		strBufferPointer = 0; // Point to the beginning of the string.
