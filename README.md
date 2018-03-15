@@ -7,7 +7,8 @@ An autonomous delivery system — BCIT Robotics Capstone
 1. MSP4305529LP Evaluation Board
 2. Particle Photon
 3. TI DRV8871 Adafruit Breakout Board
-4. DC Motor with an encoder
+4. 2 DC Motors with an encoder
+5. SparkFun Line Follower Sensor Array
 
 # Used Resources
 
