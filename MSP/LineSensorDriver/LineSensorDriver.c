@@ -22,6 +22,8 @@ void lineSensorInit()
 	unsigned char data2 = 0x0;
 	unsigned char data3 = 0x12;
 	unsigned char data4 = 0x34;
+	
+	
    /*
     * reset and configure line sensor
     */
@@ -33,7 +35,7 @@ void lineSensorInit()
 	// config finished
 }
 
-char LSRead()
+float LSRead()
 {
     char reading;
     unsigned char bitsCounted=0;
@@ -79,7 +81,10 @@ char LSRead()
       {
         lastBarPositionValue = 0;
       }
+      
+      // Get rid of rollover on extreme right.
+      lastBarPositionValue--;
 
-      return lastBarPositionValue;
+      return ((float) lastBarPositionValue)/128;
 
     }

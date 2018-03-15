@@ -54,11 +54,11 @@ void lineSensorInit();
  * sensor and process them to give usable numbers
  *
  * b7   b6   b5   b4   b3   b2   b1   b0
- * 128                                -126
+ * -1                0                +1
  *
  * input: N/A
  * output: a char that reflects the position of the line read by sensor
  ======================================================*/
-char LSRead();
+float LSRead();
 
 #endif

@@ -26,21 +26,21 @@ int main(void)
 
 	int sen[10];
 	char status_UART;
-	char reading;
+	float reading;
 	
 	__enable_interrupt(); // Enable global interrupts. Everything must be configured before this.
 	
 	// Let's get this party started
 	// Go straight at 60cm/s
-	diffDrive(60, 10000);
+	diffDrive(110, 10001);
 	while(1) {
 		//Nothing yet
-		char LeString[60];
+		char LeString[150];
 		reading=LSRead();
 		int strSize;
-		strSize = sprintf(LeString, "sensor:%d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", reading, (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
+		strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (reading*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
 		UARTIOSend(LeString, strSize);
-		__delay_cycles(100000);
+		__delay_cycles(1600000);
 	}
 	return 0;
 }
