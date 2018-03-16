@@ -47,9 +47,11 @@ char lineCruise(float speed) {
 }
 
 static void controlCruise(void) {
-	float sensorReading;
-	sensorReading = LSRead();
-	diffDrive(speedSetpoint, (WHEEL_BASE/2)/sensorReading);
+	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
+		diffDrive(0, 32000); // If no line was detected, then stop the car.
+		return;
+	}
+	diffDrive(speedSetpoint, (WHEEL_BASE/2)/lastSensorPosition);
 }
 
 char lineCruiserInit(float speed) {

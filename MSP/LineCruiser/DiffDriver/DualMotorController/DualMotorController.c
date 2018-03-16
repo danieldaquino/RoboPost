@@ -14,7 +14,7 @@ Includes
 #include <msp430.h>
 #include "DualMotorDriver/DualMotorDriver.h"
 #include "DualMotorController.h"
-#include "../../Scheduler/Scheduler.h"
+#include "../../../Scheduler/Scheduler.h"
 /*=======
 Statics
 ========*/

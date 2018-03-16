@@ -24,6 +24,7 @@
 /*===================
  * Global variables
  ===================*/
+char lastRawSensorData;				// the last raw sensor data
 signed char lastBarPositionValue;	// Number from -128	to	+126
 float lastSensorPosition;			// Number from -1	to	+1
 

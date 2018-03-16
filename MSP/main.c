@@ -22,8 +22,8 @@ by Daniel Walnut and Tim Yue
 
 // Includes just for diagnostics purposes
 #include "LineCruiser/DiffDriver/DiffDriver.h"
-#include "LineCruiser/DiffDriver/DualMotorController.h"
-#include "LineCruiser/LineSensorDriver.h"
+#include "LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
+#include "LineCruiser/LineSensorDriver/LineSensorDriver.h"
 
 int main(void)
 {
@@ -39,10 +39,13 @@ int main(void)
 	// Let's get this party started!
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
 	
+	lineCruise(60); // Let's cruise at 60cm/s
+	
 	while(1) {
 		//Nothing yet
 		char LeString[150];
 		int strSize;
+		LSRead();
 		strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (lastSensorPosition*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
 		UARTIOSend(LeString, strSize);
 		__delay_cycles(1600000);

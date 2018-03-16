@@ -51,6 +51,8 @@ float LSRead()
     uint8_t receiveBuffer[30];
     I2CRead(LINE_ADDRESS, 0x11, TYPE_0_LENGTH, receiveBuffer);
     
+    lastRawSensorData = receiveBuffer[0];
+    
     //count bits
     for ( i = 0; i < 8; i++ )
     {
@@ -88,7 +90,7 @@ float LSRead()
       // Get rid of rollover on extreme right.
       lastBarPositionValue--;
       
-      lastSensorPosition = ((float) lastBarPositionValue)/128
+      lastSensorPosition = ((float) lastBarPositionValue)/128;
 
       return lastSensorPosition;
 
