@@ -14,15 +14,18 @@ Includes
 #include "DiffDriver/DiffDriver.h"
 #include "LineSensorDriver/LineSensorDriver.h"
 #include "../Scheduler/Scheduler.h"
+#include "LineCruiser.h"
+#include <math.h>
 
 /*=======
 Statics
 ========*/
+static int speedSetpoint;
+static float lastLastSensorPosition;
 
 /*=======
 Static Function Prototypes
 ========*/
-int speedSetpoint;
 
 /*======
 ~~controlCruise~~
@@ -51,10 +54,17 @@ static void controlCruise(void) {
 		diffDrive(0, 32000); // If no line was detected, then stop the car.
 		return;
 	}
-	diffDrive(speedSetpoint, (WHEEL_BASE/2)/lastSensorPosition);
+	float sensorPositionDifference;
+	sensorPositionDifference = lastSensorPosition - lastLastSensorPosition;
+	int newSpeed;
+	newSpeed = speedSetpoint*(1 - abs(sensorPositionDifference)*CORNERING_D_SPEED_FACTOR - abs(lastSensorPosition)*CORNERING_P_SPEED_FACTOR); // Slows down if line is moving too fast
+	int newCurveRadius;
+	newCurveRadius = (TURN_NUMBNESS*WHEEL_BASE/2)/(CRUISE_KP*lastSensorPosition + CRUISE_KD*sensorPositionDifference); 								// Adjusts how much the car should turn, considering line position and how fast it is changing 
+	diffDrive(newSpeed, newCurveRadius);
+	lastLastSensorPosition = lastSensorPosition; // Record previous line position
 }
 
-char lineCruiserInit(float speed) {
+char lineCruiserInit() {
 	diffDriverInit();	// Initialize Differential Drive	
 	lineSensorInit();	// Initialize Line Sensor
 	speedSetpoint = 0;	// Start at zero speed!

@@ -39,13 +39,13 @@ int main(void)
 	// Let's get this party started!
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
 	
-	lineCruise(60); // Let's cruise at 60cm/s
+	lineCruise(100); // Let's cruise at 60cm/s
 	
 	while(1) {
 		//Nothing yet
 		char LeString[150];
 		int strSize;
-		LSRead();
+		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
 		strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (lastSensorPosition*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
 		UARTIOSend(LeString, strSize);
 		__delay_cycles(1600000);

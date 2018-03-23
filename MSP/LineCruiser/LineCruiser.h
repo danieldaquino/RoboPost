@@ -37,6 +37,17 @@ Includes
 /*=======
 Macros
 ========*/
+// Higher number indicates less turn steering sensitivity
+#define TURN_NUMBNESS 3
+// Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve
+#define CORNERING_D_SPEED_FACTOR 0.3
+// Number between 0 and 1 to tell how much to slow down in any curve. 0 means never slows down. 1 means full stop on tightest curve
+#define CORNERING_P_SPEED_FACTOR 0.6
+// CORNERING_P_SPEED_FACTOR + CORNERING_D_SPEED_FACTOR must NEVER BE BIGGER THAN 1
+// Proportional gain to turn. Higher numbers will make it turn tighter if line is not in the center
+#define CRUISE_KP 1
+// Differential gain to turn. Higher numbers will make it turn tighter if line is offsetting quick
+#define CRUISE_KD 0
 
 /*=======
 Function prototypes

@@ -45,3 +45,4 @@ An autonomous delivery system — BCIT Robotics Capstone
 ### Scheduler
 
 1. Timer A1
+2. P4.7 LED
