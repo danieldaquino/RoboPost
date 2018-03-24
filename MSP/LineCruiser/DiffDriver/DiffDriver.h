@@ -35,7 +35,7 @@ Macros
 // Max speed in cm/s
 #define MAX_SPEED 130.0
 // Wheel base in cm
-#define WHEEL_BASE 20.0
+#define WHEEL_BASE 18.0
 #define MAX_CURVE_RADIUS 1000
 // Wheel radius in cm
 #define WHEEL_RADIUS 3.5
@@ -74,8 +74,6 @@ inputs:
 							Negative curvature means turning left, or going counter-clockwise
 outputs:
 	(char) Return Status:	0 means ok
-							1 means too fast
-							2 means curvature too small
 Globals affected: 	Timer A0, A2, eventually the motor pins
 ======*/
 char diffDrive(float speed, float curveRadius);

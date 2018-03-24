@@ -22,6 +22,7 @@ Statics
 ========*/
 static int speedSetpoint;
 static float lastLastSensorPosition;
+static float lastSensorError;
 
 /*=======
 Static Function Prototypes
@@ -54,14 +55,23 @@ static void controlCruise(void) {
 		diffDrive(0, 32000); // If no line was detected, then stop the car.
 		return;
 	}
-	float sensorPositionDifference;
-	sensorPositionDifference = lastSensorPosition - lastLastSensorPosition;
+	// Get errors
+	float sensorError = 0 - lastSensorPosition;
+	float dSensorError = lastSensorError - sensorError;
+	
+	// Speed calculations
 	int newSpeed;
-	newSpeed = speedSetpoint*(1 - abs(sensorPositionDifference)*CORNERING_D_SPEED_FACTOR - abs(lastSensorPosition)*CORNERING_P_SPEED_FACTOR); // Slows down if line is moving too fast
+	newSpeed = speedSetpoint*(1 - abs(dSensorError)*CORNERING_D_BRAKE_FACTOR - abs(sensorError)*CORNERING_P_BRAKE_FACTOR); // Slows down if line is moving too fast
+	
+	// Calculate Radius
 	int newCurveRadius;
-	newCurveRadius = (TURN_NUMBNESS*WHEEL_BASE/2)/(CRUISE_KP*lastSensorPosition + CRUISE_KD*sensorPositionDifference); 								// Adjusts how much the car should turn, considering line position and how fast it is changing 
+	newCurveRadius = -(TURN_NUMBNESS_P/sensorError + TURN_NUMBNESS_D/dSensorError);
+	
+	// Differential Drive
 	diffDrive(newSpeed, newCurveRadius);
-	lastLastSensorPosition = lastSensorPosition; // Record previous line position
+	
+	// Record previous values
+	lastSensorError = sensorError; // Record previous line position
 }
 
 char lineCruiserInit() {
