@@ -38,10 +38,10 @@ Includes
 Macros
 ========*/
 // Tightest curve radius in cm
-#define SHARPEST_CURVE 14
+#define SHARPEST_CURVE 13
 // CRUISE_KP + CRUISE_KD = 1
-#define CRUISE_KD 0.7
-#define CRUISE_KP 0.3
+#define CRUISE_KD 0.65
+#define CRUISE_KP 0.35
 // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve
 #define CORNERING_D_BRAKE_FACTOR 0.95
 // Number between 0 and 1 to tell how much to slow down in any curve. 0 means never slows down. 1 means full stop on tightest curve
