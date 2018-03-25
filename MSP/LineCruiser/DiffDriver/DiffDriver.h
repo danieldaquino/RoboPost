@@ -43,6 +43,8 @@ Macros
 /*=======
 Globals
 =======*/
+float diffDriverSetSpeed;
+float diffDriverSetCurve;
 
 /*=======
 Function Prototypes

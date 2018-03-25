@@ -28,20 +28,21 @@ by Daniel Walnut and Tim Yue
 
 int main(void)
 {
+	//====== Initialization ==========
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-	
-	
 	boostClockTo16MHz();	// Setup the CPU rate. MUST BE DONE BEFORE the other modules.
 	
 	schedulerInit();		// Setup scheduler before the line cruiser!!
 	lineCruiserInit();		// Initialize the line cruiser.
 	UARTIOInit(); 			// Initialize communication with Computer Console
+	setupStartStop();		// Setup Start and Stop functionality
 	
-	setupStartStop();
-	
-	// Let's get this party started!
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
+	//==== Initialization Done. =======
 	
+	// Let's begin with the robot stopped, for safety reasons
+	stopRobot();
+	// Let's get this party started!
 	lineCruise(30); // Let's cruise at 30cm/s
 	
 	while(1) {
@@ -50,7 +51,8 @@ int main(void)
 		int strSize;
 		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
 		//strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (lastSensorPosition*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
-		//UARTIOSend(LeString, strSize);		
+		strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
+		UARTIOSend(LeString, strSize);		
 		__delay_cycles(1600000);
 	}
 	return 0;

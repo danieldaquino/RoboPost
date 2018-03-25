@@ -65,8 +65,8 @@ static void controlCruise(void) {
 	
 	// Calculate Radius
 	int newCurveRadius;
-	newCurveRadius = -(TURN_NUMBNESS_P/sensorError + TURN_NUMBNESS_D/dSensorError);
-	
+	newCurveRadius = -SHARPEST_CURVE/(CRUISE_KP*sensorError + CRUISE_KD*dSensorError);
+		
 	// Differential Drive
 	diffDrive(newSpeed, newCurveRadius);
 	
