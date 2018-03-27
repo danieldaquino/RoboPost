@@ -36,13 +36,23 @@ function Start() {
 function SetupServer() {
 	app.get('/ledOn', function(req, res) {
 		request.post({url: "https://api.particle.io/v1/devices/" + PhotonKeys.ID + "/led?access_token=" + PhotonKeys.Token, form: {arg:'on'}}, function(err,httpResponse,body) {
-			res.send(body);
+			if(!err) {
+				res.send(body);
+			}
+			else {
+				res.send(err);
+			}
 		});
 	});
 	
 	app.get('/ledOff', function(req, res) {
 		request.post({url: "https://api.particle.io/v1/devices/" + PhotonKeys.ID + "/led?access_token=" + PhotonKeys.Token, form: {arg:'off'}}, function(err,httpResponse,body) {
-			res.send(body);
+			if(!err) {
+				res.send(body);
+			}
+			else {
+				res.send(err);
+			}
 		});
 	});
 	

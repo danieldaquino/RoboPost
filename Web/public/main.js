@@ -22,9 +22,18 @@ var PhotonKey = new Object();
 
 =====================*/
 function Load() {
-	// Now, let's try to make a call.
+	// Nothing yet.
+	
+}
+
+function TurnOnLED() {
 	GetRequest("/ledOn").then(function(response) {
 		console.log("Got Response:" + response);
 	});
 }
 
+function TurnOffLED() {
+	GetRequest("/ledOff").then(function(response) {
+		console.log("Got Response:" + response);
+	});
+}
