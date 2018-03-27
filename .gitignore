@@ -4,6 +4,12 @@
 # Prerequisites
 *.d
 
+# Secret Photon keys
+keys.json
+
+# Node js modules
+node_modules
+
 # CCS Files
 .ccsproject
 .cproject
