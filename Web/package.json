@@ -1,0 +1,10 @@
+{
+	"name": "RoboPostServer",
+	"version": "0.0.1",
+	"description": "The RoboPost Server",
+	"main": "Server.js",
+	"dependencies": {
+		"express": "expressjs/express",
+		"request": "^2.85.0"
+	}
+}
