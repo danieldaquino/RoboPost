@@ -59,7 +59,10 @@ inputs:
 						If string is larger than that, function will return -2
 	(int) size: size of the string, NOT INCLUDING NULL CHARACTER 
 outputs: 
-	(char) Return status: 0 means successful. -1 means busy, try again later. -2 means overflow.
+	(char) Return status:	 0 means successful.
+					 		-1 means busy, try again later.
+					 		-2 means overflow.
+					 		-3 means it is missing a null character at the end.
 Globals affected: strBufferToSend, strBufferPointer, strBufferReady
 =======*/
 char UARTIOSend(unsigned char *txBuffer, int size);

@@ -62,11 +62,17 @@ void diffDriverInit() {
 char diffDrive(float speed, float curveRadius) {
 	// Check for bad inputs
 	if(speed > MAX_SPEED) {
-		return 1;
+		speed = MAX_SPEED;
 	}
-	if(curveRadius < WHEEL_BASE/2 && curveRadius > -WHEEL_BASE/2) {
-		return 2;
+	if(curveRadius < WHEEL_BASE/2 && curveRadius >= 0) {
+		curveRadius = WHEEL_BASE/2;
 	}
+	else if(curveRadius > -WHEEL_BASE/2 && curveRadius < 0) {
+		curveRadius = -WHEEL_BASE/2;
+	}
+	// Update on global variable
+	diffDriverSetSpeed = speed;
+	diffDriverSetCurve = curveRadius;
 	// Approximate huge curvature radius to a straight line
 	if(curveRadius > MAX_CURVE_RADIUS) {
 		// Just go straight...

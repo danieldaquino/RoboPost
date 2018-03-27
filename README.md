@@ -14,6 +14,16 @@ An autonomous delivery system — BCIT Robotics Capstone
 
 ## In the MSP
 
+### StartStop
+
+1. P1.1
+2. PORT1 ISR
+3. TA0CCR1
+4. TA0CCR2
+5. TA2CCR1
+6. TA2CCR2
+7. P1.0
+
 ### UARTIO module
 
 1. UCSI_A1
@@ -41,3 +51,8 @@ An autonomous delivery system — BCIT Robotics Capstone
 1. UCB0 module
 2. P3.0 – SDA
 3. P3.1 - SCL
+
+### Scheduler
+
+1. Timer A1
+2. P4.7 LED
