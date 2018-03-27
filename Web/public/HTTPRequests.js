@@ -79,7 +79,7 @@ function XRequest(url, method) {
 
 /*====================
 
-	~~getJSON~~
+	~~GetJSON~~
 	
 	This function makes a get request to the given url, and gathers the json
 	
