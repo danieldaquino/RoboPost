@@ -13,6 +13,7 @@ Global Objects
 =======*/
 
 var PhotonKey = new Object();
+var TheBotCanvas = new Object();
 
 /*====================
 
@@ -22,8 +23,19 @@ var PhotonKey = new Object();
 
 =====================*/
 function Load() {
-	// Nothing yet.
-	
+	// Setup the Canvas.
+	document.getElementById("BotCanvas").width = window.innerWidth;
+	document.getElementById("BotCanvas").height = window.innerHeight - 100;
+	// Initialize Canvas controller, then render.
+	TheBotCanvas = new VisualBot(document.getElementById("BotCanvas"), function() {
+		TheBotCanvas.Render();
+	});
+}
+
+function ResizeCanvas() {
+	document.getElementById("BotCanvas").width = window.innerWidth;
+	document.getElementById("BotCanvas").height = window.innerHeight - 100;
+	TheBotCanvas.Render();
 }
 
 function TurnOnLED() {

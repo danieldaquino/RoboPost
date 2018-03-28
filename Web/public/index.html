@@ -6,7 +6,7 @@
 		<script src="VisualBot.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css"/>
 	</head>
-	<body onload="Load()">
+	<body onload="Load()" onresize="ResizeCanvas();">
 		<div id="MainContainer">
 			<div id="ControlContainer">
 				<span>
@@ -15,7 +15,7 @@
 				</span>
 				<img id="Hero" src="logo.png"/>
 			</div>
-			<canvas id="VisualizationContainer">
+			<canvas id="BotCanvas">
 			
 			</canvas>
 		</div>

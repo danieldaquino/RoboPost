@@ -1,9 +1,19 @@
+/*==============================
+
+	Server.js
+	
+	Server for RoboPost Web Interface.
+	
+	This code serves the webpages, and acts as a proxy to the Particle Cloud.
+	
+	Crafted by Daniel Walnut
+
+===============================*/
+
 const express = require('express');
 const app = express();
 var request = require('request');
 var fs = require('fs');
-
-
 
 /*=======
 Global Objects
