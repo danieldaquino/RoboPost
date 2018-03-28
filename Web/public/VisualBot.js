@@ -2,11 +2,18 @@
 
 	VisualBot.js
 	
-	Visual Robot Representation via Canvas
+	Visual Robot Representation via HTML5 Canvas
 	
 	Crafted by Daniel Walnut
 
 ===============================*/
+
+/*=======
+Global Colours
+========*/
+var DriftingRed = "rgb(236, 60, 30)";
+var SettleBlue = "rgb(80, 211, 251)";
+var TapeBlack = "#000000";
 
 function VisualBot(canvasObject, loadedCallback) {
 	// Initialize Object
@@ -31,7 +38,23 @@ function VisualBot(canvasObject, loadedCallback) {
 	that.Robot.Measurements.F = new Array();
 	that.Robot.Measurements.F[0] = "3K";
 	that.Robot.Measurements.F[1] = "100 ";
+	that.Robot.Measurements.RPM = new Array();
+	that.Robot.Measurements.RPM[0] = 250;
+	that.Robot.Measurements.RPM[1] = 180;
+	
+	/*=======
+	Robot Setpoints
+	========*/
+	that.Robot.SetPoints.RPM = new Array();
+	that.Robot.SetPoints.RPM[0] = 270;
+	that.Robot.SetPoints.RPM[1] = 150;
 	that.Robot.SetPoints.CurveRadius = 32000;
+	
+	/*=======
+	Robot Parameters
+	========*/
+	that.Robot.MaxRPM = 300;
+	
 	
 	/*=======
 	Visual Settings
@@ -44,11 +67,11 @@ function VisualBot(canvasObject, loadedCallback) {
 	Exposed functions
 	========*/
 	that.Render = function() {
-		RenderCurveRadius(400, "rgb(80, 211, 251)", 10);
-		RenderCurveRadius(500, "rgb(236, 60, 30)", 10);
+		RenderCurveRadius(400, SettleBlue, 10);
+		RenderCurveRadius(500, DriftingRed, 10);
 		RenderCar();
-		RenderInfoBox(0);
-		RenderInfoBox(1);
+		RenderMotorBox(0);
+		RenderMotorBox(1);
 	}
 
 	/*=======
@@ -76,15 +99,16 @@ function VisualBot(canvasObject, loadedCallback) {
 		ctx.stroke();
 	}
 	
-	var RenderInfoBox = function(motor) {
+	var RenderMotorBox = function(motor) {
 		var boxWidth = 200;
-		var boxMargin = 100;
-		var textYMargin = 30;
-		var textSize = 30;
+		var boxMargin = 120;
+		var textYMargin = 18;
+		var textSize = 14;
 		var cellPadding = 15;
 		var headingYMargin = 36;
 		var headingSize = 36;
 		var PWMDiagramHeight = 50;
+		var barHeight = 30;
 		// Calculate the top and left origin
 		if(motor == 0) {
 			var xBegin = that.Canvas.width/2 - that.Visual.Size/2 - boxMargin;
@@ -95,10 +119,10 @@ function VisualBot(canvasObject, loadedCallback) {
 		var yBegin = that.Canvas.height/2 - 100;
 		// Setup Y Cursor
 		var yCursor = yBegin;
-		// Setup colors and borders
-		ctx.strokeStyle = "#000000";
-		ctx.lineWidth = 6;
 		// Draw top border
+		// Setup colors and borders
+		ctx.strokeStyle = TapeBlack;
+		ctx.lineWidth = 6;
 		ctx.beginPath();
 		ctx.moveTo(xBegin, yCursor);
 		ctx.lineTo(xBegin + boxWidth, yCursor);
@@ -114,20 +138,16 @@ function VisualBot(canvasObject, loadedCallback) {
 		}
 		// Draw Separator
 		yCursor += cellPadding;
-		ctx.strokeStyle = "#000000";
+		ctx.strokeStyle = TapeBlack;
 		ctx.lineWidth = 2;
 		ctx.beginPath();
 		ctx.moveTo(xBegin, yCursor);
 		ctx.lineTo(xBegin + boxWidth, yCursor);
 		ctx.stroke();
-		// Draw PWM Number
-		yCursor += textYMargin + cellPadding;	// Move Cursor
-		ctx.font= textSize + "px Futura";
-		ctx.fillText((that.Robot.Measurements.PWM[motor]*100) + "% – " + that.Robot.Measurements.F[motor] + "Hz", xBegin, yCursor);
 		// Draw PWM diagram
 		yCursor += cellPadding;	// Move Cursor
-		ctx.strokeStyle = "rgb(236, 60, 30)";
-		ctx.lineWidth = 2;
+		ctx.strokeStyle = DriftingRed;
+		ctx.lineWidth = 4;
 		ctx.beginPath();
 		ctx.moveTo(xBegin, yCursor + PWMDiagramHeight);
 		ctx.lineTo(xBegin, yCursor);
@@ -136,14 +156,37 @@ function VisualBot(canvasObject, loadedCallback) {
 		ctx.lineTo(xBegin + boxWidth, yCursor + PWMDiagramHeight);
 		ctx.stroke();
 		yCursor += PWMDiagramHeight;	// Move Cursor
-		// Draw Separator
+		// Draw PWM Number
+		yCursor += textYMargin + cellPadding;	// Move Cursor
+		ctx.font= textSize + "px Futura";
+		ctx.fillText((that.Robot.Measurements.PWM[motor]*100) + "% – " + that.Robot.Measurements.F[motor] + "Hz", xBegin, yCursor);
+		// Draw Measured Speed bar
 		yCursor += cellPadding;
-		ctx.strokeStyle = "#000000";
-		ctx.lineWidth = 2;
+		ctx.fillStyle = DriftingRed;
+		ctx.fillRect(xBegin, yCursor, boxWidth*(that.Robot.Measurements.RPM[motor]/that.Robot.MaxRPM), barHeight);
+		ctx.fillStyle = TapeBlack;
+		yCursor += barHeight;
+		// Draw Measured Speed Number
+		yCursor += textYMargin + cellPadding;	// Move Cursor
+		ctx.font= textSize + "px Futura";
+		ctx.fillText((that.Robot.Measurements.RPM[motor]) + " RPM", xBegin, yCursor);
+		// Draw Setpoint Speed bar
+		yCursor += cellPadding;
+		ctx.fillStyle = SettleBlue;
+		ctx.fillRect(xBegin, yCursor, boxWidth*(that.Robot.SetPoints.RPM[motor]/that.Robot.MaxRPM), barHeight);
+		ctx.fillStyle = TapeBlack;
+		yCursor += barHeight;
+		// Draw Setpoint Speed Number
+		yCursor += textYMargin + cellPadding;	// Move Cursor
+		ctx.font= textSize + "px Futura";
+		ctx.fillText((that.Robot.SetPoints.RPM[motor]) + " RPM", xBegin, yCursor);
+		// Draw bottom border
+		yCursor += cellPadding;
+		ctx.strokeStyle = TapeBlack;
+		ctx.lineWidth = 6;
 		ctx.beginPath();
 		ctx.moveTo(xBegin, yCursor);
 		ctx.lineTo(xBegin + boxWidth, yCursor);
 		ctx.stroke();
-
 	}
 }
