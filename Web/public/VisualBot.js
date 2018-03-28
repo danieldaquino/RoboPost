@@ -30,7 +30,8 @@ function VisualBot(canvasObject, loadedCallback) {
 	Visual Settings
 	========*/	
 	that.Visual = new Object();
-	that.Visual.Size = 300;
+	that.Visual.Size = 500;
+	that.Visual.Margin = -50;
 	
 	/*=======
 	Exposed functions
@@ -44,15 +45,28 @@ function VisualBot(canvasObject, loadedCallback) {
 	Internal functions
 	========*/	
 	var RenderCar = function() {
-		ctx.drawImage(RobotImage, that.Canvas.width/2 - that.Visual.Size/2, that.Canvas.height/2 - that.Visual.Size/2, that.Visual.Size, that.Visual.Size);
+		ctx.drawImage(RobotImage, that.Canvas.width/2 - that.Visual.Size/2, that.Canvas.height - that.Visual.Size - that.Visual.Margin, that.Visual.Size, that.Visual.Size);
 	}
 	
 	var RenderCurveRadius = function(curveRadius, strokeStyle, lineWidth) {
 		// Setup Pallette
 		ctx.strokeStyle = strokeStyle;
 		ctx.lineWidth = lineWidth;
+		// Begin the path.
 		ctx.beginPath();
-		ctx.arc(that.Canvas.width/2 + curveRadius, that.Canvas.height/2 + that.Visual.Size/4, curveRadius, Math.PI, 2*Math.PI, false);
+		if(curveRadius > 0) {
+			// Positive curve radius
+			ctx.arc(that.Canvas.width/2 + curveRadius, that.Canvas.height/2 + that.Visual.Size/4, curveRadius, Math.PI, 1.75*Math.PI, false);
+		}
+		else {
+			// Negative Curve Radius
+			curveRadius = -curveRadius;
+			ctx.arc(that.Canvas.width/2 - curveRadius, that.Canvas.height/2 + that.Visual.Size/4, curveRadius, 2*Math.PI, 1.25*Math.PI, true);
+		}
 		ctx.stroke();
+	}
+	
+	var RenderInfoBox = function() {
+		
 	}
 }
