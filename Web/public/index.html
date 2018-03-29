@@ -5,13 +5,13 @@
 		<script src="main.js"></script>
 		<script src="VisualBot.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css"/>
+		<link href="/fontawesome/css/fontawesome-all.css" rel="stylesheet">
 	</head>
 	<body onload="Load()" onresize="ResizeCanvas();">
 		<div id="MainContainer">
 			<div id="ControlContainer">
 				<span>
-					<button onclick="TurnOnLED()">Start</button>
-					<button onclick="TurnOffLED()">Stop</button>
+					<button class="TopBarButton" id="StartStopButton" onclick="StartStop()"><i class="fas fa-play"></i></button>
 				</span>
 				<img id="Hero" src="logo.png"/>
 			</div>

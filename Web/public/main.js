@@ -38,6 +38,24 @@ function ResizeCanvas() {
 	TheBotCanvas.Render();
 }
 
+function StartStop() {
+	if(StartStop.RobotOn == undefined) {
+		StartStop.RobotOn = false;	
+	}
+	if(StartStop.RobotOn == false) {
+		StartStop.RobotOn = true;
+		document.getElementById("StartStopButton").innerHTML = '<i class="fas fa-pause"></i>';
+		document.getElementById("StartStopButton").classList.add("Activated");
+		TurnOnLED();
+	}
+	else {
+		StartStop.RobotOn = false;		
+		document.getElementById("StartStopButton").innerHTML = '<i class="fas fa-play"></i>';
+		document.getElementById("StartStopButton").classList.remove("Activated");
+		TurnOffLED();
+	}
+}
+
 function TurnOnLED() {
 	GetRequest("/ledOn").then(function(response) {
 		console.log("Got Response:" + response);
