@@ -56,6 +56,18 @@ function StartStop() {
 	}
 }
 
+function ShowHideSettings() {
+	var SettingsPanelElement = document.getElementById("SettingsPanel");
+	if(SettingsPanelElement.style.display == "none" || SettingsPanelElement.style.display == undefined || SettingsPanelElement.style.display == "") {
+		SettingsPanelElement.style.display = "block";
+		document.getElementById("ShowSettingsButton").classList.add("Activated");
+	}
+	else {
+		SettingsPanelElement.style.display = "none";
+		document.getElementById("ShowSettingsButton").classList.remove("Activated");
+	}
+}
+
 function TurnOnLED() {
 	GetRequest("/ledOn").then(function(response) {
 		console.log("Got Response:" + response);

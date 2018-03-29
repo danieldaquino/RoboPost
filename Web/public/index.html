@@ -13,11 +13,24 @@
 				<span>
 					<button class="TopBarButton" id="StartStopButton" onclick="StartStop()"><i class="fas fa-play"></i></button>
 				</span>
-				<img id="Hero" src="logo.png"/>
+				<span style="display:flex; justify-content:flex-end;align-items: center;">
+					<button class="TopBarButton" id="ShowSettingsButton" onclick="ShowHideSettings()"><i class="fas fa-cog"></i></button>
+					<img id="Hero" src="logo.png"/>
+				</span>
 			</div>
 			<canvas id="BotCanvas">
 			
 			</canvas>
+			<div id="SettingsPanel">
+				<div>Cruise Proportional Gain</div>
+				<input type="range" min="0" max="100">
+				<div>Cruise Differential Gain</div>
+				<input type="range" min="0" max="100">
+				<div>Motor Proportional Gain</div>
+				<input type="range" min="0" max="100">
+				<div>Motor Differential Gain</div>
+				<input type="range" min="0" max="100">
+			</div>
 		</div>
 	</body>
 </html>

@@ -38,7 +38,96 @@ body {
 	top: 100px;
 }
 
+#SettingsPanel {
+	position: fixed;
+	background-color: white;
+	font-family: "Futura";
+	display: none;
+	top: 100px;
+	right: 0px;
+	padding: 20px;
+	opacity: 0.2;
+	transition: all 0.5s;
+}
+
+#SettingsPanel:hover {
+	opacity: 1;
+	box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
+	
+}
+
+input[type="range"] {
+	width: 300px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	outline: none;
+	background-color: #222;
+	height: 5px;
+	border-radius: 10px;
+	margin: 22.5px;
+	border: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	background-color: rgb(80, 211, 251);
+	height: 20px;
+	width: 20px;
+	border-radius: 10px;
+	-webkit-transition: all 0.5;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+	-webkit-appearance: none;
+	background-color: rgb(80, 211, 251);
+	height: 25px;
+	width: 25px;
+	border-radius: 15px;
+}
+
+input[type="range"]::-moz-range-thumb {
+	-moz-appearance: none;
+	background-color: rgb(80, 211, 251);
+	height: 20px;
+	width: 20px;
+	border-radius: 10px;
+	-webkit-transition: all 0.5;
+	border: none;
+}
+
+input[type="range"]::-moz-range-thumb:active {
+	-moz-appearance: none;
+	background-color: rgb(80, 211, 251);
+	height: 25px;
+	width: 25px;
+	border-radius: 15px;
+	border: none;
+}
+
+input[type="range"]::-moz-range-track {
+	background-color: #303030;
+	-moz-appearance: none;
+	outline: 0px;
+	border: 0px;
+}
+
+input[type="range"]::-moz-focusring {
+	outline: 0px;
+	border: 0px;
+}
+
+input[type="range"]::-moz-focus-inner {
+	border: 0px;
+	outline: 0px;
+}
+
+input[type="range"]:focus {
+	outline: none;
+}
+
+
 button.TopBarButton {
+	display: inline;
 	ouline: none;
 	appearance: none;
 	background: white;
@@ -47,8 +136,9 @@ button.TopBarButton {
 	margin-left: 10px;
 	margin-right: 10px;
 	padding: 20px;
+	position: relative;
 	top: 0px;
-	height: 100%;
+	height: 56px;
 }
 
 button.TopBarButton:hover {
@@ -71,4 +161,5 @@ button.TopBarButton.Activated {
 
 #Hero {
 	width: 100px;
+	display: inline;
 }
