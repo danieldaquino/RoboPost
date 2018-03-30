@@ -4,6 +4,7 @@
 		<script src="HTTPRequests.js"></script>
 		<script src="main.js"></script>
 		<script src="VisualBot.js"></script>
+		<script src="SettingsPanel.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css"/>
 		<link href="/fontawesome/css/fontawesome-all.css" rel="stylesheet">
 	</head>
@@ -22,14 +23,14 @@
 			
 			</canvas>
 			<div id="SettingsPanel">
-				<div>Cruise Proportional Gain</div>
-				<input type="range" min="0" max="100">
-				<div>Cruise Differential Gain</div>
-				<input type="range" min="0" max="100">
-				<div>Motor Proportional Gain</div>
-				<input type="range" min="0" max="100">
-				<div>Motor Differential Gain</div>
-				<input type="range" min="0" max="100">
+				<div>Cruise Proportional Gain – <span id="CruiseKpDisplay"></span></div>
+				<input id="CruiseKp" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<div>Cruise Differential Gain – <span id="CruiseKdDisplay"></span></div>
+				<input id="CruiseKd" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<div>Motor Proportional Gain – <span id="MotorKpDisplay"></span></div>
+				<input id="MotorKp" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<div>Motor Differential Gain – <span id="MotorKdDisplay"></span></div>
+				<input id="MotorKd" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
 			</div>
 		</div>
 	</body>

@@ -30,6 +30,8 @@ function Load() {
 	TheBotCanvas = new VisualBot(document.getElementById("BotCanvas"), function() {
 		TheBotCanvas.Render();
 	});
+	InitializeSettingsPanel();
+	UpdateSettings();
 }
 
 function ResizeCanvas() {
@@ -53,18 +55,6 @@ function StartStop() {
 		document.getElementById("StartStopButton").innerHTML = '<i class="fas fa-play"></i>';
 		document.getElementById("StartStopButton").classList.remove("Activated");
 		TurnOffLED();
-	}
-}
-
-function ShowHideSettings() {
-	var SettingsPanelElement = document.getElementById("SettingsPanel");
-	if(SettingsPanelElement.style.display == "none" || SettingsPanelElement.style.display == undefined || SettingsPanelElement.style.display == "") {
-		SettingsPanelElement.style.display = "block";
-		document.getElementById("ShowSettingsButton").classList.add("Activated");
-	}
-	else {
-		SettingsPanelElement.style.display = "none";
-		document.getElementById("ShowSettingsButton").classList.remove("Activated");
 	}
 }
 
