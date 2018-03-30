@@ -1,13 +1,17 @@
-/*==============================
+/*===============================
 
-	Server.js
-	
-	Server for RoboPost Web Interface.
-	
-	This code serves the webpages, and acts as a proxy to the Particle Cloud.
+ _____       _           _____          _   
+|  __ \     | |         |  __ \        | |  
+| |__) |___ | |__   ___ | |__) |__  ___| |_ 
+|  _  // _ \| '_ \ / _ \|  ___/ _ \/ __| __|
+| | \ \ (_) | |_) | (_) | |  | (_) \__ \ |_ 
+|_|  \_\___/|_.__/ \___/|_|   \___/|___/\__|
+                                            
+                                            
+	Node.js Backend for RoboPost
 	
 	Crafted by Daniel Walnut
-
+	
 ===============================*/
 
 const express = require('express');
@@ -19,19 +23,24 @@ var fs = require('fs');
 Global Objects
 ========*/
 var PhotonKeys = new Object();
+var PhotonWeb = new Object();
 
 function Start() {	
 	// Show welcome message
-	console.log("=====================");
-	console.log("Welcome to RoboPost!");
-	console.log("=====================");
+	PrintBanner();
 	// Get the keys
 	PhotonKeys = JSON.parse(fs.readFileSync('keys.json', 'utf8'));
 	console.log("Photon Key captured!");
 	console.log("ID: " + PhotonKeys.ID);
 	console.log("Token: " + PhotonKeys.Token);
+	// Get IP then create the server
+	GetLocalIP().then(function(response) {
+		console.log("Photon's IP address: " + response);
+		SetupServer();
+	}).catch(function(err) {
+		console.log("Error in fetching Photon's local IP address.")
+	});
 	// Start Server
-	SetupServer();
 }
 
 /*====================
@@ -87,9 +96,8 @@ function SetupServer() {
 function GetJSON(url) {
 	return new Promise(function(resolve, reject) {
 		request(url, function (error, response, body) {
-			debugger;
-			if(error != "") {
-				reject('error:', error); // Print the error if one occurred			
+			if(error != "" && error != null && error != undefined) {
+				reject('error:', error); // Print the error if one occurred
 			}
 			else if(response.statusCode == 200) {
 				resolve(JSON.parse(body));
@@ -99,6 +107,23 @@ function GetJSON(url) {
 			}
 		});
 	});
+}
+
+function GetLocalIP() {
+	return new Promise(function(resolve, reject) {
+		// Get the JSON
+		GetJSON("https://api.particle.io/v1/devices/" + PhotonKeys.ID + "/localIP?access_token=" + PhotonKeys.Token).then(function(response) {
+			// Success! Return
+			resolve(response.result);		
+		}).catch(function(err) {
+			// Uh oh.
+			reject(err);
+		});		
+	});
+}
+
+function PrintBanner() {
+	console.log(fs.readFileSync('Welcome.txt', 'utf8'));
 }
 
 Start();
