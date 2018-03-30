@@ -41,6 +41,8 @@ function VisualBot(canvasObject, loadedCallback) {
 	that.Robot.Measurements.RPM = new Array();
 	that.Robot.Measurements.RPM[0] = 250;
 	that.Robot.Measurements.RPM[1] = 180;
+	that.Robot.Measurements.CurveRadius = 500;
+	that.Robot.Measurements.Speed = 0.6;
 	
 	/*=======
 	Robot Setpoints
@@ -48,13 +50,13 @@ function VisualBot(canvasObject, loadedCallback) {
 	that.Robot.SetPoints.RPM = new Array();
 	that.Robot.SetPoints.RPM[0] = 270;
 	that.Robot.SetPoints.RPM[1] = 150;
-	that.Robot.SetPoints.CurveRadius = 32000;
+	that.Robot.SetPoints.CurveRadius = 400;
+	that.Robot.SetPoints.Speed = 0.4;
 	
 	/*=======
 	Robot Parameters
 	========*/
 	that.Robot.MaxRPM = 300;
-	
 	
 	/*=======
 	Visual Settings
@@ -67,11 +69,12 @@ function VisualBot(canvasObject, loadedCallback) {
 	Exposed functions
 	========*/
 	that.Render = function() {
-		RenderCurveRadius(400, SettleBlue, 10);
-		RenderCurveRadius(500, DriftingRed, 10);
+		RenderCurveRadius(that.Robot.Measurements.CurveRadius, SettleBlue, 10);
+		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, DriftingRed, 10);
 		RenderCar();
 		RenderMotorBox(0);
 		RenderMotorBox(1);
+		RenderSpeedBox();
 	}
 
 	/*=======
@@ -99,7 +102,43 @@ function VisualBot(canvasObject, loadedCallback) {
 		ctx.stroke();
 	}
 	
+	var RenderSpeedBox = function() {
+		// General dimensions
+		var boxWidth = 100;
+		var bottomMargin = 30;
+		var boxHeight = 100;
+		var headingYMargin = 28;
+		var headingSize = 28;
+		var cellPadding = 10;
+		// Setup Origins
+		var xBegin = that.Canvas.width/2 - boxWidth/2;
+		var yBegin = that.Canvas.height - bottomMargin - boxHeight;
+		// Setup Y Cursor
+		var yCursor = yBegin;
+		// Draw top border
+		// Setup colors and borders
+		ctx.strokeStyle = TapeBlack;
+		ctx.lineWidth = 4;
+		ctx.beginPath();
+		ctx.moveTo(xBegin, yCursor);
+		ctx.lineTo(xBegin + boxWidth, yCursor);
+		ctx.stroke();
+		// Draw Block Heading
+		yCursor += headingYMargin;	// Move Cursor
+		ctx.font= headingSize + "px Futura";
+		ctx.fillText(that.Robot.Measurements.Speed + " m/s", xBegin, yCursor);
+		// Draw bottom border
+		yCursor += cellPadding;
+		ctx.strokeStyle = TapeBlack;
+		ctx.lineWidth = 4;
+		ctx.beginPath();
+		ctx.moveTo(xBegin, yCursor);
+		ctx.lineTo(xBegin + boxWidth, yCursor);
+		ctx.stroke();
+	}
+	
 	var RenderMotorBox = function(motor) {
+		// General dimensions
 		var boxWidth = 200;
 		var boxMargin = 120;
 		var textYMargin = 18;
