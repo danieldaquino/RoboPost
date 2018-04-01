@@ -13,6 +13,11 @@
 #define PHOTON_TCP_SERVER_H
 
 /*======
+Macros
+=======*/
+#define JSON_MAX_SIZE 500
+
+/*======
 Externally defined variables
 =======*/
 

@@ -14,6 +14,7 @@ Global Objects
 
 var PhotonKey = new Object();
 var TheBotCanvas = new Object();
+var UpdateMeasurementsInterval;
 
 /*====================
 
@@ -32,6 +33,7 @@ function Load() {
 	});
 	InitializeSettingsPanel();
 	UpdateSettings();
+	UpdateMeasurementsInterval = setInterval(UpdateMeasurements,500);
 }
 
 function ResizeCanvas() {
@@ -61,11 +63,33 @@ function StartStop() {
 function TurnOnLED() {
 	GetRequest("/ledOn").then(function(response) {
 		console.log("Got Response:" + response);
+	}).catch(function(err) {
+		console.log("Something went wrong while turning the LED on.");
+		console.log(err);
 	});
 }
 
 function TurnOffLED() {
 	GetRequest("/ledOff").then(function(response) {
 		console.log("Got Response:" + response);
+	}).catch(function(err) {
+		console.log("Something went wrong while turning the LED off.");
+		console.log(err);
+	});
+}
+
+function UpdateMeasurements() {
+	GetJSON("/Measurements").then(function(response) {
+		// Good! Let's update the Robot Object and then render.
+		TheBotCanvas.Robot.SetPoints.RPM[0] = response.result.RPMLS.toFixed(2);
+		TheBotCanvas.Robot.Measurements.RPM[0] = response.result.RPML.toFixed(2);
+		TheBotCanvas.Robot.SetPoints.RPM[1] = response.result.RPMRS.toFixed(2);
+		TheBotCanvas.Robot.Measurements.RPM[1] = response.result.RPMR.toFixed(2);
+		TheBotCanvas.Robot.Measurements.PWM[0] = response.result.PWMLFWD.toFixed(2);
+		TheBotCanvas.Robot.Measurements.PWM[1] = response.result.PWMRFWD.toFixed(2);
+		TheBotCanvas.Render();
+	}).catch(function(err) {
+		console.log("Error in fetching Measurements!!");
+		console.log(err);
 	});
 }

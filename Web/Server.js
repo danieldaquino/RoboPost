@@ -52,14 +52,7 @@ function Start() {
 	GetLocalIP().then(function(response) {
 		console.log("Photon's IP address: " + response);
 		PhotonTCPClient.ConnectToPhoton(response).then(function(response) {
-			// Let's test if this is actually working
-			PhotonTCPClient.SendToPhoton("M",{}).then(function(response) {
-				console.log("Got answer back!");
-				console.log(response);
-			}).catch(function(err) {
-				console.log("Error in sending message to Photon!");
-				console.log(err);
-			});
+			// Connected to Photon. Let's setup the server for once.
 			SetupServer();
 		}).catch(function(err) {
 			console.log("Error in connecting to Photon's TCP Server.");
@@ -104,6 +97,18 @@ function SetupServer() {
 			}
 		});
 	});
+	
+	app.get('/Measurements', function(req, res) {
+		PhotonTCPClient.SendToPhoton("M",{}).then(function(response) {
+			res.send(response);
+		}).catch(function(err) {
+			console.log("Error in sending message to Photon!");
+			res.send("{'status': 'err', 'err': " + err + "}");
+			console.log(err);
+		});
+	});
+	
+
 	
 	// Serve public html files
 	app.use(express.static('public'));

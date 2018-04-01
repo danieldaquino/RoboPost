@@ -73,13 +73,13 @@ void PhotonTCPServerLoop() {
 
 void HandleIncomingData(String data) {
 	// Create buffer to store data
-	StaticJsonBuffer<200> incomingJSONBuffer;
-	char charBuf[200];
+	StaticJsonBuffer<JSON_MAX_SIZE> incomingJSONBuffer;
+	char charBuf[JSON_MAX_SIZE];
 	data.toCharArray(charBuf, data.length()+1);
 	// Parse incoming JSON
 	JsonObject& LeJSON = incomingJSONBuffer.parseObject(charBuf);
 	// Create another buffer for the response
-	StaticJsonBuffer<200> outgoingJSONBuffer;
+	StaticJsonBuffer<JSON_MAX_SIZE> outgoingJSONBuffer;
 	// Create new JSON object for the response
 	JsonObject& JSONResponse = outgoingJSONBuffer.createObject();
 	
@@ -91,10 +91,11 @@ void HandleIncomingData(String data) {
 		JSONResult["RPMLS"] = RPMLS;
 		JSONResult["RPML"] = RPML;
 		JSONResult["RPMRS"] = RPMRS;
-		JSONResult["PWMLFWD"] = RPMR;
-		JSONResult["RPMLREV"] = RPMR;
-		JSONResult["PWMRFWD"] = RPMR;
-		JSONResult["PWMRREV"] = RPMR;
+		JSONResult["RPMR"] = RPMR;
+		JSONResult["PWMLFWD"] = PWMLFWD;
+		JSONResult["PWMLREV"] = PWMLREV;
+		JSONResult["PWMRFWD"] = PWMRFWD;
+		JSONResult["PWMRREV"] = PWMRREV;
 		JSONResult["sensor"] = sensor;
 
 		JSONResponse.printTo(Serial);		

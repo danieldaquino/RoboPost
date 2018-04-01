@@ -79,6 +79,7 @@ module.exports.DisconnectPhoton = function() {
 function HandlePhotonData(data) {
 	// Process the data.
 	if(RoboPostPackets[data.ID]) {
+		console.log(data);
 		RoboPostPackets[data.ID].Resolve(data);
 		RoboPostPackets[data.ID] = null;
 	}

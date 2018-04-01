@@ -69,6 +69,8 @@ function VisualBot(canvasObject, loadedCallback) {
 	Exposed functions
 	========*/
 	that.Render = function() {
+		// Clear canvas for redrawing.
+		ctx.clearRect(0, 0, that.Canvas.width, that.Canvas.height);
 		RenderCurveRadius(that.Robot.Measurements.CurveRadius, SettleBlue, 10);
 		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, DriftingRed, 10);
 		RenderCar();
