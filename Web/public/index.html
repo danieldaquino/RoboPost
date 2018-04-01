@@ -5,6 +5,7 @@
 		<script src="main.js"></script>
 		<script src="VisualBot.js"></script>
 		<script src="SettingsPanel.js"></script>
+		<script src="FileSaver.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css"/>
 		<link href="/fontawesome/css/fontawesome-all.css" rel="stylesheet">
 	</head>
@@ -15,6 +16,7 @@
 					<button class="TopBarButton" id="StartStopButton" onclick="StartStop()"><i class="fas fa-play"></i></button>
 				</span>
 				<span style="display:flex; justify-content:flex-end;align-items: center;">
+					<button class="TopBarButton"onclick="DownloadCSV()"><i class="fas fa-download"></i></button>
 					<button class="TopBarButton" id="ShowSettingsButton" onclick="ShowHideSettings()"><i class="fas fa-cog"></i></button>
 					<img id="Hero" src="logo.png"/>
 				</span>

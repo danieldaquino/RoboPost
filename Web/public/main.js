@@ -15,6 +15,7 @@ Global Objects
 var PhotonKey = new Object();
 var TheBotCanvas = new Object();
 var UpdateMeasurementsInterval;
+var CSVFileText = "";
 
 /*====================
 
@@ -33,7 +34,8 @@ function Load() {
 	});
 	InitializeSettingsPanel();
 	UpdateSettings();
-	UpdateMeasurementsInterval = setInterval(UpdateMeasurements,500);
+	CSVFileText = "Timestamp, Left RPM setpoint, Left RPM, Right RPM setpoint, Right RPM, Left PWM, Right PWM\n";
+	UpdateMeasurementsInterval = setInterval(UpdateMeasurements, 100);
 }
 
 function ResizeCanvas() {
@@ -81,15 +83,30 @@ function TurnOffLED() {
 function UpdateMeasurements() {
 	GetJSON("/Measurements").then(function(response) {
 		// Good! Let's update the Robot Object and then render.
+		// Add timestamp to the log
+		var CSVBuffer = "";
+		CSVBuffer += response.time;
 		TheBotCanvas.Robot.SetPoints.RPM[0] = response.result.RPMLS.toFixed(2);
+		CSVBuffer += ", " + response.result.RPMLS.toFixed(2);
 		TheBotCanvas.Robot.Measurements.RPM[0] = response.result.RPML.toFixed(2);
+		CSVBuffer += ", " + response.result.RPML.toFixed(2);
 		TheBotCanvas.Robot.SetPoints.RPM[1] = response.result.RPMRS.toFixed(2);
+		CSVBuffer += ", " + response.result.RPMRS.toFixed(2);
 		TheBotCanvas.Robot.Measurements.RPM[1] = response.result.RPMR.toFixed(2);
+		CSVBuffer += ", " + response.result.RPMR.toFixed(2);
 		TheBotCanvas.Robot.Measurements.PWM[0] = response.result.PWMLFWD.toFixed(2);
+		CSVBuffer += ", " + response.result.PWMLFWD.toFixed(2);
 		TheBotCanvas.Robot.Measurements.PWM[1] = response.result.PWMRFWD.toFixed(2);
+		CSVBuffer += ", " + response.result.PWMRFWD.toFixed(2);
 		TheBotCanvas.Render();
+		CSVFileText += CSVBuffer + "\n";
 	}).catch(function(err) {
 		console.log("Error in fetching Measurements!!");
 		console.log(err);
 	});
+}
+
+function DownloadCSV() {
+	var blob = new Blob([CSVFileText], {type: "text/plain;charset=utf-8"});
+	saveAs(blob, "RoboPostData.csv");
 }
