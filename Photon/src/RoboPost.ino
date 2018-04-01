@@ -15,18 +15,29 @@ Crafted by Daniel Walnut and Tim Yue
 ===============================*/
 
 /*======
+Includes
+=======*/
+#include "PhotonTCPServer/PhotonTCPServer.h"
+#include <math.h>
+#include "RobotGlobals.h"
+
+/*======
+Macros
+=======*/
+
+/*======
 Globals
 =======*/
 int led = D7;
 IPAddress myIP;
 String ipString;
 
+
 // telnet defaults to port 23
 TCPServer server = TCPServer(23);
-TCPClient client;
 
-void setup()
-{
+void setup() {
+	Particle.publish("Setup", "Starting...", 60, PUBLIC);
 	//==== SETUP WEB LED ===
 	// Configure pins
 	pinMode(led, OUTPUT);
@@ -37,6 +48,7 @@ void setup()
 	
 	// Make LED normally low.
 	digitalWrite(led, LOW);
+	Particle.publish("Setup", "Web LED Setup.", 60, PUBLIC);
 	//==== END SETUP WEB LED ===
 	
 	//==== SETUP LOCAL TCP SERVER ===
@@ -44,24 +56,24 @@ void setup()
 	// Make the local IP available in the cloud.
 	updateLocalIP();
 	Particle.variable("localIP", ipString);
+	Particle.publish("Setup", "Local IP available through the cloud.", 60, PUBLIC);
 	
-	// start listening for clients
-	server.begin();
-	
+	PhotonTCPServerInit();
 }
 
 
-void loop()
-{
-	if (client.connected()) {
-		// echo all available bytes back to the client
-		while (client.available()) {
-			server.write(client.read());
-		}
-	} else {
-		// if no client is yet connected, check for a new connection
-		client = server.available();
-	}
+void loop() {
+	PhotonTCPServerLoop();
+	// Fake gen the RobotGlobals
+	RPMLS = 240 + 1*sin(millis()/100);
+	RPML = 240 + 10*sin(millis()/100);
+	RPMRS = 150 + 1*sin(millis()/200);
+	RPMR = 150 + 10*sin(millis()/200);
+	PWMLFWD = 0.5*sin(millis()/200) + 0.25;
+	PWMLREV = 0.5*sin(millis()/300) + 0.25;
+	PWMRFWD = 0.5*sin(millis()/200) + 0.5;
+	PWMRREV = 0.4*sin(millis()/200) + 0.5;
+	sensor = 0.4*sin(millis()/200) + 0.5;
 }
 
 void updateLocalIP() {

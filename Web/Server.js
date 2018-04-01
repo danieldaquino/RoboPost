@@ -14,17 +14,32 @@
 	
 ===============================*/
 
+/*=======
+Globals
+========*/
+var PhotonKeys = new Object();	// Holds the keys to access Particle Cloud
+var PhotonWeb = new Object();	// Holds internet info for connection
+
+/*=======
+Includes
+========*/
 const express = require('express');
 const app = express();
 var request = require('request');
 var fs = require('fs');
+var PhotonTCPClient = require('./PhotonTCPClient/PhotonTCPClient.js');
 
 /*=======
-Global Objects
+Functions
 ========*/
-var PhotonKeys = new Object();
-var PhotonWeb = new Object();
 
+/*====================
+
+	~~Start~~
+		
+	Main function, it starts everything else in this program.
+	
+=====================*/
 function Start() {	
 	// Show welcome message
 	PrintBanner();
@@ -36,9 +51,23 @@ function Start() {
 	// Get IP then create the server
 	GetLocalIP().then(function(response) {
 		console.log("Photon's IP address: " + response);
-		SetupServer();
+		PhotonTCPClient.ConnectToPhoton(response).then(function(response) {
+			// Let's test if this is actually working
+			PhotonTCPClient.SendToPhoton("M",{}).then(function(response) {
+				console.log("Got answer back!");
+				console.log(response);
+			}).catch(function(err) {
+				console.log("Error in sending message to Photon!");
+				console.log(err);
+			});
+			SetupServer();
+		}).catch(function(err) {
+			console.log("Error in connecting to Photon's TCP Server.");
+			console.log(err);
+		});
 	}).catch(function(err) {
-		console.log("Error in fetching Photon's local IP address.")
+		console.log("Error in fetching Photon's local IP address.");
+		console.log(err);
 	});
 	// Start Server
 }
@@ -51,6 +80,7 @@ function Start() {
 	
 	Make sure the photon keys are setup before calling requests!
 
+	function SetupServer();
 =====================*/
 function SetupServer() {
 	app.get('/ledOn', function(req, res) {
@@ -92,6 +122,7 @@ function SetupServer() {
 	The function returns a promise, and the promise will resolve to the response json,
 	or reject to the error.
 
+	function GetJSON(url);
 =====================*/
 function GetJSON(url) {
 	return new Promise(function(resolve, reject) {
@@ -109,6 +140,17 @@ function GetJSON(url) {
 	});
 }
 
+/*====================
+
+	~~GetLocalIP~~
+	
+	This function makes a request to the cloud to fetch the local IP address of the photon
+	
+	The function returns a promise, and the promise will resolve to the IP address,
+	or reject to the error.
+
+	function GetLocalIP();
+=====================*/
 function GetLocalIP() {
 	return new Promise(function(resolve, reject) {
 		// Get the JSON
@@ -122,6 +164,14 @@ function GetLocalIP() {
 	});
 }
 
+/*====================
+
+	~~PrintBanner~~
+	
+	This function prints an awesome banner
+	
+	function PrintBanner();
+=====================*/
 function PrintBanner() {
 	console.log(fs.readFileSync('Welcome.txt', 'utf8'));
 }
