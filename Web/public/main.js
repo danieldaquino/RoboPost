@@ -69,11 +69,11 @@ function Load() {
 		document.getElementById("MotorKp"),
 		document.getElementById("MotorKd"),
 		document.getElementById("CruiseSharpness"),
-		document.getElementById("cruiseKpDisplay"),
-		document.getElementById("cruiseKdDisplay"),
+		document.getElementById("CruiseKpDisplay"),
+		document.getElementById("CruiseKdDisplay"),
 		document.getElementById("CruiseSharpnessDisplay"),
-		document.getElementById("motorKpDisplay"),
-		document.getElementById("motorKdDisplay")
+		document.getElementById("MotorKpDisplay"),
+		document.getElementById("MotorKdDisplay")
 	);
 	
 	// Setup the Start Stop button

@@ -39,8 +39,8 @@ function SettingsPanel(InputCarRobot, settingsButton, settingsPanelDiv, cruiseKd
 	that.MotorKpSlider = motorKpSlider;
 	that.MotorKdSlider = motorKdSlider;
 	that.SharpnessSlider = sharpnessSlider;
-	that.CruiseKdDisplay = cruiseKdDisplay;
 	that.CruiseKpDisplay = cruiseKpDisplay;
+	that.CruiseKdDisplay = cruiseKdDisplay;
 	that.SharpnessDisplay = sharpnessDisplay;
 	that.MotorKpDisplay = motorKpDisplay;
 	that.MotorKdDisplay = motorKdDisplay;
@@ -63,10 +63,10 @@ function SettingsPanel(InputCarRobot, settingsButton, settingsPanelDiv, cruiseKd
 	that.ShowHideSettings = function() {
 		// Show/Hide Panel
 		if(that.SettingsPanelDiv.className != "TopBarButton Activated") {
-			ShowSettings();
+			that.ShowSettings();
 		}
 		else {
-			HideSettings();
+			that.HideSettings();
 		}
 	}
 
@@ -79,11 +79,11 @@ function SettingsPanel(InputCarRobot, settingsButton, settingsPanelDiv, cruiseKd
 		that.CarRobot.Settings.Motor.Kd = that.MotorKdSlider.value;
 	
 		// Update values on screen
-		that.CruiseKpDisplay.innerText = RobotSettings.Cruise.Kp;
-		that.CruiseKdDisplay.innerText = RobotSettings.Cruise.Kd;
+		that.CruiseKpDisplay.innerText = that.CarRobot.Settings.Cruise.Kp;
+		that.CruiseKdDisplay.innerText = that.CarRobot.Settings.Cruise.Kd;
 		that.SharpnessDisplay.innerText = that.CarRobot.Settings.Cruise.Sharpness;
-		that.MotorKpDisplay.innerText = RobotSettings.Motor.Kp;
-		that.MotorKdDisplay.innerText = RobotSettings.Motor.Kd;
+		that.MotorKpDisplay.innerText = that.CarRobot.Settings.Motor.Kp;
+		that.MotorKdDisplay.innerText = that.CarRobot.Settings.Motor.Kd;
 	}
 	
 	/*======
