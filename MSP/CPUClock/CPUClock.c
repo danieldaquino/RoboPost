@@ -250,6 +250,9 @@ static bool increaseVCoreToLevel2() {
         {
             status = setVCoreUp(++actlevel);
         }
+        else {
+            status = setVCoreUp(--actlevel);
+        }
     }
 
     return (status);
