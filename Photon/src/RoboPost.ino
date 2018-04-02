@@ -31,6 +31,7 @@ Globals
 int led = D7;
 IPAddress myIP;
 String ipString;
+char robotPlay;
 
 
 // telnet defaults to port 23
@@ -59,21 +60,39 @@ void setup() {
 	Particle.publish("Setup", "Local IP available through the cloud.", 60, PUBLIC);
 	
 	PhotonTCPServerInit();
+	
+	// Setup misc
+	robotPlay = 0;
+	TA0CCR0_REG = 32;
+	TA2CCR0_REG = 32;
 }
 
 
 void loop() {
 	PhotonTCPServerLoop();
 	// Fake gen the RobotGlobals
-	RPMLS = 240 + 1*sin(millis()/100);
-	RPML = 240 + 10*sin(millis()/100);
-	RPMRS = 150 + 1*sin(millis()/200);
-	RPMR = 150 + 10*sin(millis()/200);
-	PWMLFWD = 0.5*sin(millis()/200) + 0.25;
-	PWMLREV = 0.5*sin(millis()/300) + 0.25;
-	PWMRFWD = 0.5*sin(millis()/200) + 0.5;
-	PWMRREV = 0.4*sin(millis()/200) + 0.5;
-	sensor = 0.4*sin(millis()/200) + 0.5;
+	if(robotPlay == 1) {
+		RPMLS = 240 + 1*sin(millis()/100);
+		RPML = 240 + 10*sin(millis()/100);
+		RPMRS = 150 + 1*sin(millis()/200);
+		RPMR = 150 + 10*sin(millis()/200);
+		TA0CCR1_REG = (0.5*sin(millis()/200) + 0.25)*TA0CCR0_REG;
+		TA0CCR2_REG = (0.5*sin(millis()/300) + 0.25)*TA0CCR0_REG;
+		TA2CCR1_REG = (0.5*sin(millis()/200) + 0.5)*TA2CCR0_REG;
+		TA2CCR2_REG = (0.4*sin(millis()/200) + 0.5)*TA2CCR0_REG;
+		lastSensorPosition = 0.4*sin(millis()/200) + 0.5;
+	}
+	else {
+		RPMLS = 150;
+		RPML = 0;
+		RPMRS = 150;
+		RPMR = 0;
+		TA0CCR1_REG = 0;
+		TA0CCR2_REG = 0;
+		TA2CCR1_REG = 0;
+		TA2CCR2_REG = 0;
+		lastSensorPosition = 0;		
+	}
 }
 
 void updateLocalIP() {
@@ -88,10 +107,12 @@ int ledToggle(String command) {
     */
     if (command=="on") {
         digitalWrite(led,HIGH);
+        robotPlay = 1;
         return 1;
     }
     else if (command=="off") {
         digitalWrite(led,LOW);
+        robotPlay = 0;
         return 0;
     }
     else {

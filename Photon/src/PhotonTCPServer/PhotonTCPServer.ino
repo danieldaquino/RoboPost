@@ -115,11 +115,13 @@ void streamMeasurements() {
 	JSONResult["RPML"] = RPML;
 	JSONResult["RPMRS"] = RPMRS;
 	JSONResult["RPMR"] = RPMR;
-	JSONResult["PWMLFWD"] = PWMLFWD;
-	JSONResult["PWMLREV"] = PWMLREV;
-	JSONResult["PWMRFWD"] = PWMRFWD;
-	JSONResult["PWMRREV"] = PWMRREV;
-	JSONResult["sensor"] = sensor;
+	JSONResult["TA0CCR0_REG"] = TA0CCR0_REG;
+	JSONResult["TA0CCR1_REG"] = TA0CCR1_REG;
+	JSONResult["TA0CCR2_REG"] = TA0CCR2_REG;
+	JSONResult["TA2CCR0_REG"] = TA2CCR0_REG;
+	JSONResult["TA2CCR1_REG"] = TA2CCR1_REG;
+	JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
+	JSONResult["lastSensorPosition"] = lastSensorPosition;
 
 	JSONResponse.printTo(Serial);		
 	JSONResponse.printTo(server);
@@ -148,11 +150,13 @@ void HandleIncomingData(String data) {
 		JSONResult["RPML"] = RPML;
 		JSONResult["RPMRS"] = RPMRS;
 		JSONResult["RPMR"] = RPMR;
-		JSONResult["PWMLFWD"] = PWMLFWD;
-		JSONResult["PWMLREV"] = PWMLREV;
-		JSONResult["PWMRFWD"] = PWMRFWD;
-		JSONResult["PWMRREV"] = PWMRREV;
-		JSONResult["sensor"] = sensor;
+		JSONResult["TA0CCR0_REG"] = TA0CCR0_REG;
+		JSONResult["TA0CCR1_REG"] = TA0CCR1_REG;
+		JSONResult["TA0CCR2_REG"] = TA0CCR2_REG;
+		JSONResult["TA2CCR0_REG"] = TA2CCR0_REG;
+		JSONResult["TA2CCR1_REG"] = TA2CCR1_REG;
+		JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
+		JSONResult["lastSensorPosition"] = lastSensorPosition;
 
 		JSONResponse.printTo(Serial);		
 		JSONResponse.printTo(server);

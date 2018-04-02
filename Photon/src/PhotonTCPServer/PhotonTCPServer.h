@@ -25,23 +25,27 @@ Externally defined variables
 =======*/
 
 // RPMLS: Left RPM Setpoint
-extern float RPMLS;
+extern int RPMLS;
 // RPML: Left RPM
-extern float RPML;
+extern int RPML;
 // RPMRS: Right RPM Setpoint
-extern float RPMRS;
+extern int RPMRS;
 // RPMR: Right RPM
-extern float RPMR;
-// PWMLFWD: Left PWM Forward DutyCycle (0-1)
-extern float PWMLFWD;
-// PWMLREV: Left PWM Reverse DutyCycle (0-1)
-extern float PWMLREV;
-// PWMRFWD: Right PWM Forward DutyCycle (0-1)
-extern float PWMRFWD;
-// PWMRREV: Right PWM Reverse DutyCycle (0-1)
-extern float PWMRREV;
+extern int RPMR;
+// Left PWM Frequency register
+extern char TA0CCR0_REG;
+// Left PWM Frequency Forward duty cycle register
+extern char TA0CCR1_REG;
+// Left PWM Frequency Reverse duty cycle register
+extern char TA0CCR2_REG;
+// Right PWM Frequency register
+extern char TA2CCR0_REG;
+// Right PWM Frequency Forward duty cycle register
+extern char TA2CCR1_REG;
+// Right PWM Frequency Reverse duty cycle register
+extern char TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
-extern float sensor;
+extern float lastSensorPosition;
 
 /*======
 	~~PhotonTCPServerInit~~

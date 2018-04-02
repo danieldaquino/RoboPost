@@ -71,14 +71,17 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.lineWidth = lineWidth;
 		// Begin the path.
 		ctx.beginPath();
+		// Calculate curve radius in px.
+		var pxCurveRadius;
+		pxCurveRadius = curveRadius/(that.Robot.Parameters.WheelBase/(that.Visual.Size*0.5));
 		if(curveRadius > 0) {
 			// Positive curve radius
-			ctx.arc(that.Canvas.width/2 + curveRadius, that.Canvas.height/2 + that.Visual.Size/4, curveRadius, Math.PI, 1.75*Math.PI, false);
+			ctx.arc(that.Canvas.width/2 + pxCurveRadius, that.Canvas.height/2 + that.Visual.Size/4, pxCurveRadius, Math.PI, 1.75*Math.PI, false);
 		}
 		else {
 			// Negative Curve Radius
-			curveRadius = -curveRadius;
-			ctx.arc(that.Canvas.width/2 - curveRadius, that.Canvas.height/2 + that.Visual.Size/4, curveRadius, 2*Math.PI, 1.25*Math.PI, true);
+			pxCurveRadius = -pxCurveRadius;
+			ctx.arc(that.Canvas.width/2 - pxCurveRadius, that.Canvas.height/2 + that.Visual.Size/4, pxCurveRadius, 2*Math.PI, 1.25*Math.PI, true);
 		}
 		ctx.stroke();
 	}
@@ -107,7 +110,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		// Draw Block Heading
 		yCursor += headingYMargin;	// Move Cursor
 		ctx.font= headingSize + "px Futura";
-		ctx.fillText(that.Robot.Measurements.Speed + " m/s", xBegin, yCursor);
+		ctx.fillText((that.Robot.Measurements.Speed/100).toFixed(2) + " m/s", xBegin, yCursor);
 		// Draw bottom border
 		yCursor += cellPadding;
 		ctx.strokeStyle = TapeBlack;
@@ -183,7 +186,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		// Draw Measured Speed bar
 		yCursor += cellPadding;
 		ctx.fillStyle = DriftingRed;
-		ctx.fillRect(xBegin, yCursor, boxWidth*(that.Robot.Measurements.RPM[motor]/that.Robot.MaxRPM), barHeight);
+		ctx.fillRect(xBegin, yCursor, boxWidth*(that.Robot.Measurements.RPM[motor]/that.Robot.Parameters.MaxRPM), barHeight);
 		ctx.fillStyle = TapeBlack;
 		yCursor += barHeight;
 		// Draw Measured Speed Number
@@ -193,7 +196,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		// Draw Setpoint Speed bar
 		yCursor += cellPadding;
 		ctx.fillStyle = SettleBlue;
-		ctx.fillRect(xBegin, yCursor, boxWidth*(that.Robot.SetPoints.RPM[motor]/that.Robot.MaxRPM), barHeight);
+		ctx.fillRect(xBegin, yCursor, boxWidth*(that.Robot.SetPoints.RPM[motor]/that.Robot.Parameters.MaxRPM), barHeight);
 		ctx.fillStyle = TapeBlack;
 		yCursor += barHeight;
 		// Draw Setpoint Speed Number

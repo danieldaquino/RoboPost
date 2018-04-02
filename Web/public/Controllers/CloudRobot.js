@@ -58,12 +58,19 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	Misc functions
 	=====*/
 	that.UpdateMeasurements = function(response) {
-		TheBotCanvas.Robot.SetPoints.RPM[0] = response.result.RPMLS.toFixed(2);
-		TheBotCanvas.Robot.Measurements.RPM[0] = response.result.RPML.toFixed(2);
-		TheBotCanvas.Robot.SetPoints.RPM[1] = response.result.RPMRS.toFixed(2);
-		TheBotCanvas.Robot.Measurements.RPM[1] = response.result.RPMR.toFixed(2);
-		TheBotCanvas.Robot.Measurements.PWM[0] = response.result.PWMLFWD.toFixed(2);
-		TheBotCanvas.Robot.Measurements.PWM[1] = response.result.PWMRFWD.toFixed(2);
+		that.CarRobot.UpdateMeasurements(
+			response.result.RPMLS,
+			response.result.RPML,
+			response.result.RPMRS,
+			response.result.RPMR,
+			response.result.TA0CCR0_REG,
+			response.result.TA0CCR1_REG,
+			response.result.TA0CCR2_REG,
+			response.result.TA2CCR0_REG,
+			response.result.TA2CCR1_REG,
+			response.result.TA2CCR2_REG,
+			response.result.lastSensorPosition			
+		);
 		TheBotCanvas.Render();
 	}
 	
@@ -71,12 +78,12 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		var CSVBuffer = "";
 		that.RobotDataCSV.WriteRow([
 			response.time,
-			response.result.RPMLS.toFixed(2),
-			response.result.RPML.toFixed(2),
-			response.result.RPMRS.toFixed(2),
-			response.result.RPMR.toFixed(2),
-			response.result.PWMLFWD.toFixed(2),
-			response.result.PWMRFWD.toFixed(2)
+			that.CarRobot.SetPoints.RPM[0],
+			that.CarRobot.Measurements.RPM[0],
+			that.CarRobot.SetPoints.RPM[1],
+			that.CarRobot.Measurements.RPM[1],
+			that.CarRobot.Measurements.PWM[0],
+			that.CarRobot.Measurements.PWM[1]
 		]);
 	}
 }
