@@ -11,7 +11,7 @@ unsigned char InfoBoardUpdate(int *DataArray,int *CommandArray)
 {
 	P6OUT&=~BIT5;       // enable SS
 	__delay_cycles(50);
-	spiTx_RXByte(DataArray,CommandArray,NUM_PARAM);// transmit whats in dataArray and put received data in CommandArray
+	spiTx_RXByte(DataArray, CommandArray, NUM_PARAM);// transmit whats in dataArray and put received data in CommandArray
 
 	// __delay_cycles(160);
 	P6OUT|=BIT5;    // disable SS
