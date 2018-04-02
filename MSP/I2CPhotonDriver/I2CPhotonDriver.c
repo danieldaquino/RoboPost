@@ -1,5 +1,5 @@
 /*
- * photonDriver
+ * I2CPhotonDriver
  * this file does the following:
  * -connect with photon
  * -receive from photon to usable data
