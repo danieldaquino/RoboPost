@@ -1,8 +1,11 @@
 /*
  * ucsiSpi.c
  *
- *  Created on: Feb 15, 2017
+ *  Created on: Feb 19, 2017
  *      Author: Greg Scutt
+ *      modified by: Tim Yue on APR 1ST 2018
+ *
+ *
  */
 
 #include <msp430.h>
@@ -24,7 +27,9 @@ void ucsiB1SpiInit(unsigned int sclkDiv){
 
 
     UCB1CTL1 &= ~UCSWRST;                       // **Initialize USCI state machine**
-    P4SEL|=BIT1|BIT3|BIT2;
+    P4SEL|=BIT1|BIT3|BIT2;  //BIT1=MOSI-->A5|BIT2=MISO-->A4|BIT3=SCLK-->A3
+    P6OUT|=BIT5;        //SS-->A2
+        P6DIR|=BIT5;
     //UCB1TXBUF=0X80;
 }
 
@@ -43,15 +48,16 @@ void ucsiB1SpiClkDiv(unsigned int sclkDiv){
 
 
 /************************************************************************************
-* Function: spiTxByte
+* Function: spiTx_RXByte
 * - if TXBUFFER is ready!!  then a byte is written to buffer and serialized on SPI UCB1. nothing else happens.
 * argument:
-*   txData - character to be serialized over SPI
+*   *txData - character to be serialized over SPI
+*   *RxData - byte from photon
+*   NUM_DATA -NUM of element needed to be transfered
 *
 * return: none
-* Author: Greg Scutt
-* Date: Feb 20th, 2017
-* Modified: <date of any mods> usually taken care of by rev control
+* Author: Tim
+* Date: APR 1ST, 2018
 ************************************************************************************/
 void spiTx_RXByte(char *txData,char *rxData,char NUM_DATA)
 {
