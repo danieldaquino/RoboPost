@@ -35,16 +35,43 @@ int main(void)
 	//====== Initialization ==========
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	boostClockTo16MHz();	// Setup the CPU rate. MUST BE DONE BEFORE the other modules.
+	
+	/*	
+	schedulerInit();		// Setup scheduler before the line cruiser!!
+	lineCruiserInit();		// Initialize the line cruiser.
+	UARTIOInit(); 			// Initialize communication with Computer Console
+	setupStartStop();		// Setup Start and Stop functionality
+	*/
 	ucsiB1SpiInit(SCLKDIV);
-	//txData='A';
+	
+	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
+	
+	//==== Initialization Done. =======
+	
+	/*
+	// Let's begin with the robot stopped, for safety reasons
+	stopRobot();
+	// Let's get this party started!
+	lineCruise(30); // Let's cruise at 30cm/s
+	*/
+	
 	unsigned char String[10]="ROBOPOST";
-	P6OUT|=BIT5;
-	P6DIR=BIT5;
+	P6OUT |= BIT5;
+	P6DIR = BIT5;
 	//unsigned int InfoBoard[15];
 	uint32_t DataArray[10];
 	uint32_t CommandArray[10];
 	InfoBoardInit(DataArray,CommandArray);
 	while(1) {
+		/*
+		char LeString[150];
+		int strSize;
+		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
+		// strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (lastSensorPosition*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
+		// strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
+		// UARTIOSend(LeString, strSize);		
+		__delay_cycles(16000);
+		*/
 	    InfoBoardUpdate(DataArray,CommandArray);
 	}
 	return 0;
