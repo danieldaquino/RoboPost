@@ -4,6 +4,9 @@
 	
 	Visual Robot Representation via HTML5 Canvas
 	
+	Requirements:
+	1. CarRobot.js
+	
 	Crafted by Daniel Walnut
 
 ===============================*/
@@ -15,49 +18,19 @@ var DriftingRed = "rgb(236, 60, 30)";
 var SettleBlue = "rgb(80, 211, 251)";
 var TapeBlack = "#000000";
 
-function VisualBot(canvasObject, loadedCallback) {
+function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 	// Initialize Object
 	var that = this;
 	that.Canvas = canvasObject;
+	that.Robot = InputCarRobot;
 	var ctx = that.Canvas.getContext("2d");
 	var RobotImage = new Image();
-	RobotImage.src = "Outline.png";
+	RobotImage.src = "/Graphics/Outline.png";
 	RobotImage.onload = function() {
 		loadedCallback();
 	}
 	
-	/*=======
-	Robot State
-	========*/
-	that.Robot = new Object();
-	that.Robot.SetPoints = new Object();
-	that.Robot.Measurements = new Object();
-	that.Robot.Measurements.PWM = new Array();
-	that.Robot.Measurements.PWM[0] = 0.3;
-	that.Robot.Measurements.PWM[1] = 0.6;
-	that.Robot.Measurements.F = new Array();
-	that.Robot.Measurements.F[0] = "3K";
-	that.Robot.Measurements.F[1] = "100 ";
-	that.Robot.Measurements.RPM = new Array();
-	that.Robot.Measurements.RPM[0] = 250;
-	that.Robot.Measurements.RPM[1] = 180;
-	that.Robot.Measurements.CurveRadius = 500;
-	that.Robot.Measurements.Speed = 0.6;
-	
-	/*=======
-	Robot Setpoints
-	========*/
-	that.Robot.SetPoints.RPM = new Array();
-	that.Robot.SetPoints.RPM[0] = 270;
-	that.Robot.SetPoints.RPM[1] = 150;
-	that.Robot.SetPoints.CurveRadius = 400;
-	that.Robot.SetPoints.Speed = 0.4;
-	
-	/*=======
-	Robot Parameters
-	========*/
-	that.Robot.MaxRPM = 300;
-	
+		
 	/*=======
 	Visual Settings
 	========*/	
@@ -81,7 +54,13 @@ function VisualBot(canvasObject, loadedCallback) {
 
 	/*=======
 	Internal functions
-	========*/	
+	========*/
+	document.body.onresize = function() {
+		that.Canvas.width = window.innerWidth;
+		that.Canvas.height = window.innerHeight - 100;
+		that.Render();
+	}
+		
 	var RenderCar = function() {
 		ctx.drawImage(RobotImage, that.Canvas.width/2 - that.Visual.Size/2, that.Canvas.height - that.Visual.Size - that.Visual.Margin, that.Visual.Size, that.Visual.Size);
 	}

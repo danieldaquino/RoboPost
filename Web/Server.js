@@ -81,7 +81,7 @@ function SetupServer() {
 	/*=====
 	WEB LED CONTROLS
 	======*/
-	app.get('/ledOn', function(req, res) {
+	app.get('/robotPlay', function(req, res) {
 		request.post({url: "https://api.particle.io/v1/devices/" + PhotonKeys.ID + "/led?access_token=" + PhotonKeys.Token, form: {arg:'on'}}, function(err,httpResponse,body) {
 			if(!err) {
 				res.send(body);
@@ -92,7 +92,7 @@ function SetupServer() {
 		});
 	});
 	
-	app.get('/ledOff', function(req, res) {
+	app.get('/robotPause', function(req, res) {
 		request.post({url: "https://api.particle.io/v1/devices/" + PhotonKeys.ID + "/led?access_token=" + PhotonKeys.Token, form: {arg:'off'}}, function(err,httpResponse,body) {
 			if(!err) {
 				res.send(body);

@@ -1,39 +1,49 @@
 <html>
 	<head>
 		<title>RoboPost</title>
-		<script src="HTTPRequests.js"></script>
+		<!-- Import all Models -->
+		<script src="Models/CarRobot.js"></script>
+		<!-- Import all Views -->
+		<script src="Views/VisualBot.js"></script>
+		<script src="Views/SettingsPanel.js"></script>
+		<script src="Views/StartStopButton.js"></script>
+		<!-- Import all Controllers -->
+		<script src="Controllers/FileSaver.js"></script>
+		<script src="Controllers/socket.io.js"></script>
+		<script src="Controllers/CloudRobot.js"></script>
+		<script src="Controllers/HTTPRequests.js"></script>
+		<script src="Controllers/RobotDataCSV.js"></script>
+		<!-- Import Main -->
 		<script src="main.js"></script>
-		<script src="VisualBot.js"></script>
-		<script src="SettingsPanel.js"></script>
-		<script src="FileSaver.js"></script>
-		<script src="socket.io.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css"/>
 		<link href="/fontawesome/css/fontawesome-all.css" rel="stylesheet">
 	</head>
-	<body onload="Load()" onresize="ResizeCanvas();">
+	<body onload="Load()">
 		<div id="MainContainer">
 			<div id="ControlContainer">
 				<span>
-					<button class="TopBarButton" id="StartStopButton" onclick="StartStop()"><i class="fas fa-play"></i></button>
+					<button class="TopBarButton" id="StartStopButtonElement"><i class="fas fa-play"></i></button>
 				</span>
 				<span style="display:flex; justify-content:flex-end;align-items: center;">
-					<button class="TopBarButton"onclick="DownloadCSV()"><i class="fas fa-download"></i></button>
-					<button class="TopBarButton" id="ShowSettingsButton" onclick="ShowHideSettings()"><i class="fas fa-cog"></i></button>
-					<img id="Hero" src="logo.png"/>
+					<button class="TopBarButton" onclick="TheRobotDataCSV.Download()"><i class="fas fa-download"></i></button>
+					<button class="TopBarButton" id="ShowSettingsButton"><i class="fas fa-cog"></i></button>
+					<img id="Hero" src="/Graphics/logo.png"/>
 				</span>
 			</div>
 			<canvas id="BotCanvas">
 			
 			</canvas>
-			<div id="SettingsPanel">
+			<div id="SettingsPanelDiv">
 				<div>Cruise Proportional Gain – <span id="CruiseKpDisplay"></span></div>
-				<input id="CruiseKp" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<input id="CruiseKp" type="range" min="0.0" max="10.0" step="0.1">
 				<div>Cruise Differential Gain – <span id="CruiseKdDisplay"></span></div>
-				<input id="CruiseKd" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<input id="CruiseKd" type="range" min="0.0" max="10.0" step="0.1">
+				<div>Cruise Sharpness – <span id="CruiseSharpnessDisplay"></span> cm</div>
+				<input id="CruiseSharpness" type="range" min="9" max="200" step="1">
 				<div>Motor Proportional Gain – <span id="MotorKpDisplay"></span></div>
-				<input id="MotorKp" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<input id="MotorKp" type="range" min="0.0" max="10.0" step="0.1">
 				<div>Motor Differential Gain – <span id="MotorKdDisplay"></span></div>
-				<input id="MotorKd" oninput="UpdateSettings()" type="range" min="0.0" max="10.0" step="0.1">
+				<input id="MotorKd" type="range" min="0.0" max="10.0" step="0.1">
 			</div>
 		</div>
 	</body>
