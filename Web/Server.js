@@ -78,6 +78,9 @@ function Start() {
 	function SetupServer();
 =====================*/
 function SetupServer() {
+	
+	app.use(express.urlencoded());
+
 	/*=====
 	WEB LED CONTROLS
 	======*/
@@ -115,6 +118,17 @@ function SetupServer() {
 			console.log(err);
 		});
 	});
+	
+	app.post('/SET', function(req, res) {
+		PhotonTCPClient.SendToPhoton("SET", req.body.json).then(function(response) {
+			res.send(response);
+		}).catch(function(err) {
+			console.log("Error in sending message to Photon!");
+			res.send("{'status': 'err', 'err': " + err + "}");
+			console.log(err);
+		});
+	});
+
 	
 	/*=====
 	Setup WebSockets server

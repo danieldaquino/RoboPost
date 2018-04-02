@@ -31,8 +31,6 @@ Globals
 int led = D7;
 IPAddress myIP;
 String ipString;
-char robotPlay;
-
 
 // telnet defaults to port 23
 TCPServer server = TCPServer(23);
@@ -65,6 +63,13 @@ void setup() {
 	robotPlay = 0;
 	TA0CCR0_REG = 32;
 	TA2CCR0_REG = 32;
+	sharpestCurve = 100; // Tightest curve radius in cm
+	cruiseKp = 0; // Proportional gain of the lineCruiser
+	cruiseKd = 0; // Differential gain of the lineCruiser
+	corneringDBrakeFactor = 0; // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve.
+	corneringPBrakeFactor = 0; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
+	motorKp = 0; // Proportional gain of the motors.
+	motorKd = 0; // Differential gain of the motors.
 }
 
 
@@ -72,14 +77,14 @@ void loop() {
 	PhotonTCPServerLoop();
 	// Fake gen the RobotGlobals
 	if(robotPlay == 1) {
-		RPMLS = 240 + 1*sin(millis()/100);
+		RPMLS = sharpestCurve + 1*sin(millis()/100);
 		RPML = 240 + 10*sin(millis()/100);
-		RPMRS = 150 + 1*sin(millis()/200);
-		RPMR = 150 + 10*sin(millis()/200);
-		TA0CCR1_REG = (0.5*sin(millis()/200) + 0.25)*TA0CCR0_REG;
-		TA0CCR2_REG = (0.5*sin(millis()/300) + 0.25)*TA0CCR0_REG;
-		TA2CCR1_REG = (0.5*sin(millis()/200) + 0.5)*TA2CCR0_REG;
-		TA2CCR2_REG = (0.4*sin(millis()/200) + 0.5)*TA2CCR0_REG;
+		RPMRS = 150 + cruiseKp*sin(millis()/200);
+		RPMR = 150 + cruiseKd*sin(millis()/200);
+		TA0CCR1_REG = (corneringDBrakeFactor*sin(millis()/200) + 0.25)*TA0CCR0_REG;
+		TA0CCR2_REG = (corneringPBrakeFactor*sin(millis()/300) + 0.25)*TA0CCR0_REG;
+		TA2CCR1_REG = (motorKp*sin(millis()/200) + 0.5)*TA2CCR0_REG;
+		TA2CCR2_REG = (motorKd*sin(millis()/200) + 0.5)*TA2CCR0_REG;
 		lastSensorPosition = 0.4*sin(millis()/200) + 0.5;
 	}
 	else {

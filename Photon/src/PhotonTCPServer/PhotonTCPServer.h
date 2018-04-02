@@ -47,6 +47,17 @@ extern char TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 extern float lastSensorPosition;
 
+extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+
+extern char sharpestCurve; // Tightest curve radius in cm
+extern float cruiseKp; // Proportional gain of the lineCruiser
+extern float cruiseKd; // Differential gain of the lineCruiser
+extern float corneringDBrakeFactor; // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve.
+extern float corneringPBrakeFactor; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
+extern float motorKp; // Proportional gain of the motors.
+extern float motorKd; // Differential gain of the motors.
+
+
 /*======
 	~~PhotonTCPServerInit~~
 

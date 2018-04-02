@@ -10,6 +10,10 @@
 #ifndef ROBOT_GLOBALS_H
 #define ROBOT_GLOBALS_H
 
+/*========
+Measurements
+==========*/
+
 // RPMLS: Left RPM Setpoint
 int RPMLS;
 // RPML: Left RPM
@@ -33,5 +37,20 @@ char TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 float lastSensorPosition;
 
+/*========
+Controls
+==========*/
+char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+
+/*========
+Settings
+==========*/
+char sharpestCurve; // Tightest curve radius in cm
+float cruiseKp; // Proportional gain of the lineCruiser
+float cruiseKd; // Differential gain of the lineCruiser
+float corneringDBrakeFactor; // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve.
+float corneringPBrakeFactor; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
+float motorKp; // Proportional gain of the motors.
+float motorKd; // Differential gain of the motors.
 
 #endif

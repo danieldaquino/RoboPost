@@ -142,7 +142,8 @@ void HandleIncomingData(String data) {
 	JsonObject& JSONResponse = outgoingJSONBuffer.createObject();
 	
 	const char * theCommand = LeJSON["command"];
-	if(strcmp(theCommand,"M") == 0) {
+	if(strcmp(theCommand, "M") == 0) {
+		// User wants measurements!
 		JSONResponse["ID"] = LeJSON["ID"];
 		JSONResponse["time"] = Time.now();
 		JsonObject& JSONResult = JSONResponse.createNestedObject("result");
@@ -158,6 +159,26 @@ void HandleIncomingData(String data) {
 		JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
 		JSONResult["lastSensorPosition"] = lastSensorPosition;
 
+		JSONResponse.printTo(Serial);		
+		JSONResponse.printTo(server);
+		// Finish it up by sending null character
+		server.print('\0');
+	}
+	else if(strcmp(theCommand, "SET") == 0) {
+		// User wants to apply settings!
+		JSONResponse["ID"] = LeJSON["ID"];
+		JSONResponse["time"] = Time.now();
+		
+		sharpestCurve = LeJSON["variables"]["sharpestCurve"];
+		cruiseKp = LeJSON["variables"]["cruiseKp"];
+		cruiseKd = LeJSON["variables"]["cruiseKd"];
+		corneringDBrakeFactor = LeJSON["variables"]["corneringDBrakeFactor"];
+		corneringPBrakeFactor = LeJSON["variables"]["corneringPBrakeFactor"];
+		motorKp = LeJSON["variables"]["motorKp"];
+		motorKd = LeJSON["variables"]["motorKd"];
+		
+		JSONResponse["status"] = 0;
+		
 		JSONResponse.printTo(Serial);		
 		JSONResponse.printTo(server);
 		// Finish it up by sending null character

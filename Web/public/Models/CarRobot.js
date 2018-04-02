@@ -70,14 +70,15 @@ function CarRobot() {
 	Robot Settings
 	========*/
 	that.Settings = new Object();
-	that.Settings.RobotPlay = false;
+	that.Settings.Cruise = new Object();
+	that.Settings.Cruise.Sharpness = 100;
+	that.Settings.Cruise.Kp = 0;
+	that.Settings.Cruise.Kd = 0;
+	that.Settings.Cruise.DBrake = 0;
+	that.Settings.Cruise.PBrake = 0;
 	that.Settings.Motor = new Object();
 	that.Settings.Motor.Kp = 0;
 	that.Settings.Motor.Kd = 0;
-	that.Settings.Cruise = new Object();
-	that.Settings.Cruise.Kp = 0;
-	that.Settings.Cruise.Kd = 0;
-	that.Settings.Cruise.Sharpness = 0;
 	
 	/*=======
 	Robot Parameters

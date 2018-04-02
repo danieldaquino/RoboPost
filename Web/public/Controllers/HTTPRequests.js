@@ -22,8 +22,8 @@ Utility functions
 	or reject to the error.
 
 =====================*/
-function GetRequest(url) {
-	return XRequest(url, 'GET');
+function GetRequest(url, data) {
+	return XRequest(url, 'GET', data);
 }
 
 /*====================
@@ -36,8 +36,8 @@ function GetRequest(url) {
 	or reject to the error.
 
 =====================*/
-function PostRequest(url) {
-	return XRequest(url, 'POST');
+function PostRequest(url, data) {
+	return XRequest(url, 'POST', data);
 }
 
 /*====================
@@ -50,7 +50,7 @@ function PostRequest(url) {
 	or reject to the error.
 
 =====================*/
-function XRequest(url, method) {
+function XRequest(url, method, data) {
 	return new Promise(function(resolve, reject) {
 		// Setup request
 		var req = new XMLHttpRequest();
@@ -73,7 +73,7 @@ function XRequest(url, method) {
 		}		
 		
 		// Actually send request
-		req.send();
+		req.send("json=" + data);
 	});
 }
 

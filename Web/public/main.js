@@ -62,6 +62,7 @@ function Load() {
 	// Setup the settings panel
 	TheSettingsPanel = new SettingsPanel(
 		TheCarRobot,
+		TheCloudRobot,
 		document.getElementById("ShowSettingsButton"),
 		document.getElementById("SettingsPanelDiv"),
 		document.getElementById("CruiseKd"),
@@ -69,9 +70,13 @@ function Load() {
 		document.getElementById("MotorKp"),
 		document.getElementById("MotorKd"),
 		document.getElementById("CruiseSharpness"),
+		document.getElementById("CorneringPBrake"),
+		document.getElementById("CorneringDBrake"),
 		document.getElementById("CruiseKpDisplay"),
 		document.getElementById("CruiseKdDisplay"),
 		document.getElementById("CruiseSharpnessDisplay"),
+		document.getElementById("CorneringPBrakeDisplay"),
+		document.getElementById("CorneringDBrakeDisplay"),
 		document.getElementById("MotorKpDisplay"),
 		document.getElementById("MotorKdDisplay")
 	);

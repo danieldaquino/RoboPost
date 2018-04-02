@@ -74,6 +74,25 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		TheBotCanvas.Render();
 	}
 	
+	that.SendSettings = function() {
+		var JSONToSend = new Object();
+		JSONToSend.sharpestCurve = that.CarRobot.Settings.Cruise.Sharpness;
+		JSONToSend.cruiseKp = that.CarRobot.Settings.Cruise.Kp;
+		JSONToSend.cruiseKd = that.CarRobot.Settings.Cruise.Kd;
+		JSONToSend.corneringDBrakeFactor = that.CarRobot.Settings.Cruise.DBrake;
+		JSONToSend.corneringPBrakeFactor = that.CarRobot.Settings.Cruise.PBrake;
+		JSONToSend.motorKp = that.CarRobot.Settings.Motor.Kp;
+		JSONToSend.motorKd = that.CarRobot.Settings.Motor.Kd;
+
+		PostRequest("/SET", JSON.stringify(JSONToSend)).then(function(response) {
+			console.log("Success!");
+			console.log(response);
+		}).catch(function(err) {
+			console.log("Something went wrong while turning the robot off.");
+			console.log(err);
+		});
+	}
+	
 	that.AppendToCSV = function(response) {
 		var CSVBuffer = "";
 		that.RobotDataCSV.WriteRow([
