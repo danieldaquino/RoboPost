@@ -39,6 +39,18 @@ Static function declarations
 void HandleIncomingData(String data);
 
 /*======
+	~~streamMeasurements~~
+	
+	Sends a snapshot of current measurements as a MStream event.
+
+	inputs: none
+	outputs: none
+	
+	Globals used/affected: server
+======*/
+void streamMeasurements();
+
+/*======
 Functions
 =======*/
 
@@ -54,6 +66,9 @@ void PhotonTCPServerInit() {
 }
 
 void PhotonTCPServerLoop() {
+	/*=======
+	Answer requests!
+	========*/
 	if (client.connected()) {
 		// Concatenate all bytes into string to be processed.
 		while (client.available()) {
@@ -69,6 +84,47 @@ void PhotonTCPServerLoop() {
 		// if no client is yet connected, check for a new connection
 		client = server.available();
 	}
+	
+	/*=======
+	Send periodic events!
+	========*/
+	static int streamCounter;
+	static int previousMillis;
+	streamCounter += millis() - previousMillis;
+	previousMillis = millis();
+	if(streamCounter >= MSTREAM_REFRESH_PERIOD) {
+		// If 0.1 s have passed since last reset...
+		Particle.publish("TCPHandler", "Sending stream.", 60, PUBLIC);
+		streamMeasurements();
+		streamCounter = 0;
+	}
+}
+
+
+void streamMeasurements() {
+	// Allocate space
+	StaticJsonBuffer<JSON_MAX_SIZE> outgoingJSONBuffer;
+	// Create new JSON object for the response
+	JsonObject& JSONResponse = outgoingJSONBuffer.createObject();
+	
+	// Prepare response
+	JSONResponse["event"] = "MStream";
+	JSONResponse["time"] = Time.now();
+	JsonObject& JSONResult = JSONResponse.createNestedObject("result");
+	JSONResult["RPMLS"] = RPMLS;
+	JSONResult["RPML"] = RPML;
+	JSONResult["RPMRS"] = RPMRS;
+	JSONResult["RPMR"] = RPMR;
+	JSONResult["PWMLFWD"] = PWMLFWD;
+	JSONResult["PWMLREV"] = PWMLREV;
+	JSONResult["PWMRFWD"] = PWMRFWD;
+	JSONResult["PWMRREV"] = PWMRREV;
+	JSONResult["sensor"] = sensor;
+
+	JSONResponse.printTo(Serial);		
+	JSONResponse.printTo(server);
+	// Finish it up by sending null character
+	server.print('\0');
 }
 
 void HandleIncomingData(String data) {
@@ -100,6 +156,8 @@ void HandleIncomingData(String data) {
 
 		JSONResponse.printTo(Serial);		
 		JSONResponse.printTo(server);
+		// Finish it up by sending null character
+		server.print('\0');
 	}
 	else {
 		Particle.publish("TCPHandler", "Error! Got a TCP request I don't understand.", 60, PUBLIC);

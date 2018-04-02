@@ -28,6 +28,8 @@ const app = express();
 var request = require('request');
 var fs = require('fs');
 var PhotonTCPClient = require('./PhotonTCPClient/PhotonTCPClient.js');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 /*=======
 Functions
@@ -76,6 +78,9 @@ function Start() {
 	function SetupServer();
 =====================*/
 function SetupServer() {
+	/*=====
+	WEB LED CONTROLS
+	======*/
 	app.get('/ledOn', function(req, res) {
 		request.post({url: "https://api.particle.io/v1/devices/" + PhotonKeys.ID + "/led?access_token=" + PhotonKeys.Token, form: {arg:'on'}}, function(err,httpResponse,body) {
 			if(!err) {
@@ -98,6 +103,9 @@ function SetupServer() {
 		});
 	});
 	
+	/*=====
+	Web misc requests
+	======*/
 	app.get('/Measurements', function(req, res) {
 		PhotonTCPClient.SendToPhoton("M",{}).then(function(response) {
 			res.send(response);
@@ -108,12 +116,32 @@ function SetupServer() {
 		});
 	});
 	
-
+	/*=====
+	Setup WebSockets server
+	======*/
+	io.on('connection', function(socket){
+		console.log('a user connected to WebSockets');
+		
+		// Setup listener of Photon Events		
+		PhotonTCPClient.on("MStream", function(data) {
+			// Send it to the client!!
+			socket.emit('MStream', data);
+		});
+		
+		socket.on('disconnect', function(){
+			console.log('a user disconnected from WebSockets');
+		});
+	});
 	
-	// Serve public html files
+	/*=====
+	Web file server
+	======*/
 	app.use(express.static('public'));
 	
-	app.listen(3000, function() {
+	/*=====
+	Fire it up
+	======*/
+	http.listen(3000, function() {
 		console.log('\n Now live at localhost:3000');
 	});
 }

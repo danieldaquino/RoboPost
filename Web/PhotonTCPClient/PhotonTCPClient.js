@@ -19,6 +19,7 @@ var PhotonClient;
 var ConnectionStatus = false;
 var RoboPostPackets = new Array();
 var incomingBuffer = "";
+var EventHandlers = new Array();
 
 module.exports.ConnectToPhoton = function(PhotonIP) {
 	return new Promise(function(resolve,reject) {
@@ -35,12 +36,24 @@ module.exports.ConnectToPhoton = function(PhotonIP) {
 		
 			// INCOMING DATA
 			PhotonClient.on('data', function(data) {
-				incomingBuffer += Buffer(data).toString('ascii');
-				try {
-					HandlePhotonData(JSON.parse(incomingBuffer));
-					incomingBuffer = "";
-				} catch(err) {
-					// Nothing
+				for(var i = 0; i < data.length; i++) {
+					if(data[i] == 0) {
+						// Null character!! Chop it and handle this!
+						// We need to put inside a "try" because we might be arriving at the middle of the message.
+						// In this case we mus dispose of it.
+						try {
+							HandlePhotonData(JSON.parse(incomingBuffer));
+						}
+						catch(err) {
+							console.log("Missed one message. Here is what I got:");
+							console.log(incomingBuffer);
+						}
+						incomingBuffer = "";
+					}
+					else {
+						// Not null character. Keep adding stuff...
+						incomingBuffer += Buffer([data[i]]).toString('ascii');
+					}
 				}
 			});
 		});
@@ -76,12 +89,37 @@ module.exports.DisconnectPhoton = function() {
 	PhotonClient.destroy();
 }
 
+module.exports.on = function(event, callback) {
+	if(EventHandlers[event]) {
+		// Event Handler exists! append callback.
+		EventHandlers[event].push(callback);
+	}
+	else {
+		// New event handler
+		EventHandlers[event] = new Array();
+		EventHandlers[event].push(callback);
+	}
+}
+
 function HandlePhotonData(data) {
 	// Process the data.
 	if(RoboPostPackets[data.ID]) {
+		// It is a response
 		RoboPostPackets[data.ID].Resolve(data);
 		RoboPostPackets[data.ID] = null;
 		delete RoboPostPackets[data.ID];
+	}
+	else if(data.event) {
+		// Is an event! Check if there is a handler for that.
+		if(EventHandlers[data.event]) {
+			// There is a handler! Let's get calling.
+			for(var i = 0;i < EventHandlers[data.event].length;i++) {
+				EventHandlers[data.event][i](data);
+			}
+		}
+		else {
+			// No handler. Keep quiet.
+		}
 	}
 	else {
 		console.log("Error: Received unsolicited data from Photon");
@@ -104,5 +142,12 @@ function RoboPostPacket(command, variables) {
 		// Export promise control functions
 		that.Resolve = resolve;
 		that.Reject = reject;
-	});	
+	});
+	
+	// Create timeout mechanism to prevent halts.
+	setTimeout(function() {
+		that.Reject("TCP Request Timed out.");
+		RoboPostPackets[that.message.ID] = null;
+		delete RoboPostPackets[that.message.ID];
+	}, 3000);
 }

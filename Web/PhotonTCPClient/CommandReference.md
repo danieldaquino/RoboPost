@@ -15,4 +15,3 @@
 		PWMRFWD: Right PWM Forward DutyCycle (0-1)
 		PWMRREV: Right PWM Reverse DutyCycle (0-1)
 		sensor: Sensor data (-1 - +1)
-	

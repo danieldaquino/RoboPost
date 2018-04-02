@@ -17,14 +17,27 @@ Note: Everything in tags (<>) is variable
 	}
 	
 ### General format from Photon:
+
+#### Response type
 	
 	{
-		"ID": <random_hash>,
+		"ID": <request_hash>,
 		"time": <timestamp>,
 		"result": {
 			<ALL_VARIABLES_HERE>
 		}
 	}
+	
+#### Stream type
+
+	{
+		"event": <event>,
+		"time": <timestamp>,
+		"result": {
+			<ALL_VARIABLES_HERE>
+		}
+	}
+
 
 ## Functions
 

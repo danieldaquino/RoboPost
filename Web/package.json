@@ -5,6 +5,7 @@
 	"main": "Server.js",
 	"dependencies": {
 		"express": "expressjs/express",
-		"request": "^2.85.0"
+		"request": "^2.85.0",
+		"socket.io": "^2.1.0"
 	}
 }
