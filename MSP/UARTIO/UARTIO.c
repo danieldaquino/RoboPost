@@ -57,8 +57,11 @@ char UARTIOSend(unsigned char *txBuffer, int size) {
 		if(size > STR_BUFFER_SIZE-1) {
 			return -2;
 		}
-		// Force a null character right after the string, to prevent memory conflicts.
-		txBuffer[size] = '\0';
+		// Check a null character right after the string, to prevent memory conflicts.
+		if(txBuffer[size] != '\0') {
+			//NO NULL CHARACTER!! REJECT!
+			return -3;
+		}
 		strcpy(strBufferToSend, txBuffer);
 		strBufferReady = 0; // We are busy
 		strBufferPointer = 0; // Point to the beginning of the string.

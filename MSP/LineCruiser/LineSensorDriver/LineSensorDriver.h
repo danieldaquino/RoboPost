@@ -1,11 +1,11 @@
- /*===============================
+/*===============================
 
     Line Sensor Driver
 
     this C module is part of sensor interfacing.
     It provides functions that allow you to communicate with the line following sensor.
 
-    Created by Tim Yue. Styled by Daniel Walnut
+    Created by Tim Yue. Styled and Modified by Daniel Walnut
 
     Resources used:
     
@@ -24,7 +24,9 @@
 /*===================
  * Global variables
  ===================*/
-signed char lastBarPositionValue;
+char lastRawSensorData;				// the last raw sensor data
+signed char lastBarPositionValue;	// Number from -128	to	+126
+float lastSensorPosition;			// Number from -1	to	+1
 
 /*===================
  * sensor I2C address

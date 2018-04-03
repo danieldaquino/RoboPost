@@ -45,8 +45,8 @@ Macros
 #define MAX_MOTOR_SPEED 300
 #define GEAR3_FREQUENCY 100
 
-#define KP 0.3
-#define KD 0.7
+#define KP 0.6
+#define KD 1.2
 
 /*=======
 Globals
@@ -78,7 +78,6 @@ inputs:
 	(int) Desired speed, from -MAX_MOTOR_SPEED to MAX_MOTOR_SPEED
 outputs: 
 	(char) Return status:	0 means "ok"
-							1 means "out of bounds, went to max"
 							2 means "No motor found"
 Globals affected: Timer A0, eventually the motor pins
 ======*/

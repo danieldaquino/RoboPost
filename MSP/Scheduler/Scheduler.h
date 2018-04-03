@@ -7,6 +7,7 @@
 	## Resources Used
 	
 	1. Timer A1
+	2. P4.7 LED
 	
 	Make sure you have GLOBAL INTERRUPTS ENABLED! OTHERWISE IT WILL NOT WORK
 	
@@ -27,6 +28,7 @@ Macros
 //MAX FREQUENCY IS 4000
 #define FREQUENCY_HZ 10
 #define MAX_CALLBACKS 10
+#define GREEN_LED BIT7
 
 /*=======
 Globals

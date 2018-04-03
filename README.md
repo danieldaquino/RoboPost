@@ -14,6 +14,16 @@ An autonomous delivery system — BCIT Robotics Capstone
 
 ## In the MSP
 
+### StartStop
+
+1. P1.1
+2. PORT1 ISR
+3. TA0CCR1
+4. TA0CCR2
+5. TA2CCR1
+6. TA2CCR2
+7. P1.0
+
 ### UARTIO module
 
 1. UCSI_A1
@@ -41,3 +51,34 @@ An autonomous delivery system — BCIT Robotics Capstone
 1. UCB0 module
 2. P3.0 – SDA
 3. P3.1 - SCL
+
+### Scheduler
+
+1. Timer A1
+2. P4.7 LED
+
+### ucsiSpi
+
+1. P4.1 MOSI
+2. P4.2 MISO
+3. P4.3 SCLK
+4. P6.5 SS
+5. UCSI B1
+
+## In the Photon
+
+### SPI
+
+1. MOSI --> A5
+2. MISO --> A4
+3. SCLK --> A3
+4. SS --> A2
+
+### TCPServer
+
+1. Port 23
+
+## In the Node Server
+
+1. Port 3000
+

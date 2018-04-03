@@ -34,6 +34,7 @@ void schedulerInit(void) {
 	TA1CTL = TASSEL_1 | ID_3 | MC_1 | TAIE;
 	TA1CTL &= ~TAIFG; //Clear interrupts
 	TA1CCR0 = (4000/FREQUENCY_HZ); // Make interrupts happen at the right frequency
+	P4DIR |= GREEN_LED;
 }
 
 char scheduleCallback(void (*callback) (void)) {
@@ -53,10 +54,18 @@ __interrupt void timerISR(void) {
 	// __bis_SR_register(GIE);
 	// Call all Callbacks
 	int i;
+	
+	//Indicate computation start
+	P4OUT |= GREEN_LED;
+	
 	for(i=0; i < callbackSchedulePointer; i++) {
 		callbacks[i]();
-	}
+	}	
+	
 	// Clear interrupt flag
 	TA1CTL &= ~TAIFG; // Clear interrupt flag
+	
+	//Indicate computation end
+	P4OUT &= ~GREEN_LED;
 }
 
