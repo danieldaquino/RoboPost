@@ -56,3 +56,29 @@ An autonomous delivery system — BCIT Robotics Capstone
 
 1. Timer A1
 2. P4.7 LED
+
+### ucsiSpi
+
+1. P4.1 MOSI
+2. P4.2 MISO
+3. P4.3 SCLK
+4. P6.5 SS
+5. UCSI B1
+
+## In the Photon
+
+### SPI
+
+1. MOSI --> A5
+2. MISO --> A4
+3. SCLK --> A3
+4. SS --> A2
+
+### TCPServer
+
+1. Port 23
+
+## In the Node Server
+
+1. Port 3000
+

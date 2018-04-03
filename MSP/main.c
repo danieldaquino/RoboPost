@@ -21,7 +21,8 @@ by Daniel Walnut and Tim Yue
 #include "LineCruiser/LineCruiser.h"
 #include "UARTIO/UARTIO.h"
 #include "StartStop/StartStop.h"
-#include "Photon_SPI_module/ucsiSpi.h"
+#include "Photon_SPI_Module/Photon_SPI_Module.h"
+
 
 // Includes just for diagnostics purposes
 #include "LineCruiser/DiffDriver/DiffDriver.h"
@@ -30,6 +31,7 @@ by Daniel Walnut and Tim Yue
 
 ////////////////
 #define ON_OFF  0x31
+
 int main(void)
 {
 	//====== Initialization ==========
@@ -55,13 +57,12 @@ int main(void)
 	lineCruise(30); // Let's cruise at 30cm/s
 	*/
 	
-	unsigned char String[10]="ROBOPOST";
-	P6OUT |= BIT5;
-	P6DIR = BIT5;
+	unsigned char String[10] = "ROBOPOST";
 	//unsigned int InfoBoard[15];
 	uint32_t DataArray[10];
 	uint32_t CommandArray[10];
 	InfoBoardInit(DataArray,CommandArray);
+	
 	while(1) {
 		/*
 		char LeString[150];
