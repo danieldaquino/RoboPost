@@ -15,6 +15,10 @@ Use at your own risk!?
 	P4.2 to A4   MISO
 	P4.1 to A5   MOSI
 ========================*/
+/*=======
+Includes
+========*/
+#include "SPI-WITH-MSP430.h"
 
 /*=======
 Function prototypes
@@ -27,38 +31,40 @@ Globals
 ========*/
 const int SS_PIN = A2;
 bool gotValue = false;
-#define NUM_PARAM  10
-uint32_t sendValues[NUM_VALUES];
-uint32_t rcvdValues[NUM_VALUES];
-unsigned char command[10];
 
-void setup() {
-      /*  sendValues[0] = 'A';
-        sendValues[1] = 'B';
-        sendValues[2] = 'C';
-        sendValues[3] = 0x83;
-        sendValues[4] = 0x3A3B3CAA;
-        sendValues[5] = 'X';
-        sendValues[6] = 'Y';
-        sendValues[7] = 'Z';
-        command[0]=0x01;
-        command[1]=0x02;
-        command[2]=0x03;
-        command[3]=0x04;
-        command[4]=0x05;
-    */
+void SPIMSPSetup() {
+	// Initialize Serial port
+	Serial.begin(9600);
+	while (!Serial) continue;
+	sendValues[0] = 'P';
+	sendValues[1] = 'H';
+	sendValues[2] = 'O';
+	sendValues[3] = 'T';
+	sendValues[4] = 'O';
+	sendValues[5] = 'N';
+	sendValues[6] = '!';
+	sendValues[7] = 'F';
+	sendValues[8] = 'T';
+	sendValues[9] = 'W';
     SPI.onSelect(slaveSelect);
     SPI.setBitOrder(MSBFIRST);
     SPI.begin(SPI_MODE_SLAVE, SS_PIN);
 }
 
-void loop() {
+void SPIMSPLoop() {
     if (gotValue) {
 		//transfer complete flag set do something if you need to
+		printReceivedToSerial();
 		gotValue = false;
 	}
 }
 
+void printReceivedToSerial() {
+	Serial.println("Incoming!");
+	for(int i=0;i < NUM_PARAM;i++) { 
+		Serial.println(rcvdValues[i]);
+	}
+}
 
 void slaveSelect(uint8_t state) {
 	// We were selected!

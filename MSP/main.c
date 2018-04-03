@@ -41,7 +41,9 @@ int main(void)
 	/*	
 	schedulerInit();		// Setup scheduler before the line cruiser!!
 	lineCruiserInit();		// Initialize the line cruiser.
+	*/
 	UARTIOInit(); 			// Initialize communication with Computer Console
+	/*
 	setupStartStop();		// Setup Start and Stop functionality
 	*/
 	ucsiB1SpiInit(SCLKDIV);
@@ -59,14 +61,14 @@ int main(void)
 	
 	unsigned char String[10] = "ROBOPOST";
 	//unsigned int InfoBoard[15];
-	uint32_t DataArray[10];
+	uint32_t DataArray[10] = {'M', 'S', 'P', '4', '3', '0', 'F', 'F', '5', '5'};
 	uint32_t CommandArray[10];
 	InfoBoardInit(DataArray,CommandArray);
 	
 	while(1) {
-		/*
 		char LeString[150];
 		int strSize;
+		/*
 		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
 		// strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (lastSensorPosition*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
 		// strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
@@ -74,6 +76,9 @@ int main(void)
 		__delay_cycles(16000);
 		*/
 	    InfoBoardUpdate(DataArray,CommandArray);
+	    strSize = sprintf(LeString, "Incoming! %c %c %c %c %c %c %c %c %c %c ! \n\r", CommandArray[0], CommandArray[1], CommandArray[2], CommandArray[3], CommandArray[4], CommandArray[5], CommandArray[6], CommandArray[7], CommandArray[8], CommandArray[9]);
+		UARTIOSend(LeString, strSize);	    
+	    __delay_cycles(16000000);
 	}
 	return 0;
 }

@@ -58,6 +58,13 @@ void setup() {
 	Particle.publish("Setup", "Local IP available through the cloud.", 60, PUBLIC);
 	
 	PhotonTCPServerInit();
+	//==== TCP SETUP COMPLETE ===
+	
+	//==== SETUP SPI ===
+	SPIMSPSetup();
+	//==== SPI IS SETUP ===
+	
+	
 	
 	// Setup misc
 	robotPlay = 0;
@@ -75,6 +82,7 @@ void setup() {
 
 void loop() {
 	PhotonTCPServerLoop();
+	SPIMSPLoop();
 	// Fake gen the RobotGlobals
 	if(robotPlay == 1) {
 		RPMLS = sharpestCurve + 1*sin(millis()/100);

@@ -55,9 +55,6 @@ Functions
 =======*/
 
 void PhotonTCPServerInit() {
-	// Initialize Serial port
-	Serial.begin(9600);
-	while (!Serial) continue;
 	// start listening for clients
 	server.begin();
 	incomingData = "";
@@ -123,7 +120,6 @@ void streamMeasurements() {
 	JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
 	JSONResult["lastSensorPosition"] = lastSensorPosition;
 
-	JSONResponse.printTo(Serial);		
 	JSONResponse.printTo(server);
 	// Finish it up by sending null character
 	server.print('\0');
@@ -179,7 +175,6 @@ void HandleIncomingData(String data) {
 		
 		JSONResponse["status"] = 0;
 		
-		JSONResponse.printTo(Serial);		
 		JSONResponse.printTo(server);
 		// Finish it up by sending null character
 		server.print('\0');
