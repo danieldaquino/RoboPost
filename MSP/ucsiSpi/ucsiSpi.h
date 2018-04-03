@@ -46,12 +46,11 @@ Functions
 
 Initializes SPI module
 
-inputs:
-	(unsigned int) sclkDiv: How many times the SMCLK frequency should be divided.
+inputs: none
 outputs: none
 
 ======*/
-void ucsiB1SpiInit(unsigned int sclkDiv);
+void ucsiB1SpiInit();
 
 /*======
 ~~ucsiB1SpiClkDiv~~

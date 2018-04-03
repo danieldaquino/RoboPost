@@ -22,15 +22,15 @@ Macros
 #define TRANSMIT_READY (UCB1IFG & UCTXIFG)
 #define RECEIVE_READY (UCB1IFG & UCRXIFG)
 
-void ucsiB1SpiInit(unsigned int sclkDiv){
+void ucsiB1SpiInit(){
 
     UCB1CTL1 |= UCSWRST;                        // **Put state machine in USCI reset to intitialize it**
 
     UCB1CTL0 |= UCMST+UCSYNC+UCCKPL+UCMSB;      // 3-pin, 8-bit SPI master
                                                 // Clock polarity high, MSB
     UCB1CTL1 |= UCSSEL_2;                       // SMCLK is source
-    UCB1BR0 = (sclkDiv&0xFF);                   // divide SMCLK by sclkDiv
-    UCB1BR1 = (sclkDiv>>8);                     //
+    UCB1BR0 = (SCLKDIV&0xFF);                   // divide SMCLK by sclkDiv
+    UCB1BR1 = (SCLKDIV>>8);                     //
     //UCB1STAT &=~ UCLISTEN;
 
     UCB1CTL1 &= ~UCSWRST;                       // **Initialize USCI state machine**

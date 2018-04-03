@@ -102,6 +102,7 @@ module.exports.on = function(event, callback) {
 }
 
 function HandlePhotonData(data) {
+	console.log(data);
 	// Process the data.
 	if(RoboPostPackets[data.ID]) {
 		// It is a response

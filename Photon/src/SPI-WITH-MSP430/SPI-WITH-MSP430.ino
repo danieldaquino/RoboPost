@@ -43,16 +43,17 @@ void SPIMSPSetup() {
 	// Initialize Serial port
 	Serial.begin(9600);
 	while (!Serial) continue;
-	sendValues[0] = 'P';
-	sendValues[1] = 'H';
-	sendValues[2] = 'O';
-	sendValues[3] = 'T';
-	sendValues[4] = 'O';
-	sendValues[5] = 'N';
-	sendValues[6] = '!';
-	sendValues[7] = 'F';
-	sendValues[8] = 'T';
-	sendValues[9] = 'W';
+	
+	sendValues[0] = 0x00100000;
+	sendValues[1] = 0x00200000;
+	sendValues[2] = 0x00400000;
+	sendValues[3] = 0x00800000;
+	sendValues[4] = 0x01000000;
+	sendValues[5] = 0x02000000;
+	sendValues[6] = 0x04000000;
+	sendValues[7] = 0x08000000;
+	sendValues[8] = 0x10000000;
+	sendValues[9] = 0x20000000;
     SPI.onSelect(slaveSelect);
     SPI.setBitOrder(MSBFIRST);
     SPI.begin(SPI_MODE_SLAVE, SS_PIN);
@@ -61,16 +62,35 @@ void SPIMSPSetup() {
 void SPIMSPLoop() {
     if (gotValue) {
 		//transfer complete flag set do something if you need to
-		printReceivedToSerial();
+		ReceiveInfoBoard();
 		gotValue = false;
 	}
 }
 
-void printReceivedToSerial() {
-	Serial.println("Incoming!");
-	for(int i=0;i < NUM_PARAM;i++) { 
-		Serial.println(rcvdValues[i]);
-	}
+void ReceiveInfoBoard() {
+	int i;
+	i = 0;
+	RPMLS = rcvdValues[i];				// RPMLS: Left RPM Setpoint
+	i++;
+	RPML = rcvdValues[i];					// RPML: Left RPM
+	i++;
+	RPMRS = rcvdValues[i];				// RPMRS: Right RPM Setpoint
+	i++;
+	RPMR = rcvdValues[i];					// RPMR: Right RPM
+	i++;
+	TA0CCR0_REG = rcvdValues[i];			// Left PWM Frequency register
+	i++;
+	TA0CCR1_REG = rcvdValues[i];			// Left PWM Frequency Forward duty cycle register
+	i++;
+	TA0CCR2_REG = rcvdValues[i];			// Left PWM Frequency Reverse duty cycle register
+	i++;
+	TA2CCR0_REG = rcvdValues[i];			// Right PWM Frequency register
+	i++;
+	TA2CCR1_REG = rcvdValues[i];			// Right PWM Frequency Forward duty cycle register
+	i++;
+	TA2CCR2_REG = rcvdValues[i];			// Right PWM Frequency Reverse duty cycle register
+	i++;
+	lastSensorPosition = rcvdValues[i];	// sensor: Sensor data (-1 - +1)
 }
 
 void slaveSelect(uint8_t state) {

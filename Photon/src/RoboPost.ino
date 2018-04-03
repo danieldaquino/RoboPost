@@ -65,8 +65,6 @@ void setup() {
 	SPIMSPSetup();
 	//==== SPI IS SETUP ===
 	
-	
-	
 	// Setup misc
 	robotPlay = 0;
 	TA0CCR0_REG = 32;
@@ -86,6 +84,7 @@ void loop() {
 	SPIMSPLoop();
 	// Fake gen the RobotGlobals
 	if(robotPlay == 1) {
+		/*
 		RPMLS = sharpestCurve + 1*sin(millis()/100);
 		RPML = 240 + 10*sin(millis()/100);
 		RPMRS = 150 + cruiseKp*sin(millis()/200);
@@ -95,6 +94,7 @@ void loop() {
 		TA2CCR1_REG = (motorKp*sin(millis()/200) + 0.5)*TA2CCR0_REG;
 		TA2CCR2_REG = (motorKd*sin(millis()/200) + 0.5)*TA2CCR0_REG;
 		lastSensorPosition = 0.4*sin(millis()/200) + 0.5;
+		*/
 	}
 	else {
 		RPMLS = 150;

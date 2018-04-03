@@ -23,14 +23,13 @@ by Daniel Walnut and Tim Yue
 #include "StartStop/StartStop.h"
 #include "Photon_SPI_Module/Photon_SPI_Module.h"
 
-
 // Includes just for diagnostics purposes
 #include "LineCruiser/DiffDriver/DiffDriver.h"
 #include "LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
 #include "LineCruiser/LineSensorDriver/LineSensorDriver.h"
 
 ////////////////
-#define ON_OFF  0x31
+#define ON_OFF 0x31
 
 int main(void)
 {
@@ -46,7 +45,7 @@ int main(void)
 	/*
 	setupStartStop();		// Setup Start and Stop functionality
 	*/
-	ucsiB1SpiInit(SCLKDIV);
+	ucsiB1SpiInit();
 	
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
 	
@@ -59,11 +58,9 @@ int main(void)
 	lineCruise(30); // Let's cruise at 30cm/s
 	*/
 	
-	unsigned char String[10] = "ROBOPOST";
-	//unsigned int InfoBoard[15];
-	uint32_t DataArray[10] = {'M', 'S', 'P', '4', '3', '0', 'F', 'F', '5', '5'};
-	uint32_t CommandArray[10];
-	InfoBoardInit(DataArray,CommandArray);
+	unsigned char String[11] = "ROBOPOST";
+	uint32_t DataArray[11];
+	uint32_t CommandArray[11];
 	
 	while(1) {
 		char LeString[150];
@@ -76,7 +73,7 @@ int main(void)
 		__delay_cycles(16000);
 		*/
 	    InfoBoardUpdate(DataArray,CommandArray);
-	    strSize = sprintf(LeString, "Incoming! %c %c %c %c %c %c %c %c %c %c ! \n\r", CommandArray[0], CommandArray[1], CommandArray[2], CommandArray[3], CommandArray[4], CommandArray[5], CommandArray[6], CommandArray[7], CommandArray[8], CommandArray[9]);
+	    strSize = sprintf(LeString, "Incoming! %x %x %x %x %x %x %x %x %x %x ! \n\r", CommandArray[0], CommandArray[1], CommandArray[2], CommandArray[3], CommandArray[4], CommandArray[5], CommandArray[6], CommandArray[7], CommandArray[8], CommandArray[9]);
 		UARTIOSend(LeString, strSize);	    
 	    __delay_cycles(16000000);
 	}

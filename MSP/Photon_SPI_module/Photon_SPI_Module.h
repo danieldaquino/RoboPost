@@ -24,11 +24,14 @@
 	P4.2 MISO-->A4
 	P4.3 SCLK-->A3
     P6.5 SS-->A2
+    
+    GND --> GND
 	
 ===============================*/
 #ifndef PHOTON_SPI_MODULE_H
 #define PHOTON_SPI_MODULE_H
 
+#include <stdint.h>
 
 /*=======
 Macros
@@ -42,24 +45,22 @@ Macros
 Simultaneously receive parameters, and send the measurements, listed in an InfoBoard.
 
 inputs:
-	(int *) DataArray: Measurement data being sent to the Photon.
-	(int *) CommandArray: Parameter command data being received
+	(uint32_t *) DataArray: Measurement data being sent to the Photon.
+	(uint32_t *) CommandArray: Parameter command data being received
 outputs: none
 
 ======*/
-void InfoBoardUpdate(int *DataArray,int *CommandArray);
+void InfoBoardUpdate(uint32_t *DataArray,uint32_t *CommandArray);
 
 /*======
-~~InfoBoardInit~~
+~~InfoBoardFill~~
 
-Initializes infoboard
+Fills Info Board with measurements according to Info Board requirements
 
-inputs:
-	(int *) DataArray: Measurement data being sent to the Photon.
-	(int *) CommandArray: Parameter command data being received
+inputs: none
 outputs: none
 
 ======*/
-void InfoBoardInit(int *DataArray,int *CommandArray);
+void InfoBoardFill();
 
 #endif
