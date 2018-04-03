@@ -9,7 +9,7 @@
 #include "../LineCruiser/DiffDriver/DualMotorController/VelocityGauge/VelocityGauge.h"
 */
 
-void InfoBoardUpdate(uint32_t *DataArray,uint32_t *CommandArray)
+void InfoBoardUpdate(float *DataArray, float *CommandArray)
 {
 	InfoBoardFill(DataArray);
 	slaveSelect();
@@ -20,9 +20,11 @@ void InfoBoardUpdate(uint32_t *DataArray,uint32_t *CommandArray)
 	// __delay_cycles(160);
 	slaveDeselect();
 	__delay_cycles(200);  // wait for photon to process byte
+	
+	ReceiveInfoBoard(CommandArray);
 }
 
-void InfoBoardFill(uint32_t *DataArray)
+void InfoBoardFill(float *DataArray)
 {
 	// FAKE THE DATA
 	int motorSetpoints[2];
@@ -61,4 +63,24 @@ void InfoBoardFill(uint32_t *DataArray)
 	DataArray[i] = TA2CCR2;	// TA2CCR2
 	i++;
 	DataArray[i] = lastSensorPosition;	// lastSensorPosition
+}
+
+void ReceiveInfoBoard(float *CommandArray) {
+	int i;
+	i = 0;
+	robotPlay = CommandArray[i];
+	i++;
+	sharpestCurve = CommandArray[i];
+	i++;
+	cruiseKp = CommandArray[i];
+	i++;
+	cruiseKd = CommandArray[i];
+	i++;
+	corneringDBrakeFactor = CommandArray[i];
+	i++;
+	corneringPBrakeFactor = CommandArray[i];
+	i++;
+	motorKp = CommandArray[i];
+	i++;
+	motorKd = CommandArray[i];
 }

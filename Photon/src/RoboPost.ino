@@ -83,30 +83,6 @@ void loop() {
 	PhotonTCPServerLoop();
 	SPIMSPLoop();
 	// Fake gen the RobotGlobals
-	if(robotPlay == 1) {
-		/*
-		RPMLS = sharpestCurve + 1*sin(millis()/100);
-		RPML = 240 + 10*sin(millis()/100);
-		RPMRS = 150 + cruiseKp*sin(millis()/200);
-		RPMR = 150 + cruiseKd*sin(millis()/200);
-		TA0CCR1_REG = (corneringDBrakeFactor*sin(millis()/200) + 0.25)*TA0CCR0_REG;
-		TA0CCR2_REG = (corneringPBrakeFactor*sin(millis()/300) + 0.25)*TA0CCR0_REG;
-		TA2CCR1_REG = (motorKp*sin(millis()/200) + 0.5)*TA2CCR0_REG;
-		TA2CCR2_REG = (motorKd*sin(millis()/200) + 0.5)*TA2CCR0_REG;
-		lastSensorPosition = 0.4*sin(millis()/200) + 0.5;
-		*/
-	}
-	else {
-		RPMLS = 150;
-		RPML = 0;
-		RPMRS = 150;
-		RPMR = 0;
-		TA0CCR1_REG = 0;
-		TA0CCR2_REG = 0;
-		TA2CCR1_REG = 0;
-		TA2CCR2_REG = 0;
-		lastSensorPosition = 0;		
-	}
 }
 
 void updateLocalIP() {

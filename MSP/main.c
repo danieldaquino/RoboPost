@@ -59,8 +59,8 @@ int main(void)
 	*/
 	
 	unsigned char String[11] = "ROBOPOST";
-	uint32_t DataArray[11];
-	uint32_t CommandArray[11];
+	float DataArray[11];
+	float CommandArray[11];
 	
 	while(1) {
 		char LeString[150];

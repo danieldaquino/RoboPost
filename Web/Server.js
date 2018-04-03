@@ -120,7 +120,7 @@ function SetupServer() {
 	});
 	
 	app.post('/SET', function(req, res) {
-		PhotonTCPClient.SendToPhoton("SET", req.body.json).then(function(response) {
+		PhotonTCPClient.SendToPhoton("SET", JSON.parse(req.body.json)).then(function(response) {
 			res.send(response);
 		}).catch(function(err) {
 			console.log("Error in sending message to Photon!");

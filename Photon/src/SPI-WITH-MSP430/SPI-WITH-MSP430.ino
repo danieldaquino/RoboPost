@@ -34,9 +34,9 @@ bool gotValue = false;
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 10
-uint32_t sendValues[NUM_PARAM];
-uint32_t rcvdValues[NUM_PARAM];
+#define NUM_PARAM 11
+float sendValues[NUM_PARAM];
+float rcvdValues[NUM_PARAM];
 unsigned char command[NUM_PARAM];
 
 void SPIMSPSetup() {
@@ -44,16 +44,6 @@ void SPIMSPSetup() {
 	Serial.begin(9600);
 	while (!Serial) continue;
 	
-	sendValues[0] = 0x00100000;
-	sendValues[1] = 0x00200000;
-	sendValues[2] = 0x00400000;
-	sendValues[3] = 0x00800000;
-	sendValues[4] = 0x01000000;
-	sendValues[5] = 0x02000000;
-	sendValues[6] = 0x04000000;
-	sendValues[7] = 0x08000000;
-	sendValues[8] = 0x10000000;
-	sendValues[9] = 0x20000000;
     SPI.onSelect(slaveSelect);
     SPI.setBitOrder(MSBFIRST);
     SPI.begin(SPI_MODE_SLAVE, SS_PIN);
@@ -63,8 +53,30 @@ void SPIMSPLoop() {
     if (gotValue) {
 		//transfer complete flag set do something if you need to
 		ReceiveInfoBoard();
+		FillInfoBoard();
 		gotValue = false;
 	}
+}
+
+void FillInfoBoard() {
+	int i;
+	i = 0;
+	sendValues[i] = robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+	i++;
+	sendValues[i] = sharpestCurve; // Tightest curve radius in cm
+	i++;
+	sendValues[i] = cruiseKp; // Proportional gain of the lineCruiser
+	i++;
+	sendValues[i] = cruiseKd; // Differential gain of the lineCruiser
+	i++;
+	sendValues[i] = corneringDBrakeFactor; // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve.
+	i++;
+	sendValues[i] = corneringPBrakeFactor; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
+	i++;
+	sendValues[i] = motorKp; // Proportional gain of the motors.
+	i++;
+	sendValues[i] = motorKd; // Differential gain of the motors.
+	i++;
 }
 
 void ReceiveInfoBoard() {
@@ -97,7 +109,7 @@ void slaveSelect(uint8_t state) {
 	// We were selected!
     if (state) {
     	// Let's transfer those bytes!
-        SPI.transfer(sendValues, rcvdValues, sizeof(uint32_t)*NUM_PARAM, slaveCallback);
+        SPI.transfer(sendValues, rcvdValues, sizeof(float)*NUM_PARAM, slaveCallback);
     }
 }
 

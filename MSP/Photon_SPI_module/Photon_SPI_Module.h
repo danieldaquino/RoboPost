@@ -39,18 +39,31 @@ Macros
 // Number of parameters inside the Infoboard array
 #define NUM_PARAM 11
 
+/*=======
+Globals
+========*/
+char robotPlay;
+char sharpestCurve;
+float cruiseKp;
+float cruiseKd;
+float corneringDBrakeFactor;
+float corneringPBrakeFactor;
+float motorKp;
+float motorKd;
+
+
 /*======
 ~~InfoBoardUpdate~~
 
 Simultaneously receive parameters, and send the measurements, listed in an InfoBoard.
 
 inputs:
-	(uint32_t *) DataArray: Measurement data being sent to the Photon.
-	(uint32_t *) CommandArray: Parameter command data being received
+	(float *) DataArray: Measurement data being sent to the Photon.
+	(float *) CommandArray: Parameter command data being received
 outputs: none
 
 ======*/
-void InfoBoardUpdate(uint32_t *DataArray,uint32_t *CommandArray);
+void InfoBoardUpdate(float *DataArray,float *CommandArray);
 
 /*======
 ~~InfoBoardFill~~
