@@ -31,6 +31,13 @@ Globals
 ========*/
 const int SS_PIN = A2;
 bool gotValue = false;
+/*=======
+Globals
+========*/
+#define NUM_PARAM 10
+uint32_t sendValues[NUM_PARAM];
+uint32_t rcvdValues[NUM_PARAM];
+unsigned char command[NUM_PARAM];
 
 void SPIMSPSetup() {
 	// Initialize Serial port

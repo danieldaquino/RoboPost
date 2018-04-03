@@ -22,9 +22,6 @@ Use at your own risk!?
 Globals
 ========*/
 #define NUM_PARAM 10
-uint32_t sendValues[NUM_PARAM];
-uint32_t rcvdValues[NUM_PARAM];
-unsigned char command[NUM_PARAM];
 
 /*=======
 Function prototypes

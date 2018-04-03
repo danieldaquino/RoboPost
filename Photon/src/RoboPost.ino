@@ -18,6 +18,7 @@ Crafted by Daniel Walnut and Tim Yue
 Includes
 =======*/
 #include "PhotonTCPServer/PhotonTCPServer.h"
+#include "SPI-WITH-MSP430/SPI-WITH-MSP430.h"
 #include <math.h>
 #include "RobotGlobals.h"
 
