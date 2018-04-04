@@ -64,6 +64,12 @@ void stopRobot() {
 	__enable_interrupt();	// Make sure interrupts are re-enabled
 }
 
+void robotPlayUpdate() {
+	if(robotPlay == 0) {
+		stopRobot();
+	}
+}
+
 static void stopRobotOperations() {
 	// Indicate we are stopped.
 	P1OUT |= RED_LED;
@@ -73,6 +79,12 @@ static void stopRobotOperations() {
 		TA0CCR2 = 0;
 		TA2CCR1 = 0;
 		TA2CCR2 = 0;
+		InfoBoardUpdate();
+		if(robotPlay == 1) {
+			// Time to turn on!
+			P1OUT &= ~RED_LED;
+			return;
+		}
 	}
 	
 	// Button is being pressed again! Time to start again?

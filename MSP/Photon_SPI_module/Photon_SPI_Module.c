@@ -2,70 +2,84 @@
 #include "Photon_SPI_Module.h"
 #include <msp430.h>
 
-// Includes necessary to get the variables
-/*
+// Includes necessary to get the variables and change parameters
 #include "../LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
 #include "../LineCruiser/LineSensorDriver/LineSensorDriver.h"
-#include "../LineCruiser/DiffDriver/DualMotorController/VelocityGauge/VelocityGauge.h"
-*/
+#include "../LineCruiser/DiffDriver/DualMotorController/DualVelocityGauge/DualVelocityGauge.h"
+#include "../LineCruiser/LineCruiser.h"
+#include "../StartStop/StartStop.h"
 
-void InfoBoardUpdate(float *DataArray, float *CommandArray)
-{
-	InfoBoardFill(DataArray);
+/*=======
+Static function prototypes
+========*/
+
+/*======
+~~InfoBoardFill~~
+
+Fills Info Board with measurements according to Info Board requirements
+
+inputs: none
+outputs: none
+
+======*/
+static void InfoBoardFill();
+
+/*======
+~~ReceiveInfoBoard~~
+
+Fills parameters received at Infoboard
+
+inputs: none
+outputs: none
+
+======*/
+static void ReceiveInfoBoard();
+
+/*=======
+Functions
+========*/
+
+void InfoBoardUpdate() {
+	InfoBoardFill();
 	slaveSelect();
 	__delay_cycles(50);
 	
 	spiTx_RXBytes(DataArray, CommandArray, NUM_PARAM);// transmit whats in dataArray and put received data in CommandArray
 
-	// __delay_cycles(160);
 	slaveDeselect();
 	__delay_cycles(200);  // wait for photon to process byte
 	
-	ReceiveInfoBoard(CommandArray);
+	ReceiveInfoBoard();
 }
 
-void InfoBoardFill(float *DataArray)
-{
-	// FAKE THE DATA
-	int motorSetpoints[2];
-	motorSetpoints[0] = 250;
-	motorSetpoints[1] = 240;
-	float lastSensorPosition;
-	lastSensorPosition = 0.5;
-	TA0CCR0 = 320;
-	TA0CCR1 = 140;
-	TA0CCR2 = 0;
-	TA2CCR0 = 320;
-	TA2CCR1 = 160;
-	TA2CCR2 = 0;
-	
+static void InfoBoardFill() {
 	// Fill it up!	
 	int i;
 	i=0;
 	DataArray[i] = motorSetpoints[0];	// RPMLS
 	i++;
-	DataArray[i] = 200;//(int) getRPM[0];	// RPML
+	DataArray[i] = getRPM(1);			// RPML
 	i++;
 	DataArray[i] = motorSetpoints[1];	// RPMRS
 	i++;
-	DataArray[i] = 100;//(int) getRPM[1];	// RPMR
+	DataArray[i] = getRPM(2);			// RPMR
 	i++;
-	DataArray[i] = TA0CCR0;	// TA0CCR0
+	DataArray[i] = TA0CCR0;				// TA0CCR0
 	i++;
-	DataArray[i] = TA0CCR1;	// TA0CCR1
+	DataArray[i] = TA0CCR1;				// TA0CCR1
 	i++;
-	DataArray[i] = TA2CCR2;	// TA0CCR2
+	DataArray[i] = TA2CCR2;				// TA0CCR2
 	i++;
-	DataArray[i] = TA2CCR0;	// TA2CCR0
+	DataArray[i] = TA2CCR0;				// TA2CCR0
 	i++;
-	DataArray[i] = TA2CCR1;	// TA2CCR1
+	DataArray[i] = TA2CCR1;				// TA2CCR1
 	i++;
-	DataArray[i] = TA2CCR2;	// TA2CCR2
+	DataArray[i] = TA2CCR2;				// TA2CCR2
 	i++;
 	DataArray[i] = lastSensorPosition;	// lastSensorPosition
 }
 
-void ReceiveInfoBoard(float *CommandArray) {
+static void ReceiveInfoBoard() {
 	int i;
 	i = 0;
 	robotPlay = CommandArray[i];

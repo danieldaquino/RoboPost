@@ -61,11 +61,11 @@ static void controlCruise(void) {
 	
 	// Speed calculations
 	int newSpeed;
-	newSpeed = speedSetpoint*(1 - abs(dSensorError)*CORNERING_D_BRAKE_FACTOR - abs(sensorError)*CORNERING_P_BRAKE_FACTOR); // Slows down if line is moving too fast
+	newSpeed = speedSetpoint*(1 - abs(dSensorError)*corneringDBrakeFactor - abs(sensorError)*corneringPBrakeFactor); // Slows down if line is moving too fast
 	
 	// Calculate Radius
 	int newCurveRadius;
-	newCurveRadius = -SHARPEST_CURVE/(CRUISE_KP*sensorError + CRUISE_KD*dSensorError);
+	newCurveRadius = -sharpestCurve/(cruiseKp*sensorError + cruiseKd*dSensorError);
 		
 	// Differential Drive
 	diffDrive(newSpeed, newCurveRadius);
@@ -77,6 +77,14 @@ static void controlCruise(void) {
 char lineCruiserInit() {
 	diffDriverInit();	// Initialize Differential Drive	
 	lineSensorInit();	// Initialize Line Sensor
-	speedSetpoint = 0;	// Start at zero speed!
+	
+	// Default params
+	speedSetpoint = 0;	// For safety
+	sharpestCurve = 15;
+	cruiseKd = 0.55;
+	cruiseKp = 0.45;
+	corneringDBrakeFactor = 0.95;
+	corneringPBrakeFactor = 0.05;
+	
 	scheduleCallback(&controlCruise);
 }

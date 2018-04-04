@@ -28,54 +28,41 @@ by Daniel Walnut and Tim Yue
 #include "LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
 #include "LineCruiser/LineSensorDriver/LineSensorDriver.h"
 
-////////////////
-#define ON_OFF 0x31
-
 int main(void)
 {
 	//====== Initialization ==========
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+
 	boostClockTo16MHz();	// Setup the CPU rate. MUST BE DONE BEFORE the other modules.
 	
-	/*	
 	schedulerInit();		// Setup scheduler before the line cruiser!!
 	lineCruiserInit();		// Initialize the line cruiser.
-	*/
 	UARTIOInit(); 			// Initialize communication with Computer Console
-	/*
 	setupStartStop();		// Setup Start and Stop functionality
-	*/
 	ucsiB1SpiInit();
 	
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
 	
 	//==== Initialization Done. =======
 	
-	/*
 	// Let's begin with the robot stopped, for safety reasons
 	stopRobot();
 	// Let's get this party started!
 	lineCruise(30); // Let's cruise at 30cm/s
-	*/
-	
-	unsigned char String[11] = "ROBOPOST";
-	float DataArray[11];
-	float CommandArray[11];
-	
+		
 	while(1) {
+		robotPlayUpdate();	// Check if we need to stop
+		
+	    InfoBoardUpdate();	// Update values, send measurements over SPI
+	    
+		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
+		
 		char LeString[150];
 		int strSize;
-		/*
-		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
-		// strSize = sprintf(LeString, "sensor: %d | 1: %d RPM | 2: %d RPM | S: %d cm/s | R: %d cm\n\r", (int) (lastSensorPosition*100), (int) getRPM(1), (int) getRPM(2), (int) getSpeed(), (int) getCurveRadius());
-		// strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
-		// UARTIOSend(LeString, strSize);		
+		strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
+		UARTIOSend(LeString, strSize);
+		
 		__delay_cycles(16000);
-		*/
-	    InfoBoardUpdate(DataArray,CommandArray);
-	    strSize = sprintf(LeString, "Incoming! %x %x %x %x %x %x %x %x %x %x ! \n\r", CommandArray[0], CommandArray[1], CommandArray[2], CommandArray[3], CommandArray[4], CommandArray[5], CommandArray[6], CommandArray[7], CommandArray[8], CommandArray[9]);
-		UARTIOSend(LeString, strSize);	    
-	    __delay_cycles(16000000);
 	}
 	return 0;
 }

@@ -18,7 +18,6 @@ Includes
 /*=======
 Statics
 ========*/
-static int motorSetpoints[2] = {0, 0};
 static float previousDutyCycle[2] = {0, 0};
 static float previousError[2] = {0, 0};
 
@@ -69,7 +68,7 @@ static void controlRPM() {
 		float errorGradient;
 		errorGradient = normalError - previousError[i];
 		float newDutyCycle;
-		newDutyCycle = previousDutyCycle[i] + KP*normalError + KD*errorGradient; // Integrate. (1/s block)
+		newDutyCycle = previousDutyCycle[i] + motorKp*normalError + motorKd*errorGradient; // Integrate. (1/s block)
 		//Add a saturation factor
 		if(newDutyCycle > 1) {
 			newDutyCycle = 1;
@@ -86,5 +85,12 @@ static void controlRPM() {
 void motorControllerInit() {
 	velocityGaugeInit(); //Initialize Velocity Gauge
 	setupPWM(); //Setup PWM, starting with 0% duty cycle
+	
+	// Initialize standard parameters
+	motorKp = 0.6;
+	motorKd = 1.2;
+	motorSetpoints[0] = 0;
+	motorSetpoints[1] = 0;
+	
 	scheduleCallback(&controlRPM);
 }

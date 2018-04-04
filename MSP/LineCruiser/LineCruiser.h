@@ -35,18 +35,22 @@ Includes
 ========*/
 
 /*=======
-Macros
+Global Parameters
 ========*/
 // Tightest curve radius in cm
-#define SHARPEST_CURVE 15
+int sharpestCurve;
 // CRUISE_KP + CRUISE_KD = 1
-#define CRUISE_KD 0.55
-#define CRUISE_KP 0.45
+float cruiseKd;
+float cruiseKp;
 // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve
-#define CORNERING_D_BRAKE_FACTOR 0.95
+float corneringDBrakeFactor;
 // Number between 0 and 1 to tell how much to slow down in any curve. 0 means never slows down. 1 means full stop on tightest curve
-#define CORNERING_P_BRAKE_FACTOR 0.05
+float corneringPBrakeFactor;
 // CORNERING_P_SPEED_FACTOR + CORNERING_D_SPEED_FACTOR must NEVER BE BIGGER THAN 1
+
+/*=======
+Macros
+========*/
 
 /*=======
 Function prototypes

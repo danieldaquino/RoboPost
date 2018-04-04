@@ -17,6 +17,11 @@
 	# Requirements
 	
 	1. ucsiSpi Module
+	2. Dual Motor Controller Module
+	3. LineSensorDriver
+	4. Dual Velocity Gauge
+	5. Line Cruiser
+	6. Start Stop module
 	
 	# Wiring with Photon
 	
@@ -42,15 +47,8 @@ Macros
 /*=======
 Globals
 ========*/
-char robotPlay;
-char sharpestCurve;
-float cruiseKp;
-float cruiseKd;
-float corneringDBrakeFactor;
-float corneringPBrakeFactor;
-float motorKp;
-float motorKd;
-
+float DataArray[NUM_PARAM];
+float CommandArray[NUM_PARAM];
 
 /*======
 ~~InfoBoardUpdate~~
@@ -63,17 +61,6 @@ inputs:
 outputs: none
 
 ======*/
-void InfoBoardUpdate(float *DataArray,float *CommandArray);
-
-/*======
-~~InfoBoardFill~~
-
-Fills Info Board with measurements according to Info Board requirements
-
-inputs: none
-outputs: none
-
-======*/
-void InfoBoardFill();
+void InfoBoardUpdate();
 
 #endif
