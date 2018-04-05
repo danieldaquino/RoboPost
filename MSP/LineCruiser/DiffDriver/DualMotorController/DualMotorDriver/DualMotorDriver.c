@@ -18,9 +18,22 @@ Includes
 #include <msp430.h>
 #include "DualMotorDriver.h"
 
+/*======
+Statics
+=======*/
+static float d[2];
+
+/*======
+Functions
+=======*/
+
+
 void setDutyCycle(char motor, float D) {
 	// CHECK FOR REVERSE CONDITIONS
 	char fwd = 1;
+	if(motor == 1 || motor == 2) {
+		d[motor-1] = D;
+	}
 	if(D < 0) {
 		// We are in reverse!
 		fwd = 0;
@@ -67,14 +80,19 @@ char shiftFrequency(char motor, int frequency) {
 	}
 	if(motor == 1) {
 		TA0CCR0 = 32000/frequency;
+		// This prevents big big spikes on shifting.
+		setDutyCycle(1, d[0]);
 	}
 	else if(motor == 2) {
 		TA2CCR0 = 32000/frequency;		
+		// This prevents big big spikes on shifting.
+		setDutyCycle(2, d[1]);
 	}
 	else {
 		// Bad input.
 		return 1;
 	}
+	return 0;
 }
 
 void setupPWM() {
@@ -119,4 +137,8 @@ void setupPWM() {
 	P_MOTOR_1_SEL |= MOTOR_1;
 	P_MOTOR_2_DIR |= MOTOR_2;
 	P_MOTOR_2_SEL |= MOTOR_2;
+	
+	// Initialize Duty cycle buffers to zero
+	d[0] = 0;
+	d[1] = 0;
 }

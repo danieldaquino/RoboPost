@@ -20,6 +20,7 @@ Statics
 ========*/
 static float previousDutyCycle[2] = {0, 0};
 static float previousError[2] = {0, 0};
+static float currentFrequency[2] = {100, 100};
 
 /*=======
 Function Definitions
@@ -41,6 +42,7 @@ char setRPM(char motor, int speed) {
 			speed = -MAX_MOTOR_SPEED;
 		}
 		motorSetpoints[motor-1] = speed;
+		
 		// Let's shift gears depending on setpoint.
 		int newFrequency;
 		if(speed > GEAR2_MAX_SPEED) {
@@ -52,7 +54,10 @@ char setRPM(char motor, int speed) {
 		else {
 			newFrequency = GEAR1_FREQUENCY;
 		}
-		shiftFrequency(motor, newFrequency);
+		if(currentFrequency[motor-1] != newFrequency) {
+			shiftFrequency(motor, newFrequency);
+			currentFrequency[motor-1] = newFrequency;
+		}
 		return 0;
 	}
 	else {
