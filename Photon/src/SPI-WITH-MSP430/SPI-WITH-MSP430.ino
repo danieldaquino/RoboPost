@@ -1,4 +1,5 @@
-﻿/*=======================
+    
+/*======================
 
 # SPI-WITH-MSP430.ino
 
@@ -31,10 +32,10 @@ Globals
 ========*/
 const int SS_PIN = A2;
 bool gotValue = false;
+
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 12
 float sendValues[NUM_PARAM];
 float rcvdValues[NUM_PARAM];
 unsigned char command[NUM_PARAM];
@@ -61,7 +62,7 @@ void SPIMSPLoop() {
 void FillInfoBoard() {
 	int i;
 	i = 0;
-	sendValues[i] = robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+	sendValues[i] = robotPlay; //  A 1 indicates the robot has to start running. A 0 indicates a stop signal.
 	i++;
 	sendValues[i] = sharpestCurve; // Tightest curve radius in cm
 	i++;

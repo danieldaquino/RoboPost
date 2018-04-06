@@ -111,7 +111,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 	that.SettingsPanelDiv.onmouseleave = that.HideSettings;
 	that.SettingsButton.onclick = that.ShowHideSettings;
 	
-	that.DesiredSpeed.oninput = that.UpdateSettings;
+	that.DesiredSpeedSlider.oninput = that.UpdateSettings;
 	that.CruiseKpSlider.oninput = that.UpdateSettings;
 	that.CruiseKdSlider.oninput = that.UpdateSettings;
 	that.SharpnessSlider.oninput = that.UpdateSettings;
@@ -120,7 +120,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 	that.MotorKpSlider.oninput = that.UpdateSettings;
 	that.MotorKdSlider.oninput = that.UpdateSettings;
 	
-	that.DesiredSpeed.onchange = that.CloudRobot.SendSettings;
+	that.DesiredSpeedSlider.onchange = that.CloudRobot.SendSettings;
 	that.CruiseKpSlider.onchange = that.CloudRobot.SendSettings;
 	that.CruiseKdSlider.onchange = that.CloudRobot.SendSettings;
 	that.SharpnessSlider.onchange = that.CloudRobot.SendSettings;

@@ -99,9 +99,9 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		that.RobotDataCSV.WriteRow([
 			response.time,
 			that.CarRobot.Measurements.Sensor,
-			that.CarRobot.Setpoints.Speed,
+			that.CarRobot.SetPoints.Speed,
 			that.CarRobot.Measurements.Speed,
-			that.CarRobot.Setpoints.CurveRadius,
+			that.CarRobot.SetPoints.CurveRadius,
 			that.CarRobot.Measurements.CurveRadius,
 			that.CarRobot.Measurements.RPM[0],
 			that.CarRobot.SetPoints.RPM[1],
