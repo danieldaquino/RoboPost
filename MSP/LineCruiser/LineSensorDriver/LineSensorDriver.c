@@ -41,7 +41,6 @@ void lineSensorInit()
 float LSRead()
 {
     char reading;
-    unsigned char bitsCounted=0;
     int i;
     int accumulator;
 
@@ -52,6 +51,7 @@ float LSRead()
     I2CRead(LINE_ADDRESS, 0x11, TYPE_0_LENGTH, receiveBuffer);
     
     lastRawSensorData = receiveBuffer[0];
+    bitsCounted=0;
     
     //count bits
     for ( i = 0; i < 8; i++ )
