@@ -1,4 +1,4 @@
-/*=======================
+﻿/*=======================
 
 # SPI-WITH-MSP430.ino
 
@@ -34,7 +34,7 @@ bool gotValue = false;
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 11
+#define NUM_PARAM 12
 float sendValues[NUM_PARAM];
 float rcvdValues[NUM_PARAM];
 unsigned char command[NUM_PARAM];
@@ -77,6 +77,7 @@ void FillInfoBoard() {
 	i++;
 	sendValues[i] = motorKd; // Differential gain of the motors.
 	i++;
+	sendValues[i] = Desired_Speed;	//desired speed
 }
 
 void ReceiveInfoBoard() {
@@ -103,6 +104,8 @@ void ReceiveInfoBoard() {
 	TA2CCR2_REG = rcvdValues[i];			// Right PWM Frequency Reverse duty cycle register
 	i++;
 	lastSensorPosition = rcvdValues[i];	// sensor: Sensor data (-1 - +1)
+	i++;
+	Color = rcvdValues[i];		//color reading from msp
 }
 
 void slaveSelect(uint8_t state) {

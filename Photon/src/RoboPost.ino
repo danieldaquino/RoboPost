@@ -76,6 +76,7 @@ void setup() {
 	corneringPBrakeFactor = 0; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
 	motorKp = 0; // Proportional gain of the motors.
 	motorKd = 0; // Differential gain of the motors.
+	Desired_Speed=35;
 }
 
 

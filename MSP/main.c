@@ -48,7 +48,7 @@ int main(void)
 	// Let's begin with the robot stopped, for safety reasons
 	stopRobot();
 	// Let's get this party started!
-	lineCruise(30); // Let's cruise at 30cm/s
+	lineCruise(Desired_Speed); // Let's cruise at 30cm/s
 		
 	while(1) {
 		robotPlayUpdate();	// Check if we need to stop

@@ -1,4 +1,4 @@
-/*===============================
+﻿/*===============================
 
 	# PhotonTCPServer
 	
@@ -46,6 +46,10 @@ extern int TA2CCR1_REG;
 extern int TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 extern float lastSensorPosition;
+//color sensor
+extern float Color;
+//desired speed
+extern float Desired_Speed;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
 

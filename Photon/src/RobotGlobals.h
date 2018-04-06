@@ -1,4 +1,4 @@
-/*===============================
+﻿/*===============================
 
 	# RobotGlobals
 	
@@ -36,6 +36,11 @@ int TA2CCR1_REG;
 int TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 float lastSensorPosition;
+
+// color sensor reading
+float Color;
+// Desired speed
+float Desired_Speed;
 
 /*========
 Controls

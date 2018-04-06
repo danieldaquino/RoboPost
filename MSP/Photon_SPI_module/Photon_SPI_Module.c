@@ -77,6 +77,8 @@ static void InfoBoardFill() {
 	DataArray[i] = TA2CCR2;				// TA2CCR2
 	i++;
 	DataArray[i] = lastSensorPosition;	// lastSensorPosition
+	i++;
+	DataArray[i] = Color;
 }
 
 static void ReceiveInfoBoard() {
@@ -97,4 +99,7 @@ static void ReceiveInfoBoard() {
 	motorKp = CommandArray[i];
 	i++;
 	motorKd = CommandArray[i];
+	i++;
+	Desired_Speed=CommandArray[i];
+
 }

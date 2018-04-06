@@ -172,6 +172,7 @@ void HandleIncomingData(String data) {
 		corneringPBrakeFactor = LeJSON["variables"]["corneringPBrakeFactor"];
 		motorKp = LeJSON["variables"]["motorKp"];
 		motorKd = LeJSON["variables"]["motorKd"];
+		Desired_Speed= LeJSON["variables"]["desiredSpeed"];
 		
 		JSONResponse["status"] = 0;
 		

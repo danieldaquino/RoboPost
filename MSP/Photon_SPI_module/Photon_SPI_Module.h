@@ -42,13 +42,15 @@
 Macros
 ========*/
 // Number of parameters inside the Infoboard array
-#define NUM_PARAM 11
+#define NUM_PARAM 12
 
 /*=======
 Globals
 ========*/
 float DataArray[NUM_PARAM];
 float CommandArray[NUM_PARAM];
+uint32_t Color;
+float Desired_Speed;
 
 /*======
 ~~InfoBoardUpdate~~
