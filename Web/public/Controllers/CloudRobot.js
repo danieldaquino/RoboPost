@@ -83,6 +83,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		JSONToSend.corneringPBrakeFactor = that.CarRobot.Settings.Cruise.PBrake;
 		JSONToSend.motorKp = that.CarRobot.Settings.Motor.Kp;
 		JSONToSend.motorKd = that.CarRobot.Settings.Motor.Kd;
+		JSONToSend.desiredSpeed = that.CarRobot.Settings.DesiredSpeed;
 
 		PostRequest("/SET", JSON.stringify(JSONToSend)).then(function(response) {
 			console.log("Success!");
@@ -97,12 +98,27 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		var CSVBuffer = "";
 		that.RobotDataCSV.WriteRow([
 			response.time,
-			that.CarRobot.SetPoints.RPM[0],
+			that.CarRobot.Measurements.Sensor,
+			that.CarRobot.Setpoints.Speed,
+			that.CarRobot.Measurements.Speed,
+			that.CarRobot.Setpoints.CurveRadius,
+			that.CarRobot.Measurements.CurveRadius,
 			that.CarRobot.Measurements.RPM[0],
 			that.CarRobot.SetPoints.RPM[1],
 			that.CarRobot.Measurements.RPM[1],
+			that.CarRobot.Measurements.F[0],
 			that.CarRobot.Measurements.PWM[0],
-			that.CarRobot.Measurements.PWM[1]
+			that.CarRobot.Measurements.F[1],
+			that.CarRobot.Measurements.PWM[1],
+			0,
+			that.CarRobot.Settings.DesiredSpeed,
+			that.CarRobot.Settings.Cruise.Sharpness,
+			that.CarRobot.Settings.Cruise.Kp,
+			that.CarRobot.Settings.Cruise.Kd,
+			that.CarRobot.Settings.Cruise.DBrake,
+			that.CarRobot.Settings.Cruise.PBrake,
+			that.CarRobot.Settings.Motor.Kp,
+			that.CarRobot.Settings.Motor.Kd
 		]);
 	}
 }

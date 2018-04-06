@@ -3,7 +3,7 @@ function RobotDataCSV() {
 	that.Text = "";
 	
 	that.Init = function() {
-		that.Text = "Timestamp, Left RPM setpoint, Left RPM, Right RPM setpoint, Right RPM, Left PWM, Right PWM\n";
+		that.Text = "Timestamp, last Sensor Position, Linear Speed Setpoint, Linear Speed measurement, Curve Radius Setpoint, Curve Radius Measured, Left RPM setpoint, Left RPM, Right RPM setpoint, Right RPM, Left PWM Frequency, Left PWM Duty Cycle, Right PWM Frequency, Right PWM Duty Cycle, , DesiredSpeed, SharpestCurve, Cruise Kp, Cruise Kd, DBrake, PBrake, Motor Kp, Motor Kd";
 	}
 	
 	/*=======
@@ -15,7 +15,8 @@ function RobotDataCSV() {
 	========*/
 	that.Download = function() {
 		var blob = new Blob([that.Text], {type: "text/plain;charset=utf-8"});
-		saveAs(blob, "RoboPostData.csv");		
+		saveAs(blob, "RoboPostData.csv");
+		that.Init();
 	}
 	
 	/*=======
@@ -28,7 +29,6 @@ function RobotDataCSV() {
 		valuesArray: an array of values to be written to the row. Each will be written to its cell.
 	
 	========*/
-
 	that.WriteRow = function(valuesArray) {
 		var CSVBuffer = "";
 		// Add first element

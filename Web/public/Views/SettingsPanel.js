@@ -27,7 +27,7 @@
 ===============================*/
 
 
-function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsPanelDiv, cruiseKdSlider, cruiseKpSlider, motorKpSlider, motorKdSlider, sharpnessSlider, corneringPBrakeSlider, corneringDBrakeSlider, cruiseKpDisplay, cruiseKdDisplay, sharpnessDisplay, corneringPBrakeDisplay, corneringDBrakeDisplay, motorKpDisplay, motorKdDisplay) {
+function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsPanelDiv, desiredSpeedSlider, cruiseKdSlider, cruiseKpSlider, motorKpSlider, motorKdSlider, sharpnessSlider, corneringPBrakeSlider, corneringDBrakeSlider, desiredSpeedDisplay, cruiseKpDisplay, cruiseKdDisplay, sharpnessDisplay, corneringPBrakeDisplay, corneringDBrakeDisplay, motorKpDisplay, motorKdDisplay) {
 	var that = this;
 	
 	/*======
@@ -35,6 +35,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 	=======*/
 	that.SettingsButton = settingsButton;
 	that.SettingsPanelDiv = settingsPanelDiv;
+	that.DesiredSpeedSlider = desiredSpeedSlider;
 	that.CruiseKdSlider = cruiseKdSlider;
 	that.CruiseKpSlider = cruiseKpSlider;
 	that.MotorKpSlider = motorKpSlider;
@@ -42,6 +43,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 	that.SharpnessSlider = sharpnessSlider;
 	that.CorneringPBrakeSlider = corneringPBrakeSlider;
 	that.CorneringDBrakeSlider = corneringDBrakeSlider;
+	that.DesiredSpeedDisplay = desiredSpeedDisplay;
 	that.CruiseKpDisplay = cruiseKpDisplay;
 	that.CruiseKdDisplay = cruiseKdDisplay;
 	that.SharpnessDisplay = sharpnessDisplay;
@@ -78,6 +80,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 
 	that.UpdateSettings = function() {
 		// Capture the values
+		that.CarRobot.Settings.DesiredSpeed = that.DesiredSpeedSlider.value;
 		that.CarRobot.Settings.Cruise.Kp = that.CruiseKpSlider.value;
 		that.CarRobot.Settings.Cruise.Kd = that.CruiseKdSlider.value;
 		that.CarRobot.Settings.Cruise.Sharpness = that.SharpnessSlider.value;
@@ -87,6 +90,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 		that.CarRobot.Settings.Cruise.DBrake = that.CorneringDBrakeSlider.value;
 	
 		// Update values on screen
+		that.DesiredSpeedDisplay.innerText = that.CarRobot.Settings.DesiredSpeed;
 		that.CruiseKpDisplay.innerText = that.CarRobot.Settings.Cruise.Kp;
 		that.CruiseKdDisplay.innerText = that.CarRobot.Settings.Cruise.Kd;
 		that.SharpnessDisplay.innerText = that.CarRobot.Settings.Cruise.Sharpness;
@@ -106,6 +110,8 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 	
 	that.SettingsPanelDiv.onmouseleave = that.HideSettings;
 	that.SettingsButton.onclick = that.ShowHideSettings;
+	
+	that.DesiredSpeed.oninput = that.UpdateSettings;
 	that.CruiseKpSlider.oninput = that.UpdateSettings;
 	that.CruiseKdSlider.oninput = that.UpdateSettings;
 	that.SharpnessSlider.oninput = that.UpdateSettings;
@@ -114,6 +120,7 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 	that.MotorKpSlider.oninput = that.UpdateSettings;
 	that.MotorKdSlider.oninput = that.UpdateSettings;
 	
+	that.DesiredSpeed.onchange = that.CloudRobot.SendSettings;
 	that.CruiseKpSlider.onchange = that.CloudRobot.SendSettings;
 	that.CruiseKdSlider.onchange = that.CloudRobot.SendSettings;
 	that.SharpnessSlider.onchange = that.CloudRobot.SendSettings;
