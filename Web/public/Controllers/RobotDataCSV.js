@@ -3,7 +3,7 @@ function RobotDataCSV() {
 	that.Text = "";
 	
 	that.Init = function() {
-		that.Text = "Timestamp, last Sensor Position, Linear Speed Setpoint, Linear Speed measurement, Curve Radius Setpoint, Curve Radius Measured, Left RPM setpoint, Left RPM, Right RPM setpoint, Right RPM, Left PWM Frequency, Left PWM Duty Cycle, Right PWM Frequency, Right PWM Duty Cycle, , DesiredSpeed, SharpestCurve, Cruise Kp, Cruise Kd, DBrake, PBrake, Motor Kp, Motor Kd";
+		that.Text = "Timestamp, last Sensor Position, Linear Speed Setpoint, Linear Speed measurement, Curve Radius Setpoint, Curve Radius Measured, Left RPM setpoint, Left RPM, Right RPM setpoint, Right RPM, Left PWM Frequency, Left PWM Duty Cycle, Right PWM Frequency, Right PWM Duty Cycle, , DesiredSpeed, SharpestCurve, Cruise Kp, Cruise Kd, DBrake, PBrake, Motor Kp, Motor Kd\n";
 	}
 	
 	/*=======

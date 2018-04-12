@@ -22,6 +22,8 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	// Save our CSV controller
 	that.RobotDataCSV = InputRobotDataCSV;
 	
+	that.robotPlay = false;
+	
 	/*====
 	WebSockets Handling
 	=====*/	
@@ -30,7 +32,9 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	// Setup the measurement stream handler.
 	that.Socket.on('MStream', function(data){
 		that.UpdateMeasurements(data);
-		that.AppendToCSV(data);
+		if(that.robotPlay) {			
+			that.AppendToCSV(data);
+		}
 	});
 	
 	/*====
@@ -39,6 +43,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	that.RobotPlay = function() {
 		GetRequest("/robotPlay").then(function(response) {
 			console.log("Turning robot on... Got Response:" + response);
+			that.robotPlay = true;
 		}).catch(function(err) {
 			console.log("Something went wrong while turning the robot on.");
 			console.log(err);
@@ -48,6 +53,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	that.RobotPause = function() {
 		GetRequest("/robotPause").then(function(response) {
 			console.log("Turning robot off... Got Response:" + response);
+			that.robotPlay = false;
 		}).catch(function(err) {
 			console.log("Something went wrong while turning the robot off.");
 			console.log(err);
