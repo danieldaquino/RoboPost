@@ -109,6 +109,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 			that.CarRobot.Measurements.Speed,
 			that.CarRobot.SetPoints.CurveRadius,
 			that.CarRobot.Measurements.CurveRadius,
+			that.CarRobot.SetPoints.RPM[0],
 			that.CarRobot.Measurements.RPM[0],
 			that.CarRobot.SetPoints.RPM[1],
 			that.CarRobot.Measurements.RPM[1],
