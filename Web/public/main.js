@@ -47,6 +47,7 @@ function Load() {
 	// Setup Cloud Robot
 	TheCloudRobot = new CloudRobot(TheCarRobot, TheRobotDataCSV);
 	
+	
 	/*====
 	Initialize Views 
 	=====*/
@@ -82,6 +83,9 @@ function Load() {
 		document.getElementById("MotorKpDisplay"),
 		document.getElementById("MotorKdDisplay")
 	);
+	
+	TheSettingsPanel.UpdateSettings();
+	TheCloudRobot.SendSettings();
 	
 	// Setup the Start Stop button
 	TheStartStopButton = new StartStopButton(TheCarRobot, TheCloudRobot, document.getElementById("StartStopButtonElement"));
