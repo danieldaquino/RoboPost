@@ -71,6 +71,32 @@ I2C_Mode I2CRead(uint8_t dev_addr, uint8_t reg_addr, uint8_t count, uint8_t * de
 	CopyArray(ReceiveBuffer, destination, count);
     return MasterMode;
 }
+I2C_Mode I2CReadNREG(uint8_t dev_addr, uint8_t count, uint8_t * destination) {
+    /* Initialize state machine */
+    MasterMode = TX_DATA_MODE;
+    RXByteCtr = count;
+    TXByteCtr = 0;
+    ReceiveIndex = 0;
+    TransmitIndex = 0;
+
+    /* Initialize slave address and interrupts */
+    UCB0I2CSA = dev_addr;
+    UCB0IFG &= ~(UCTXIFG + UCRXIFG);       // Clear any pending interrupts
+    UCB0IE &= ~UCRXIE;                       // Disable RX interrupt
+    UCB0IE |= UCTXIE;                        // Enable TX interrupt
+
+    UCB0CTL1 |= UCTR + UCTXSTT;             // I2C TX, start condition
+    // __bis_SR_register(LPM0_bits + GIE);              // Enter interrupts enable and turn off CPU
+    rxDone = 0; // We are not done this operation
+    __bis_SR_register(GIE);              // Enter interrupts enable and turn off CPU
+
+    while(!rxDone) {
+        // Wait
+    }
+    // rx is Done! let's get out
+    CopyArray(ReceiveBuffer, destination, count);
+    return MasterMode;
+}
 
 I2C_Mode I2CWrite(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t count) {
     /* Initialize state machine */
@@ -104,6 +130,36 @@ I2C_Mode I2CWrite(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t
     return MasterMode;
 }
 
+I2C_Mode I2CWriteNREG(uint8_t dev_addr, uint8_t *reg_data, uint8_t count) {
+    /* Initialize state machine */
+    MasterMode = TX_DATA_MODE;
+
+    //Copy register data to TransmitBuffer
+    CopyArray(reg_data, TransmitBuffer, count);
+
+    TXByteCtr = count;
+    RXByteCtr = 0;
+    ReceiveIndex = 0;
+    TransmitIndex = 0;
+
+    /* Initialize slave address and interrupts */
+    UCB0I2CSA = dev_addr;
+    UCB0IFG &= ~(UCTXIFG + UCRXIFG);       // Clear any pending interrupts
+    UCB0IE &= ~UCRXIE;                       // Disable RX interrupt
+    UCB0IE |= UCTXIE;                        // Enable TX interrupt
+
+    UCB0CTL1 |= UCTR + UCTXSTT;             // I2C TX, start condition
+    txDone = 0;
+    __bis_SR_register(GIE);              // Enable interrupts
+    // __bis_SR_register(LPM0_bits + GIE);              // Enter interrupts enable and turn off CPU
+
+
+    while(!txDone) {
+        // Keep waiting
+    }
+
+    return MasterMode;
+}
 //******************************************************************************
 // Device Initialization *******************************************************
 //******************************************************************************

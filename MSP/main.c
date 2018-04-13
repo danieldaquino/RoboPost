@@ -35,34 +35,36 @@ int main(void)
 
 	boostClockTo16MHz();	// Setup the CPU rate. MUST BE DONE BEFORE the other modules.
 	
-	schedulerInit();		// Setup scheduler before the line cruiser!!
-	lineCruiserInit();		// Initialize the line cruiser.
+	//schedulerInit();		// Setup scheduler before the line cruiser!!
+	//lineCruiserInit();		// Initialize the line cruiser.
 	UARTIOInit(); 			// Initialize communication with Computer Console
-	setupStartStop();		// Setup Start and Stop functionality
+	//setupStartStop();		// Setup Start and Stop functionality
 	ucsiB1SpiInit();
+	I2CInit();
+	ColorSensorInit();
+	char coloor;
 	
+
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
 	
 	//==== Initialization Done. =======
 	
 	// Let's begin with the robot stopped, for safety reasons
-	stopRobot();
+	//stopRobot();
 	// Let's get this party started!
 		
 	while(1) {
-		robotPlayUpdate();	// Check if we need to stop
-		lineCruise(Desired_Speed); // Let's cruise at 30cm/s
-		
-	    InfoBoardUpdate();	// Update values, send measurements over SPI
-	    
-		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
-		
-		char LeString[150];
-		int strSize;
-		strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
-		UARTIOSend(LeString, strSize);
-		
-		__delay_cycles(16000);
+	     coloor=CsRead();
+	     //__delay_cycles(1000);
+	     if(coloor==1)//red
+	     {
+	         while(1);
+	     }
+	     if(coloor==2)//blue
+	             {
+	                 while(1);
+	             }
+
 	}
 	return 0;
 }
