@@ -106,7 +106,7 @@ void streamMeasurements() {
 	
 	// Prepare response
 	JSONResponse["event"] = "MStream";
-	JSONResponse["time"] = Time.now();
+	JSONResponse["time"] = timeStamp;
 	JsonObject& JSONResult = JSONResponse.createNestedObject("result");
 	JSONResult["RPMLS"] = RPMLS;
 	JSONResult["RPML"] = RPML;

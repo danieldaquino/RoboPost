@@ -52,6 +52,7 @@ extern float Color;
 extern float Desired_Speed;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+extern int timeStamp; //  TimeStamp of SPI receival
 
 extern char sharpestCurve; // Tightest curve radius in cm
 extern float cruiseKp; // Proportional gain of the lineCruiser

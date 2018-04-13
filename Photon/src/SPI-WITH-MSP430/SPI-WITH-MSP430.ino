@@ -55,6 +55,7 @@ void SPIMSPLoop() {
 		//transfer complete flag set do something if you need to
 		ReceiveInfoBoard();
 		FillInfoBoard();
+		timeStamp = millis();
 		gotValue = false;
 	}
 }

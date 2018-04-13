@@ -67,6 +67,7 @@ void setup() {
 	
 	// Setup misc
 	robotPlay = 0;
+	timeStamp = 0; // No time stamp yet...
 	TA0CCR0_REG = 32;
 	TA2CCR0_REG = 32;
 	sharpestCurve = 100; // Tightest curve radius in cm
@@ -76,7 +77,7 @@ void setup() {
 	corneringPBrakeFactor = 0; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
 	motorKp = 0; // Proportional gain of the motors.
 	motorKd = 0; // Differential gain of the motors.
-	Desired_Speed=35;
+	Desired_Speed = 35;
 }
 
 
