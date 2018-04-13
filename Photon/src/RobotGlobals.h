@@ -46,7 +46,7 @@ float Desired_Speed;
 Controls
 ==========*/
 char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
-int timeStamp;	// The time Photon received the data from SPI.
+unsigned long int timeStamp;	// The time Photon received the data from SPI.
 
 /*========
 Settings
