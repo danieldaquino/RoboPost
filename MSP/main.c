@@ -54,6 +54,7 @@ int main(void)
 	// Let's get this party started!
 		
 	while(1) {
+	    LSRead();
 	     coloor=CsRead();
 	     //__delay_cycles(1000);
 	     if(coloor==1)//red

@@ -1,6 +1,33 @@
+/*===============================
+
+    Docking Module/Color_Sensor
+
+    this C module is part of Docking function.
+    It provides functions that allow you to communicate with color sensor which is needed for Docking.
+
+    Written by Tim Yue and Daniel Walnut
+
+    Resources used:
+
+    1. port 3.0(SDA) & port 3.1（SCL)
+    2. power pins 3.3V and GND
+    3. UCSI(B0)
+
+    Requirements:
+
+    1. ArrayUtils module
+    2. I2C_Module
+
+===============================*/
+/*=================================
+ * includes
+ =================================*/
 #include <msp430.h>
 #include <stdint.h>
 #include "I2CModule/I2CModule.h"
+/*=================================
+ * DEFINITIONS
+ =================================*/
 #define CS_ADDR 0x29
 #define ID_reg  0x12
 #define COMMAND_BIT 0X80
@@ -17,8 +44,32 @@
 #define CREG    0x14
 #define RED     1
 #define BLUE    2
+/*==============================
+
+    ~~ColorSensorInit~~
+
+    Initializes the Color Sensor
+
+    inputs: none
+    outputs: none
+    Globals Affected: none
+
+==============================*/
 void ColorSensorInit();
-char CsRead();
+/*==============================
+
+    ~~CsRead~~
+
+    Get reading from color sensor and determine if it is blue or
+    red or something else
+
+
+    inputs: none
+    outputs: 1 if red,2 if blue, 0 if something else
+    Globals Affected: none
+
+==============================*/
+char CSRead();
 void ColorSensorInit()
 {
     uint8_t receiveBuffer[30];
@@ -36,21 +87,18 @@ void ColorSensorInit()
     Data=Gain;
     I2CWrite(CS_ADDR,COMMAND_BIT|CONTROL,&Data,TYPE_0_LENGTH);//set Gain
     Data=PON;
-    I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);
-    __delay_cycles(5);
+    I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// turn on LED
+    __delay_cycles(5);  //wait for led to fully turn on
     Data=PON|AEN;
-        I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);
+        I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// enable color sensor
 }
-char CsRead()
+char CSRead()
 {
     uint8_t r=0;
-    uint8_t g=0;
     uint8_t b=0;
     uint8_t receiveBuffer[2];
     I2CRead(CS_ADDR,COMMAND_BIT|RREG , 2, receiveBuffer);// read Red sensor reading
     r=receiveBuffer[0];
-    I2CRead(CS_ADDR,COMMAND_BIT|GREG , 2, receiveBuffer);// read Green sensor reading
-    g=receiveBuffer[0];
     I2CRead(CS_ADDR,COMMAND_BIT|BREG , 2, receiveBuffer);// read Blue sensor reading
     b=receiveBuffer[0];
     if(r>100&&b<80)
