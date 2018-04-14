@@ -28,41 +28,56 @@ by Daniel Walnut and Tim Yue
 #include "LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
 #include "LineCruiser/LineSensorDriver/LineSensorDriver.h"
 
+/*=======
+Function prototypes
+========*/
+/*========================
+
+	~~ wifiSetCruiseSpeed ~~
+	
+	set the cruise speed from online command.
+	
+	inputs: none;
+	outputs: none;
+	Globals Affected: All globals commanded by lineCruiser. Check lineCruiser.h for more.
+
+=========================*/
+void wifiSetCruiseSpeed();
+
+/*=======
+Function definitions
+========*/
+
 int main(void)
 {
 	//====== Initialization ==========
-	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+	WDTCTL = WDTPW | WDTHOLD;				// (1) stop watchdog timer
 
-	boostClockTo16MHz();	// Setup the CPU rate. MUST BE DONE BEFORE the other modules.
+	boostClockTo16MHz();					// (2) Setup the CPU rate. MUST BE DONE BEFORE the other modules.
 	
-	schedulerInit();		// Setup scheduler before the line cruiser!!
-	lineCruiserInit();		// Initialize the line cruiser.
-	UARTIOInit(); 			// Initialize communication with Computer Console
-	setupStartStop();		// Setup Start and Stop functionality
-	ucsiB1SpiInit();
+	schedulerInit();						// (3) Setup scheduler somewhere before the line cruiser!!
+	lineCruiserInit();						// (4) Initialize the line cruiser.
+	setupStartStop();						// (6) Setup Start and Stop functionality
+	PhotonSPIModuleInit();					// (7) Initialize SPI communications with Photon
+	UARTIOInit(); 							// (8) Initialize communication with Computer Console
 	
+	// Schedule miscellaneous Callbacks
+	scheduleCallback(&wifiSetCruiseSpeed);	// (9) Add Wifi Control of speed to the list of callbacks
+	
+	// Set initial values
+	robotPlay = 0;
+	
+	// ********************************
 	__enable_interrupt(); 	// Enable global interrupts. Everything must be configured before this.
-	
 	//==== Initialization Done. =======
 	
-	// Let's begin with the robot stopped, for safety reasons
-	stopRobot();
 	// Let's get this party started!
 		
-	while(1) {
-		robotPlayUpdate();	// Check if we need to stop
-		lineCruise(Desired_Speed); // Let's cruise at 30cm/s
-		
-	    InfoBoardUpdate();	// Update values, send measurements over SPI
-	    
-		LSRead(); // CANNOT BE IN SCHEDULER BECAUSE IT NEEDS GIE TO WORK.
-		
-		char LeString[150];
-		int strSize;
-		strSize = sprintf(LeString, "Set Speed: %d | Set Curve: %d | S: %d cm/s | R: %d cm\n\r", (int) diffDriverSetSpeed, (int) diffDriverSetCurve, (int) getSpeed(), (int) getCurveRadius());
-		UARTIOSend(LeString, strSize);
-		
-		__delay_cycles(16000);
-	}
+	schedulerRun();
+	
 	return 0;
+}
+
+void wifiSetCruiseSpeed() {
+	lineCruise(Desired_Speed);
 }

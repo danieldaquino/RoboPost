@@ -7,6 +7,7 @@
 	## Requirements
 	1. Two DC motors
 	2. Two TI DRV8871 Motor drivers
+	3. Scheduler module
 	
 	## Resources used:
 	
@@ -64,6 +65,9 @@ Macros
 #define MOTOR_2_REV_TIME_REG TA2CCR2
 #define MOTOR_2_REV_TIME_CTL TA2CCTL2
 
+#define MOTOR_1_FREQ_REG TA0CCR0
+#define MOTOR_2_FREQ_REG TA2CCR0
+
 #define MAX_DUTY_CYCLE 0.8
 #define MIN_FREQUENCY 100
 #define MAX_FREQUENCY 3000
@@ -101,6 +105,17 @@ outputs: return status... 0 is ok. 1 means failed.
 Globals affected: Timer A0 or Timer A2
 =======*/
 char shiftFrequency(char motor, int frequency);
+
+/*======
+~~ updateMotors ~~
+
+Motors update with all the next settings done in shiftFrequency and setDutyCycle.
+
+inputs: none
+outputs: none
+Globals affected: Timer A0 and Timer A2
+=======*/
+void updateMotors(void);
 
 /*======
 ~~setDutyCycle~~

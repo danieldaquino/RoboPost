@@ -16,6 +16,7 @@
 #include "../../I2CModule/I2CModule.h"
 #include "LineSensorDriver.h"
 #include "../../ArrayUtils/ArrayUtils.h"
+#include "../../Scheduler/Scheduler.h"
 
 void lineSensorInit()
 {
@@ -36,6 +37,8 @@ void lineSensorInit()
 	I2CWrite(LINE_ADDRESS, 0x0E, &data1, TYPE_0_LENGTH);
 	I2CWrite(LINE_ADDRESS, 0x10, &data2, TYPE_0_LENGTH);
 	// config finished
+	
+	scheduleInputCallback(&LSRead);
 }
 
 float LSRead()

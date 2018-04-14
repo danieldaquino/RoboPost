@@ -21,6 +21,7 @@ Includes
 =======*/
 #include "StartStop.h"
 #include <msp430.h>
+#include "../Scheduler/Scheduler.h"
 
 /*======
 Static function prototypes
@@ -56,6 +57,8 @@ void setupStartStop() {
 	P1REN |= BUTTON_1;	// Setup the pull up
 	P1IES |= BUTTON_1;	// On the falling edge
 	P1IE |= BUTTON_1;	// Turn on interrupts for the button
+	
+	scheduleCallback(&robotPlayUpdate);
 }
 
 void stopRobot() {
@@ -85,6 +88,30 @@ static void stopRobotOperations() {
 			P1OUT &= ~RED_LED;
 			return;
 		}
+	}
+	
+	// Button is being pressed again! Time to start again?
+	__delay_cycles(DEBOUNCE_DELAY); // 1/4 of a second debounce
+	if(BUTTON_1_PRESSED) {
+		// Ok, it was really pressed. Now, let's wait until it is released.		
+		while(BUTTON_1_PRESSED) {
+				// Wait to be released
+		}
+	}
+	// Time to turn on!
+	P1OUT &= ~RED_LED;
+}
+
+void offlineStopRobotOperations() {
+	// Indicate we are stopped.
+	P1OUT |= RED_LED;
+	// Remember, GIE is already off, so we don't need to stop that.
+	while(BUTTON_1_RELEASED) {
+		TA0CCR1 = 0;
+		TA0CCR2 = 0;
+		TA2CCR1 = 0;
+		TA2CCR2 = 0;
+		// NO INFOBOARD UPDATE
 	}
 	
 	// Button is being pressed again! Time to start again?

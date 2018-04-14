@@ -1,6 +1,7 @@
 #include "../ucsiSpi/ucsiSpi.h"
 #include "Photon_SPI_Module.h"
 #include <msp430.h>
+#include "../Scheduler/Scheduler.h"
 
 // Includes necessary to get the variables and change parameters
 #include "../LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
@@ -102,4 +103,10 @@ static void ReceiveInfoBoard() {
 	i++;
 	Desired_Speed=CommandArray[i];
 
+}
+
+void PhotonSPIModuleInit() {
+	Desired_Speed = 0;
+	ucsiB1SpiInit();
+	scheduleCallback(&InfoBoardUpdate);
 }

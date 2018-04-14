@@ -89,5 +89,5 @@ void velocityGaugeInit(void) {
 	P_ENCODER_OUT &= ~ENCODERS; // Pull down resistor
 	
 	// Schedule periodic calculations
-	scheduleCallback(&velocityTimerISR);
+	scheduleInputCallback(&velocityTimerISR);
 }

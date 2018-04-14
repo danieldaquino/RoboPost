@@ -17,11 +17,21 @@ Includes
 =======*/
 #include <msp430.h>
 #include "DualMotorDriver.h"
+#include "../../../../Scheduler/Scheduler.h"
 
 /*======
 Statics
 =======*/
 static float d[2];
+
+static int new_MOTOR_1_FWD_TIME_REG;
+static int new_MOTOR_2_FWD_TIME_REG;
+
+static int new_MOTOR_1_REV_TIME_REG;
+static int new_MOTOR_2_REV_TIME_REG;
+
+static int new_MOTOR_1_FREQ_REG;
+static int new_MOTOR_2_FREQ_REG;
 
 /*======
 Functions
@@ -49,25 +59,25 @@ void setDutyCycle(char motor, float D) {
 		// Going forward. Which motor is this?
 		if(motor == 1) {
 			//Motor 1 fwd. Set Motor1FWD and put the REV to ZERO duty cycle
-			MOTOR_1_FWD_TIME_REG = (int) (TA0CCR0*D);
-			MOTOR_1_REV_TIME_REG = 0;
+			new_MOTOR_1_FWD_TIME_REG = (int) (new_MOTOR_1_FREQ_REG*D);
+			new_MOTOR_1_REV_TIME_REG = 0;
 			return;
 		}
 		else if(motor == 2) {
-			MOTOR_2_FWD_TIME_REG = (int) (TA2CCR0*D);
-			MOTOR_2_REV_TIME_REG = 0;
+			new_MOTOR_2_FWD_TIME_REG = (int) (new_MOTOR_2_FREQ_REG*D);
+			new_MOTOR_2_REV_TIME_REG = 0;
 			return;
 		}
 	}
 	else {
 		if(motor == 1) {
-			MOTOR_1_FWD_TIME_REG = 0;
-			MOTOR_1_REV_TIME_REG = (int) (TA0CCR0*D);
+			new_MOTOR_1_FWD_TIME_REG = 0;
+			new_MOTOR_1_REV_TIME_REG = (int) (new_MOTOR_1_FREQ_REG*D);
 			return;
 		}
 		else if(motor == 2) {
-			MOTOR_2_FWD_TIME_REG = 0;
-			MOTOR_2_REV_TIME_REG = (int) (TA2CCR0*D);
+			new_MOTOR_2_FWD_TIME_REG = 0;
+			new_MOTOR_2_REV_TIME_REG = (int) (new_MOTOR_2_FREQ_REG*D);
 			return;
 		}
 	}
@@ -79,12 +89,12 @@ char shiftFrequency(char motor, int frequency) {
 		return 1;
 	}
 	if(motor == 1) {
-		TA0CCR0 = 32000/frequency;
+		new_MOTOR_1_FREQ_REG = 32000/frequency;
 		// This prevents big big spikes on shifting.
 		setDutyCycle(1, d[0]);
 	}
 	else if(motor == 2) {
-		TA2CCR0 = 32000/frequency;		
+		new_MOTOR_2_FREQ_REG = 32000/frequency;		
 		// This prevents big big spikes on shifting.
 		setDutyCycle(2, d[1]);
 	}
@@ -93,6 +103,20 @@ char shiftFrequency(char motor, int frequency) {
 		return 1;
 	}
 	return 0;
+}
+
+void updateMotors() {
+	// Update forward pwms
+	MOTOR_1_FWD_TIME_REG = new_MOTOR_1_FWD_TIME_REG;
+	MOTOR_2_FWD_TIME_REG = new_MOTOR_2_FWD_TIME_REG;
+
+	// Update reverse pwms
+	MOTOR_1_REV_TIME_REG = new_MOTOR_1_REV_TIME_REG;
+	MOTOR_2_REV_TIME_REG = new_MOTOR_2_REV_TIME_REG;
+
+	// Update frequency on pwms
+	MOTOR_1_FREQ_REG = new_MOTOR_1_FREQ_REG;
+	MOTOR_2_FREQ_REG = new_MOTOR_2_FREQ_REG;
 }
 
 void setupPWM() {
@@ -105,7 +129,8 @@ void setupPWM() {
 	*/
 	TA0CTL = TASSEL_1 | ID_0 | MC_1;
 	// 320 counts do that f = 32KHz/320 = 100Hz.
-	TA0CCR0 = 320;
+	new_MOTOR_1_FREQ_REG = 320;
+	MOTOR_1_FREQ_REG = 320;
 	
 	// SETUP TIMER A2 for motor 2
 	/* 
@@ -116,19 +141,24 @@ void setupPWM() {
 	*/
 	TA2CTL = TASSEL_1 | ID_0 | MC_1;
 	// 320 counts do that f = 32KHz/320 = 100Hz.
-	TA2CCR0 = 320;
+	new_MOTOR_2_FREQ_REG = 320;
+	MOTOR_2_FREQ_REG = 320;
 	
 	// SETUP MOTOR Timer registers
 	// Motors are stopped by default
+	new_MOTOR_1_FWD_TIME_REG = 0;
 	MOTOR_1_FWD_TIME_REG = 0;
 	MOTOR_1_FWD_TIME_CTL = OUTMOD_7;
 	
+	new_MOTOR_1_REV_TIME_REG = 0;
 	MOTOR_1_REV_TIME_REG = 0;
 	MOTOR_1_REV_TIME_CTL = OUTMOD_7;
 	
+	new_MOTOR_2_FWD_TIME_REG = 0;
 	MOTOR_2_FWD_TIME_REG = 0;
 	MOTOR_2_FWD_TIME_CTL = OUTMOD_7;
 	
+	new_MOTOR_2_REV_TIME_REG = 0;
 	MOTOR_2_REV_TIME_REG = 0;
 	MOTOR_2_REV_TIME_CTL = OUTMOD_7;
 	
@@ -141,4 +171,7 @@ void setupPWM() {
 	// Initialize Duty cycle buffers to zero
 	d[0] = 0;
 	d[1] = 0;
+	
+	// Schedule the motor outputs
+	scheduleOutputCallback(&updateMotors);
 }

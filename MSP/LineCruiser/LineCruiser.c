@@ -75,8 +75,11 @@ static void controlCruise(void) {
 }
 
 char lineCruiserInit() {
-	diffDriverInit();	// Initialize Differential Drive	
-	lineSensorInit();	// Initialize Line Sensor
+	scheduleCallback(&controlCruise); // Schedule Control Cruise before the motor controller!
+	//******************************
+	diffDriverInit();	// Initialize Differential Drive. Should be after you scheduled control cruise. Should be before line Sensor	
+	//******************************
+	lineSensorInit();	// Initialize Line Sensor. Should be after diffDriverInit.
 	
 	// Default params
 	speedSetpoint = 0;	// For safety
@@ -85,6 +88,4 @@ char lineCruiserInit() {
 	cruiseKp = 0.45;
 	corneringDBrakeFactor = 0.95;
 	corneringPBrakeFactor = 0.05;
-	
-	scheduleCallback(&controlCruise);
 }
