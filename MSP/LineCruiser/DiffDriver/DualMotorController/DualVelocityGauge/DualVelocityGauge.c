@@ -29,9 +29,9 @@ Includes
 Statics
 =======*/
 static long int encoder1Count;
-static long int enc1CountsIn100ms;
+static long int enc1CountsInControlLoop;
 static long int encoder2Count;
-static long int enc2CountsIn100ms;
+static long int enc2CountsInControlLoop;
 
 //To do: Create shared port ISR driver module
 #pragma vector=P_ENCODER_VECTOR
@@ -62,19 +62,19 @@ __interrupt void encoderISR(void) {
 
 void velocityTimerISR(void) {
 
-	enc1CountsIn100ms = encoder1Count; // Get encoder 1 count
+	enc1CountsInControlLoop = encoder1Count; // Get encoder 1 count
 	encoder1Count = 0; // Reset encoder count
 	
-	enc2CountsIn100ms = encoder2Count; // Get encoder 2 count
+	enc2CountsInControlLoop = encoder2Count; // Get encoder 2 count
 	encoder2Count = 0;
 }
 
 float getRPM(char motor) {
 	if(motor == 1) {
-		return (60*((double) enc1CountsIn100ms*10)/COUNTS_PER_REV)/GEAR_RATIO;
+		return (60*((double) enc1CountsInControlLoop*FREQUENCY_HZ)/COUNTS_PER_REV)/GEAR_RATIO;
 	}
 	else if(motor == 2) {
-		return (60*((double) enc2CountsIn100ms*10)/COUNTS_PER_REV)/GEAR_RATIO;		
+		return (60*((double) enc2CountsInControlLoop*FREQUENCY_HZ)/COUNTS_PER_REV)/GEAR_RATIO;		
 	}
 	else {
 		return 0;

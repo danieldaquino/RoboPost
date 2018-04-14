@@ -28,7 +28,7 @@ Includes
 Macros
 ========*/
 //MAX FREQUENCY IS 4000
-#define FREQUENCY_HZ 10
+#define FREQUENCY_HZ 30
 #define MAX_CALLBACKS 10
 #define GREEN_LED BIT7
 #define RED_LED BIT0
