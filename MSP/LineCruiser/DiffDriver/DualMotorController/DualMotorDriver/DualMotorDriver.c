@@ -83,18 +83,18 @@ void setDutyCycle(char motor, float D) {
 	}
 }
 
-char shiftFrequency(char motor, int frequency) {
+char shiftFrequency(char motor, long int frequency) {
 	if(frequency > MAX_FREQUENCY || frequency < MIN_FREQUENCY) {
 		// Bad input
 		return 1;
 	}
 	if(motor == 1) {
-		new_MOTOR_1_FREQ_REG = 32000/frequency;
+		new_MOTOR_1_FREQ_REG = (SMCLK_FREQUENCY/4)/frequency;
 		// This prevents big big spikes on shifting.
 		setDutyCycle(1, d[0]);
 	}
 	else if(motor == 2) {
-		new_MOTOR_2_FREQ_REG = 32000/frequency;		
+		new_MOTOR_2_FREQ_REG = (SMCLK_FREQUENCY/4)/frequency;		
 		// This prevents big big spikes on shifting.
 		setDutyCycle(2, d[1]);
 	}
@@ -122,27 +122,25 @@ void updateMotors() {
 void setupPWM() {
 	// SETUP TIMER A0 for motor 1
 	/* 
-	TASSEL_1 : ACLK
-	ID_0 : /1 divider clock; 32KHz / 1 = 32KHz
-	TA_MC_1 : Up mode
-	TAIE_0 : Interrupts disabled
+	TASSEL_2 : SMCLK
+	ID_2 : /4 divider clock; 16MHz / 4 = 4MHz
+	MC_1 : Up mode
 	*/
-	TA0CTL = TASSEL_1 | ID_0 | MC_1;
-	// 320 counts do that f = 32KHz/320 = 100Hz.
-	new_MOTOR_1_FREQ_REG = 320;
-	MOTOR_1_FREQ_REG = 320;
+	TA0CTL = TASSEL_2 | ID_2 | MC_1;
+	// 40000 counts do that f = 4MHz/40000 = 100Hz.
+	new_MOTOR_1_FREQ_REG = 40000;
+	MOTOR_1_FREQ_REG = 40000;
 	
 	// SETUP TIMER A2 for motor 2
 	/* 
-	TASSEL_1 : ACLK
-	ID_0 : /1 divider clock; 32KHz / 1 = 32KHz
-	TA_MC_1 : Up mode
-	TAIE_0 : Interrupts disabled
+	TASSEL_1 : SMCLK
+	ID_2 : /1 divider clock; 16MHz / 4 = 4MHz
+	MC_1 : Up mode
 	*/
-	TA2CTL = TASSEL_1 | ID_0 | MC_1;
-	// 320 counts do that f = 32KHz/320 = 100Hz.
-	new_MOTOR_2_FREQ_REG = 320;
-	MOTOR_2_FREQ_REG = 320;
+	TA2CTL = TASSEL_2 | ID_2 | MC_1;
+	// 40000 counts do that f = 4MHz/40000 = 100Hz.
+	new_MOTOR_2_FREQ_REG = 40000;
+	MOTOR_2_FREQ_REG = 40000;
 	
 	// SETUP MOTOR Timer registers
 	// Motors are stopped by default

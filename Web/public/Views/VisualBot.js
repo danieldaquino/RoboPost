@@ -174,15 +174,15 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.beginPath();
 		ctx.moveTo(xBegin, yCursor + PWMDiagramHeight);
 		ctx.lineTo(xBegin, yCursor);
-		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor], yCursor);
-		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor], yCursor + PWMDiagramHeight);
+		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor].toFixed(2), yCursor);
+		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor].toFixed(2), yCursor + PWMDiagramHeight);
 		ctx.lineTo(xBegin + boxWidth, yCursor + PWMDiagramHeight);
 		ctx.stroke();
 		yCursor += PWMDiagramHeight;	// Move Cursor
 		// Draw PWM Number
 		yCursor += textYMargin + cellPadding;	// Move Cursor
 		ctx.font= textSize + "px Futura";
-		ctx.fillText((that.Robot.Measurements.PWM[motor]*100) + "% – " + that.Robot.Measurements.F[motor] + "Hz", xBegin, yCursor);
+		ctx.fillText((that.Robot.Measurements.PWM[motor]*100).toFixed(0) + "% – " + that.Robot.Measurements.F[motor].toFixed(0) + "Hz", xBegin, yCursor);
 		// Draw Measured Speed bar
 		yCursor += cellPadding;
 		ctx.fillStyle = DriftingRed;

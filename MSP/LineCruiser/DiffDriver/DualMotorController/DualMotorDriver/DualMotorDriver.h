@@ -17,6 +17,7 @@
 	4. P2.5 for the Motor-2 Reverse PWM output
 	5. Timer A0 to generate PWM signals to the motor 1.
 	6. Timer A2 to generate PWM signals to the motor 2.
+	7. SMCLK. Make sure to input your SMCLK frequency into the macro in this file.
 	
 	## Customizing
 	
@@ -72,6 +73,9 @@ Macros
 #define MIN_FREQUENCY 100
 #define MAX_FREQUENCY 3000
 
+// Input the SMCLK you have. (Usually this is the same as the CPU frequency)
+#define SMCLK_FREQUENCY 16000000
+
 /*=======
 Globals
 =======*/
@@ -100,11 +104,11 @@ Use 100Hz for high stable speeds.
 
 inputs:
 	(char) Motor to be selected. please use 1 or 2
-	(int) frequency: frequency within the established range in MACROS
+	(long int) frequency: frequency within the established range in MACROS
 outputs: return status... 0 is ok. 1 means failed.
 Globals affected: Timer A0 or Timer A2
 =======*/
-char shiftFrequency(char motor, int frequency);
+char shiftFrequency(char motor, long int frequency);
 
 /*======
 ~~ updateMotors ~~
