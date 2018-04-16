@@ -43,7 +43,7 @@
 Macros
 ========*/
 // Number of parameters inside the Infoboard array
-#define NUM_PARAM 12
+#define NUM_PARAM 13
 
 /*=======
 Globals

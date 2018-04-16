@@ -104,11 +104,11 @@ Use 100Hz for high stable speeds.
 
 inputs:
 	(char) Motor to be selected. please use 1 or 2
-	(long int) frequency: frequency within the established range in MACROS
+	(unsigned int) frequency: frequency within the established range in MACROS
 outputs: return status... 0 is ok. 1 means failed.
 Globals affected: Timer A0 or Timer A2
 =======*/
-char shiftFrequency(char motor, long int frequency);
+char shiftFrequency(char motor, unsigned int frequency);
 
 /*======
 ~~ updateMotors ~~

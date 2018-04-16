@@ -20,6 +20,7 @@ Use at your own risk!?
 Includes
 ========*/
 #include "SPI-WITH-MSP430.h"
+#include "DataErrorCheck/DataErrorCheck.h"
 
 /*=======
 Function prototypes
@@ -41,6 +42,7 @@ float rcvdValues[NUM_PARAM];
 unsigned char command[NUM_PARAM];
 
 void SPIMSPSetup() {
+	dataErrorCheckInit();
 	// Initialize Serial port
 	Serial.begin(9600);
 	while (!Serial) continue;
@@ -80,34 +82,41 @@ void FillInfoBoard() {
 	sendValues[i] = motorKd; // Differential gain of the motors.
 	i++;
 	sendValues[i] = Desired_Speed;	//desired speed
+	stampMessage((unsigned char*) sendValues, NUM_PARAM*4);
 }
 
 void ReceiveInfoBoard() {
-	int i;
-	i = 0;
-	RPMLS = rcvdValues[i];				// RPMLS: Left RPM Setpoint
-	i++;
-	RPML = rcvdValues[i];					// RPML: Left RPM
-	i++;
-	RPMRS = rcvdValues[i];				// RPMRS: Right RPM Setpoint
-	i++;
-	RPMR = rcvdValues[i];					// RPMR: Right RPM
-	i++;
-	TA0CCR0_REG = rcvdValues[i];			// Left PWM Frequency register
-	i++;
-	TA0CCR1_REG = rcvdValues[i];			// Left PWM Frequency Forward duty cycle register
-	i++;
-	TA0CCR2_REG = rcvdValues[i];			// Left PWM Frequency Reverse duty cycle register
-	i++;
-	TA2CCR0_REG = rcvdValues[i];			// Right PWM Frequency register
-	i++;
-	TA2CCR1_REG = rcvdValues[i];			// Right PWM Frequency Forward duty cycle register
-	i++;
-	TA2CCR2_REG = rcvdValues[i];			// Right PWM Frequency Reverse duty cycle register
-	i++;
-	lastSensorPosition = rcvdValues[i];	// sensor: Sensor data (-1 - +1)
-	i++;
-	Color = rcvdValues[i];		//color reading from msp
+	if(checkDataError((unsigned char*) rcvdValues, NUM_PARAM*4)) {
+		// Transmission error.
+		return;
+	}
+	else {
+		int i;
+		i = 0;
+		RPMLS = rcvdValues[i];				// RPMLS: Left RPM Setpoint
+		i++;
+		RPML = rcvdValues[i];					// RPML: Left RPM
+		i++;
+		RPMRS = rcvdValues[i];				// RPMRS: Right RPM Setpoint
+		i++;
+		RPMR = rcvdValues[i];					// RPMR: Right RPM
+		i++;
+		TA0CCR0_REG = rcvdValues[i];			// Left PWM Frequency register
+		i++;
+		TA0CCR1_REG = rcvdValues[i];			// Left PWM Frequency Forward duty cycle register
+		i++;
+		TA0CCR2_REG = rcvdValues[i];			// Left PWM Frequency Reverse duty cycle register
+		i++;
+		TA2CCR0_REG = rcvdValues[i];			// Right PWM Frequency register
+		i++;
+		TA2CCR1_REG = rcvdValues[i];			// Right PWM Frequency Forward duty cycle register
+		i++;
+		TA2CCR2_REG = rcvdValues[i];			// Right PWM Frequency Reverse duty cycle register
+		i++;
+		lastSensorPosition = rcvdValues[i];	// sensor: Sensor data (-1 - +1)
+		i++;
+		Color = rcvdValues[i];		//color reading from msp
+	}
 }
 
 void slaveSelect(uint8_t state) {

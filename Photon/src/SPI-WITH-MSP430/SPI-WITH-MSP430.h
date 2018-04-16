@@ -21,7 +21,7 @@ Use at your own risk!?
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 12
+#define NUM_PARAM 13
 
 /*=======
 Function prototypes

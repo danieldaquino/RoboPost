@@ -24,14 +24,14 @@ Statics
 =======*/
 static float d[2];
 
-static int new_MOTOR_1_FWD_TIME_REG;
-static int new_MOTOR_2_FWD_TIME_REG;
+static unsigned int new_MOTOR_1_FWD_TIME_REG;
+static unsigned int new_MOTOR_2_FWD_TIME_REG;
 
-static int new_MOTOR_1_REV_TIME_REG;
-static int new_MOTOR_2_REV_TIME_REG;
+static unsigned int new_MOTOR_1_REV_TIME_REG;
+static unsigned int new_MOTOR_2_REV_TIME_REG;
 
-static int new_MOTOR_1_FREQ_REG;
-static int new_MOTOR_2_FREQ_REG;
+static unsigned int new_MOTOR_1_FREQ_REG;
+static unsigned int new_MOTOR_2_FREQ_REG;
 
 /*======
 Functions
@@ -59,12 +59,12 @@ void setDutyCycle(char motor, float D) {
 		// Going forward. Which motor is this?
 		if(motor == 1) {
 			//Motor 1 fwd. Set Motor1FWD and put the REV to ZERO duty cycle
-			new_MOTOR_1_FWD_TIME_REG = (int) (new_MOTOR_1_FREQ_REG*D);
+			new_MOTOR_1_FWD_TIME_REG = (unsigned int) (new_MOTOR_1_FREQ_REG*D);
 			new_MOTOR_1_REV_TIME_REG = 0;
 			return;
 		}
 		else if(motor == 2) {
-			new_MOTOR_2_FWD_TIME_REG = (int) (new_MOTOR_2_FREQ_REG*D);
+			new_MOTOR_2_FWD_TIME_REG = (unsigned int) (new_MOTOR_2_FREQ_REG*D);
 			new_MOTOR_2_REV_TIME_REG = 0;
 			return;
 		}
@@ -72,18 +72,18 @@ void setDutyCycle(char motor, float D) {
 	else {
 		if(motor == 1) {
 			new_MOTOR_1_FWD_TIME_REG = 0;
-			new_MOTOR_1_REV_TIME_REG = (int) (new_MOTOR_1_FREQ_REG*D);
+			new_MOTOR_1_REV_TIME_REG = (unsigned int) (new_MOTOR_1_FREQ_REG*D);
 			return;
 		}
 		else if(motor == 2) {
 			new_MOTOR_2_FWD_TIME_REG = 0;
-			new_MOTOR_2_REV_TIME_REG = (int) (new_MOTOR_2_FREQ_REG*D);
+			new_MOTOR_2_REV_TIME_REG = (unsigned int) (new_MOTOR_2_FREQ_REG*D);
 			return;
 		}
 	}
 }
 
-char shiftFrequency(char motor, long int frequency) {
+char shiftFrequency(char motor, unsigned int frequency) {
 	if(frequency > MAX_FREQUENCY || frequency < MIN_FREQUENCY) {
 		// Bad input
 		return 1;

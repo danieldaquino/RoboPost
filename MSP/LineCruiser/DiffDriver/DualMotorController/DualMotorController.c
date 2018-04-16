@@ -20,7 +20,7 @@ Statics
 ========*/
 static float previousDutyCycle[2] = {0, 0};
 static float previousError[2] = {0, 0};
-static long int currentFrequency[2] = {100, 100};
+static unsigned int currentFrequency[2] = {100, 100};
 
 /*=======
 Function Definitions
