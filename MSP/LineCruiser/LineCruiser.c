@@ -60,8 +60,8 @@ static void controlCruise(void) {
 	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
 		// internalLastSensorPosition will be the latest valid one.
 		accumDecay *= decayRate;
-		// Decay until reaches 35% of speed
-		internalSpeedSetpoint = speedSetpoint*(accumDecay + 0.35*(1-accumDecay));
+		// Decay until reaches 15cm/s of speed
+		internalSpeedSetpoint = speedSetpoint*accumDecay + 15*(1-accumDecay);
 	}
 	else {
 		accumDecay = 1;
