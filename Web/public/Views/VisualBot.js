@@ -44,8 +44,8 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 	that.Render = function() {
 		// Clear canvas for redrawing.
 		ctx.clearRect(0, 0, that.Canvas.width, that.Canvas.height);
-		RenderCurveRadius(that.Robot.Measurements.CurveRadius, SettleBlue, 10);
-		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, DriftingRed, 10);
+		RenderCurveRadius(that.Robot.Measurements.CurveRadius, DriftingRed, 10);
+		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, SettleBlue, 10);
 		RenderCar();
 		RenderMotorBox(0);
 		RenderMotorBox(1);
@@ -73,6 +73,9 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.beginPath();
 		// Calculate curve radius in px.
 		var pxCurveRadius;
+		if(curveRadius == Infinity) {
+			curveRadius = 32767;
+		}
 		pxCurveRadius = curveRadius/(that.Robot.Parameters.WheelBase/(that.Visual.Size*0.5));
 		if(curveRadius > 0) {
 			// Positive curve radius
