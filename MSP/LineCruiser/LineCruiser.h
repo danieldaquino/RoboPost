@@ -51,6 +51,9 @@ float corneringPBrakeFactor;
 /*=======
 Macros
 ========*/
+// The rate at which speed decays in every control loop, if no line was found.
+// 0.954^30Hz = 0.25/s, meaning speed will be divided by four every second.
+#define DECAY_RATE 0.977
 
 /*=======
 Function prototypes

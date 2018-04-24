@@ -21,8 +21,13 @@ Includes
 Statics
 ========*/
 static int speedSetpoint;
-static float lastLastSensorPosition;
 static float lastSensorError;
+static double lastSharpness;
+
+// Create variables that we can overwrite to in case of losing the line
+static int internalSpeedSetpoint;
+static float internalLastSensorPosition;
+
 
 /*=======
 Static Function Prototypes
@@ -51,21 +56,43 @@ char lineCruise(float speed) {
 }
 
 static void controlCruise(void) {
+	
 	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
-		diffDrive(0, 32000); // If no line was detected, then stop the car.
-		return;
+		// internalLastSensorPosition will be the latest valid one.
+		internalSpeedSetpoint = ((float) internalSpeedSetpoint)*DECAY_RATE;
 	}
+	else {
+		internalSpeedSetpoint = speedSetpoint;
+		internalLastSensorPosition = lastSensorPosition;
+	}
+	
+	
 	// Get errors
-	float sensorError = 0 - lastSensorPosition;
+	float sensorError = 0 - internalLastSensorPosition;
 	float dSensorError = sensorError - lastSensorError;
 	
 	// Speed calculations
 	int newSpeed;
-	newSpeed = speedSetpoint*(1 - abs(dSensorError)*corneringDBrakeFactor - abs(sensorError)*corneringPBrakeFactor); // Slows down if line is moving too fast
+	newSpeed = internalSpeedSetpoint*(1 - abs(dSensorError)*corneringDBrakeFactor - abs(sensorError)*corneringPBrakeFactor); // Slows down if line is moving too fast
 	
 	// Calculate Radius
 	int newCurveRadius;
 	newCurveRadius = -sharpestCurve/(cruiseKp*sensorError + cruiseKd*dSensorError);
+	
+	// Integrate Sharpness
+	double newSharpness;
+	newSharpness = 0.5*lastSharpness + 1/((double) newCurveRadius);
+	// Add a saturation
+	if(newSharpness > 1/((double) sharpestCurve) ) {
+		newSharpness = 1/((double) sharpestCurve);
+	}
+	else if(newSharpness < -1/((double) sharpestCurve) ) {
+		newSharpness = -1/((double) sharpestCurve);		
+	}
+	lastSharpness = newSharpness;
+	
+	// Get that into new curve radius
+	newCurveRadius = 1/newSharpness;
 		
 	// Differential Drive
 	diffDrive(newSpeed, newCurveRadius);
@@ -88,4 +115,8 @@ char lineCruiserInit() {
 	cruiseKp = 0.45;
 	corneringDBrakeFactor = 0.95;
 	corneringPBrakeFactor = 0.05;
+	lastSharpness = 0;
+	
+	internalSpeedSetpoint = 0;
+	internalLastSensorPosition = 0;
 }
