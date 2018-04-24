@@ -42,6 +42,11 @@ float Color;
 // Desired speed
 float Desired_Speed;
 
+// Decay Rate
+float decayRate;
+// Integrator constant
+float cruiseKi;
+
 /*========
 Controls
 ==========*/

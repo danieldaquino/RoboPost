@@ -111,6 +111,10 @@ static void ReceiveInfoBoard() {
 		motorKd = CommandArray[i];
 		i++;
 		Desired_Speed=CommandArray[i];
+		i++;
+		decayRate = CommandArray[i];
+		i++;
+		cruiseKi = CommandArray[i];
 	}
 }
 

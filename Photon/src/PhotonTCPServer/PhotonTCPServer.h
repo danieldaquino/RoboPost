@@ -62,6 +62,8 @@ extern float corneringPBrakeFactor; // Number between 0 and 1 to tell how much t
 extern float motorKp; // Proportional gain of the motors.
 extern float motorKd; // Differential gain of the motors.
 
+extern float decayRate; // Decay of speed after it loses a line
+extern float cruiseKi; // Decay of speed after it loses a line
 
 /*======
 	~~PhotonTCPServerInit~~

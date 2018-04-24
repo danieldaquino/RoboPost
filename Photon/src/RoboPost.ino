@@ -73,8 +73,10 @@ void setup() {
 	sharpestCurve = 100; // Tightest curve radius in cm
 	cruiseKp = 0; // Proportional gain of the lineCruiser
 	cruiseKd = 0; // Differential gain of the lineCruiser
+	cruiseKi = 0; // Integral gain of the lineCruiser
 	corneringDBrakeFactor = 0; // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve.
 	corneringPBrakeFactor = 0; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
+	decayRate = 0; // Number between 0 and 1 to tell how much to decay speed when loses a line
 	motorKp = 0; // Proportional gain of the motors.
 	motorKd = 0; // Differential gain of the motors.
 	Desired_Speed = 35;

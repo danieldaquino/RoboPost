@@ -42,18 +42,18 @@ int sharpestCurve;
 // CRUISE_KP + CRUISE_KD = 1
 float cruiseKd;
 float cruiseKp;
+float cruiseKi;
 // Number between 0 and 1 to tell how much to slow down in tightening curves. 0 means never slows down. 1 means full stop on tightest curve
 float corneringDBrakeFactor;
 // Number between 0 and 1 to tell how much to slow down in any curve. 0 means never slows down. 1 means full stop on tightest curve
 float corneringPBrakeFactor;
 // CORNERING_P_SPEED_FACTOR + CORNERING_D_SPEED_FACTOR must NEVER BE BIGGER THAN 1
+// The rate at which speed decays in every control loop, if no line was found.
+float decayRate;
 
 /*=======
 Macros
 ========*/
-// The rate at which speed decays in every control loop, if no line was found.
-// 0.954^30Hz = 0.25/s, meaning speed will be divided by four every second.
-#define DECAY_RATE 0.977
 
 /*=======
 Function prototypes

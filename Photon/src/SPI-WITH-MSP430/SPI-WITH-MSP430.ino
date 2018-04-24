@@ -82,6 +82,10 @@ void FillInfoBoard() {
 	sendValues[i] = motorKd; // Differential gain of the motors.
 	i++;
 	sendValues[i] = Desired_Speed;	//desired speed
+	i++;
+	sendValues[i] = decayRate;
+	i++;
+	sendValues[i] = cruiseKi;
 	stampMessage((unsigned char*) sendValues, NUM_PARAM*4);
 }
 

@@ -21,7 +21,7 @@ Use at your own risk!?
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 13
+#define NUM_PARAM 15
 
 /*=======
 Function prototypes
@@ -68,6 +68,9 @@ extern float corneringDBrakeFactor; // Number between 0 and 1 to tell how much t
 extern float corneringPBrakeFactor; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
 extern float motorKp; // Proportional gain of the motors.
 extern float motorKd; // Differential gain of the motors.
+
+extern float decayRate; // Decay rate of speed if robot misses the line
+extern float cruiseKi;	// Integrator constant
 
 /*======
 ~~SPIMSPLoop~~

@@ -173,6 +173,8 @@ void HandleIncomingData(String data) {
 		motorKp = LeJSON["variables"]["motorKp"];
 		motorKd = LeJSON["variables"]["motorKd"];
 		Desired_Speed= LeJSON["variables"]["desiredSpeed"];
+		decayRate = LeJSON["variables"]["decayRate"];
+		cruiseKi = LeJSON["variables"]["cruiseKi"];
 		
 		JSONResponse["status"] = 0;
 		

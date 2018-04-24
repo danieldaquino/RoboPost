@@ -56,16 +56,18 @@ char lineCruise(float speed) {
 }
 
 static void controlCruise(void) {
-	
+	static float accumDecay;
 	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
 		// internalLastSensorPosition will be the latest valid one.
-		internalSpeedSetpoint = ((float) internalSpeedSetpoint)*DECAY_RATE;
+		accumDecay *= decayRate;
+		// Decay until reaches 35% of speed
+		internalSpeedSetpoint = speedSetpoint*(accumDecay + 0.35*(1-accumDecay));
 	}
 	else {
+		accumDecay = 1;
 		internalSpeedSetpoint = speedSetpoint;
 		internalLastSensorPosition = lastSensorPosition;
 	}
-	
 	
 	// Get errors
 	float sensorError = 0 - internalLastSensorPosition;
@@ -81,7 +83,7 @@ static void controlCruise(void) {
 	
 	// Integrate Sharpness
 	double newSharpness;
-	newSharpness = 0.5*lastSharpness + 1/((double) newCurveRadius);
+	newSharpness = cruiseKi*lastSharpness + 1/((double) newCurveRadius);
 	// Add a saturation
 	if(newSharpness > 1/((double) sharpestCurve) ) {
 		newSharpness = 1/((double) sharpestCurve);
@@ -116,6 +118,9 @@ char lineCruiserInit() {
 	corneringDBrakeFactor = 0.95;
 	corneringPBrakeFactor = 0.05;
 	lastSharpness = 0;
+	// 0.954^30Hz = 0.25/s, meaning speed will be divided by four every second.
+	decayRate = 0.977;
+	cruiseKi = 0.5;
 	
 	internalSpeedSetpoint = 0;
 	internalLastSensorPosition = 0;

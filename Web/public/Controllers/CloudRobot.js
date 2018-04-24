@@ -85,8 +85,10 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		JSONToSend.sharpestCurve = that.CarRobot.Settings.Cruise.Sharpness;
 		JSONToSend.cruiseKp = that.CarRobot.Settings.Cruise.Kp;
 		JSONToSend.cruiseKd = that.CarRobot.Settings.Cruise.Kd;
+		JSONToSend.cruiseKi = that.CarRobot.Settings.Cruise.Ki;
 		JSONToSend.corneringDBrakeFactor = that.CarRobot.Settings.Cruise.DBrake;
 		JSONToSend.corneringPBrakeFactor = that.CarRobot.Settings.Cruise.PBrake;
+		JSONToSend.decayRate = that.CarRobot.Settings.Cruise.DecayRate;
 		JSONToSend.motorKp = that.CarRobot.Settings.Motor.Kp;
 		JSONToSend.motorKd = that.CarRobot.Settings.Motor.Kd;
 		JSONToSend.desiredSpeed = that.CarRobot.Settings.DesiredSpeed;
@@ -122,8 +124,10 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 			that.CarRobot.Settings.Cruise.Sharpness,
 			that.CarRobot.Settings.Cruise.Kp,
 			that.CarRobot.Settings.Cruise.Kd,
+			that.CarRobot.Settings.Cruise.Ki,
 			that.CarRobot.Settings.Cruise.DBrake,
 			that.CarRobot.Settings.Cruise.PBrake,
+			that.CarRobot.Settings.Cruise.DecayRate,
 			that.CarRobot.Settings.Motor.Kp,
 			that.CarRobot.Settings.Motor.Kd
 		]);
