@@ -70,6 +70,7 @@ function CarRobot() {
 	Robot Settings
 	========*/
 	that.Settings = new Object();
+	that.Settings.DesiredSpeed = 0;
 	that.Settings.Cruise = new Object();
 	that.Settings.Cruise.Sharpness = 100;
 	that.Settings.Cruise.Kp = 0;
@@ -93,6 +94,32 @@ function CarRobot() {
 	/*=======
 	Methods
 	========*/
+	that.SaveSettings = function() {
+		localStorage.setItem("DesiredSpeed", that.Settings.DesiredSpeed);
+		localStorage.setItem("CruiseSharpness", that.Settings.Cruise.Sharpness);
+		localStorage.setItem("CruiseKp", that.Settings.Cruise.Kp);
+		localStorage.setItem("CruiseKd", that.Settings.Cruise.Kd);
+		localStorage.setItem("CruiseKi", that.Settings.Cruise.Ki);
+		localStorage.setItem("DBrake", that.Settings.Cruise.DBrake);
+		localStorage.setItem("PBrake", that.Settings.Cruise.PBrake);
+		localStorage.setItem("DecayRate", that.Settings.Cruise.DecayRate);
+		localStorage.setItem("MotorKp", that.Settings.Motor.Kp);
+		localStorage.setItem("MotorKd", that.Settings.Motor.Kd);
+	}
+	
+	that.RetrieveSettings = function() {
+		that.Settings.DesiredSpeed = localStorage.getItem("DesiredSpeed") || that.Settings.DesiredSpeed;
+		that.Settings.Cruise.Sharpness = localStorage.getItem("CruiseSharpness") || that.Settings.Cruise.Sharpness;
+		that.Settings.Cruise.Kp = localStorage.getItem("CruiseKp") || that.Settings.Cruise.Kp;
+		that.Settings.Cruise.Kd = localStorage.getItem("CruiseKd") || that.Settings.Cruise.Kd;
+		that.Settings.Cruise.Ki = localStorage.getItem("CruiseKi") || that.Settings.Cruise.Ki;
+		that.Settings.Cruise.DBrake = localStorage.getItem("DBrake") || that.Settings.Cruise.DBrake;
+		that.Settings.Cruise.PBrake = localStorage.getItem("PBrake") || that.Settings.Cruise.PBrake;
+		that.Settings.Cruise.DecayRate = localStorage.getItem("DecayRate") || that.Settings.Cruise.DecayRate;
+		that.Settings.Motor.Kp = localStorage.getItem("MotorKp") || that.Settings.Motor.Kp;
+		that.Settings.Motor.Kd = localStorage.getItem("MotorKd") || that.Settings.Motor.Kd;
+	}
+	
 	that.UpdateMeasurements = function(RPMLS, RPML, RPMRS, RPMR, TA0CCR0_REG, TA0CCR1_REG, TA0CCR2_REG, TA2CCR0_REG, TA2CCR1_REG, TA2CCR2_REG, lastSensorPosition) {
 		// First update the RPMs, as they require least calculations.
 		that.SetPoints.RPM[0] = RPMLS;
