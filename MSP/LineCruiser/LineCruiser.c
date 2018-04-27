@@ -74,8 +74,22 @@ static void controlCruise(void) {
 	float dSensorError = sensorError - lastSensorError;
 	
 	// Speed calculations
-	int newSpeed;
-	newSpeed = internalSpeedSetpoint*(1 - abs(dSensorError)*corneringDBrakeFactor - abs(sensorError)*corneringPBrakeFactor); // Slows down if line is moving too fast
+	float newSpeed;
+	float absSensorError;
+	float absDSensorError;
+	if(sensorError < 0) {
+		absSensorError = -sensorError;
+	}
+	else {
+		absSensorError = sensorError;
+	}
+	if(dSensorError < 0) {
+		absDSensorError = -dSensorError;
+	}
+	else {
+		absDSensorError = dSensorError;		
+	}
+	newSpeed = ((float) internalSpeedSetpoint)*(1 - absDSensorError*corneringDBrakeFactor - absSensorError*corneringPBrakeFactor); // Slows down if line is moving too fast
 	
 	// Calculate Radius
 	int newCurveRadius;
