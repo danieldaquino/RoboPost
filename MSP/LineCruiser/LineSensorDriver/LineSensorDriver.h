@@ -26,8 +26,6 @@
  * Global variables
  ===================*/
 char lastRawSensorData;				// the last raw sensor data
-signed char lastBarPositionValue;	// Number from -128	to	+126
-float lastSensorPosition;			// Number from -1	to	+1
 unsigned char bitsCounted;
 
 /*===================
@@ -54,15 +52,43 @@ void lineSensorInit();
 /*================================================
  * LSRead
  * LS stands for Line Sensor
- * this function will read the raw data from
- * sensor and process them to give usable numbers
+ * this function will read the raw data from sensor
+ * 
+ *
+ * input: N/A
+ * output: a char that reflects the position of the line read by sensor
+ * globalsAffected : lastRawSensorData
+ ======================================================*/
+char LSRead();
+
+/*================================================
+ * scanLines
+ *
+ * Gets raw sensor data and separates individual track lines if there are multiple lines
+ *
+ * inputs: 
+ *		(unsigned char) lineReading: the binary data to be processed
+ *		(unsigned char *) lineReadingArray: Pointer to array where resulting individual lines will be written to
+ 											MUST BE OF SIZE 4
+ *
+ * char: return status: number of lines detected
+ ======================================================*/
+char scanLines(unsigned char lineReading, unsigned char * lineReadingArray);
+
+/*================================================
+ * LSCalcPosition
+ * LS stands for Line Sensor
+ * this function will calculate position from binary data of sensor
+ * into give usable numbers
  *
  * b7   b6   b5   b4   b3   b2   b1   b0
  * -1                0                +1
  *
- * input: N/A
- * output: a char that reflects the position of the line read by sensor
+ * input: 
+ *		(unsigned char) lineData: the binary data corresponding to a SINGLE line 
+ * output: a float that reflects the position of the line
+ * Globals affected : bitsCounted
  ======================================================*/
-float LSRead();
+float LSCalcPosition(unsigned char lineData);
 
 #endif

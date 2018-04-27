@@ -78,7 +78,7 @@ static void InfoBoardFill() {
 	i++;
 	DataArray[i] = TA2CCR2;				// TA2CCR2
 	i++;
-	DataArray[i] = lastSensorPosition;	// lastSensorPosition
+	DataArray[i] = lastRawSensorData;	// Sensor Data
 	i++;
 	DataArray[i] = Color;
 	// Stamp checksum code
