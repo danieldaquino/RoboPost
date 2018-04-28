@@ -112,7 +112,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.stroke();
 		// Draw Block Heading
 		yCursor += headingYMargin;	// Move Cursor
-		ctx.font= headingSize + "px Futura";
+		ctx.font= headingSize + "px Quicksand";
 		ctx.fillText((that.Robot.Measurements.Speed/100).toFixed(2) + " m/s", xBegin, yCursor);
 		// Draw bottom border
 		yCursor += cellPadding;
@@ -155,7 +155,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.stroke();
 		// Draw Block Heading
 		yCursor += headingYMargin;	// Move Cursor
-		ctx.font= headingSize + "px Futura";
+		ctx.font= headingSize + "px Quicksand";
 		if(motor == 0) {
 			ctx.fillText("Left Motor", xBegin, yCursor);
 		}
@@ -184,7 +184,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		yCursor += PWMDiagramHeight;	// Move Cursor
 		// Draw PWM Number
 		yCursor += textYMargin + cellPadding;	// Move Cursor
-		ctx.font= textSize + "px Futura";
+		ctx.font= textSize + "px Quicksand";
 		ctx.fillText((that.Robot.Measurements.PWM[motor]*100).toFixed(0) + "% – " + that.Robot.Measurements.F[motor].toFixed(0) + "Hz", xBegin, yCursor);
 		// Draw Measured Speed bar
 		yCursor += cellPadding;
@@ -194,7 +194,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		yCursor += barHeight;
 		// Draw Measured Speed Number
 		yCursor += textYMargin + cellPadding;	// Move Cursor
-		ctx.font= textSize + "px Futura";
+		ctx.font= textSize + "px Quicksand";
 		ctx.fillText((that.Robot.Measurements.RPM[motor]) + " RPM", xBegin, yCursor);
 		// Draw Setpoint Speed bar
 		yCursor += cellPadding;
@@ -204,7 +204,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		yCursor += barHeight;
 		// Draw Setpoint Speed Number
 		yCursor += textYMargin + cellPadding;	// Move Cursor
-		ctx.font= textSize + "px Futura";
+		ctx.font= textSize + "px Quicksand";
 		ctx.fillText((that.Robot.SetPoints.RPM[motor]) + " RPM", xBegin, yCursor);
 		// Draw bottom border
 		yCursor += cellPadding;
