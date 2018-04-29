@@ -51,6 +51,7 @@ Globals
 float DataArray[NUM_PARAM];
 float CommandArray[NUM_PARAM];
 uint32_t Color;
+uint32_t Command_Color;
 float Desired_Speed;
 
 /*======

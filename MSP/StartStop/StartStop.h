@@ -46,7 +46,18 @@ void setupSafeMotorPower();
 	
 ================*/
 void stopRobot();
+/*================
 
+    ~~ stopRobot3Sec ~~
+
+    This function will stop the robot for 3sec. Resume after 3sec
+    Make sure interrupts are disabled before counting to 3sec and enable after
+
+    Globals affected:
+                        TA[0,2]CCR[1,2] dynamic braking will be applied
+
+================*/
+void stopRobot3Sec();
 /*================
 	
 	~~ offlineStopRobotOperations ~~
@@ -59,7 +70,7 @@ void stopRobot();
 	
 ================*/
 void offlineStopRobotOperations();
-
+void Docking();
 /*================
 	
 	~~ robotPlayUpdate ~~

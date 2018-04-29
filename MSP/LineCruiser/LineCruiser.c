@@ -15,7 +15,10 @@ Includes
 #include "LineSensorDriver/LineSensorDriver.h"
 #include "../Scheduler/Scheduler.h"
 #include "LineCruiser.h"
+#include "StartStop/StartStop.h"
 #include <math.h>
+
+
 
 /*=======
 Statics
@@ -136,8 +139,10 @@ char lineCruiserInit() {
 	scheduleCallback(&controlCruise); // Schedule Control Cruise before the motor controller!
 	//******************************
 	diffDriverInit();	// Initialize Differential Drive. Should be after you scheduled control cruise. Should be before line Sensor	
-	//******************************
+	//****************************
 	lineSensorInit();	// Initialize Line Sensor. Should be after diffDriverInit.
+	ColorSensorInit();  // Initialize Color Sensor
+	scheduleCallback(&Docking); // Schedule Control Cruise before the motor controller!
 	
 	// Default params
 	speedSetpoint = 0;	// For safety

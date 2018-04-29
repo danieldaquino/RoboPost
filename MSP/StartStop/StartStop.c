@@ -22,6 +22,7 @@ Includes
 #include "StartStop.h"
 #include <msp430.h>
 #include "../Scheduler/Scheduler.h"
+#include "Photon_SPI_module/Photon_SPI_Module.h"
 
 /*======
 Static function prototypes
@@ -67,6 +68,26 @@ void stopRobot() {
 	__enable_interrupt();	// Make sure interrupts are re-enabled
 }
 
+void stopRobot3Sec()
+{
+    __disable_interrupt();  // Make sure interrupts are disabled
+    // Indicate we are stopped.
+        P1OUT |= RED_LED;
+        // Remember, GIE is already off, so we don't need to stop that.
+            TA0CCR1 = TA0CCR0*0.8;
+            TA0CCR2 = TA0CCR0*0.8;
+            TA2CCR1 = TA0CCR0*0.8;
+            TA2CCR2 = TA0CCR0*0.8;
+            __delay_cycles(48000000);
+        __enable_interrupt();   // Make sure interrupts are re-enabled
+}
+void Docking()
+{
+    if((Color==1&&Command_Color==1)||(Color==2&&Command_Color==2))
+    {
+        stopRobot3Sec();
+    }
+}
 void robotPlayUpdate() {
 	if(robotPlay == 0) {
 		stopRobot();

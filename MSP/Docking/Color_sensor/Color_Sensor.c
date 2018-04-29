@@ -25,6 +25,8 @@
 #include <msp430.h>
 #include <stdint.h>
 #include "I2CModule/I2CModule.h"
+#include "Photon_SPI_module/Photon_SPI_Module.h"
+#include "StartStop/StartStop.h"
 /*=================================
  * DEFINITIONS
  =================================*/
@@ -70,6 +72,7 @@ void ColorSensorInit();
 
 ==============================*/
 char CSRead();
+void Docking();
 void ColorSensorInit()
 {
     uint8_t receiveBuffer[30];
@@ -91,29 +94,37 @@ void ColorSensorInit()
     __delay_cycles(5);  //wait for led to fully turn on
     Data=PON|AEN;
         I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// enable color sensor
+        scheduleInputCallback(&CSRead);
 }
 char CSRead()
 {
     uint8_t r=0;
     uint8_t b=0;
     uint8_t receiveBuffer[2];
+    uint8_t White=1;
     I2CRead(CS_ADDR,COMMAND_BIT|RREG , 2, receiveBuffer);// read Red sensor reading
     r=receiveBuffer[0];
     I2CRead(CS_ADDR,COMMAND_BIT|BREG , 2, receiveBuffer);// read Blue sensor reading
     b=receiveBuffer[0];
-    if(r>100&&b<80)
+    if((r>100&&b<80)&&White==1)
     {
-        return 1;
+        Color= 1;
+        White=0;
     }
-    else if(r<80&&b>80)
+    else if((r<80&&b>80)&&White==1)
     {
-        return 2;
+        Color= 2;
+        White=0;
     }
     else
     {
-        return 0;
+        Color= 0;
+        White=1;
+
     }
 
 
 }
+
+
 
