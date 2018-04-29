@@ -10,6 +10,9 @@ keys.json
 # Node js modules
 node_modules
 
+# Hardware stuff
+Hardware
+
 # CCS Files
 .ccsproject
 .cproject
