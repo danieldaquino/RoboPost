@@ -138,4 +138,18 @@ Globals affected: Timer A0, eventually Motor pins
 =======*/
 void setDutyCycle(char motor, float D);
 
+/*======
+~~brake~~
+
+function to apply dynamic braking in motor 1 or 2.
+
+inputs:
+	(char) Motor to be selected. please use 1 or 2
+	(float) Duty cycle of braking, from 0 to 1
+	
+outputs: none
+Globals affected: Timer A0, eventually Motor pins
+=======*/
+void brake(char motor, float D);
+
 #endif

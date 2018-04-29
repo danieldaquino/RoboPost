@@ -78,10 +78,17 @@ static void controlRPM() {
 		if(newDutyCycle > 1) {
 			newDutyCycle = 1;
 		}
-		else if(newDutyCycle < 0) {
-			newDutyCycle = 0;
+		
+		// Check if it is negative
+		if(newDutyCycle < 0) {
+			// If it is, then brake the motor!
+			newDutyCycle = -newDutyCycle;
+			brake(i+1, newDutyCycle);			
 		}
-		setDutyCycle(i+1, newDutyCycle);
+		else {
+			// Otherwise, just update new duty cycle
+			setDutyCycle(i+1, newDutyCycle);
+		}
 		previousDutyCycle[i] = newDutyCycle;
 		previousError[i] = normalError;
 	}
