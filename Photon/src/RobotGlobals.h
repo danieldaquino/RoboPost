@@ -42,10 +42,16 @@ float Color;
 // Desired speed
 float Desired_Speed;
 
+// Decay Rate
+float decayRate;
+// Integrator constant
+float cruiseKi;
+
 /*========
 Controls
 ==========*/
 char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+unsigned long int timeStamp;	// The time Photon received the data from SPI.
 
 /*========
 Settings

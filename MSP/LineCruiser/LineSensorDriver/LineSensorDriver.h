@@ -12,6 +12,7 @@
     1. port 3.0(SDA) & port 3.1（SCL)
     2. power pins 5V and GND
     3. UCSI(B0)
+    4. Scheduler Module
     
     Requirements:
     

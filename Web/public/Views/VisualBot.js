@@ -44,8 +44,8 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 	that.Render = function() {
 		// Clear canvas for redrawing.
 		ctx.clearRect(0, 0, that.Canvas.width, that.Canvas.height);
-		RenderCurveRadius(that.Robot.Measurements.CurveRadius, SettleBlue, 10);
-		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, DriftingRed, 10);
+		RenderCurveRadius(that.Robot.Measurements.CurveRadius, DriftingRed, 10);
+		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, SettleBlue, 10);
 		RenderCar();
 		RenderMotorBox(0);
 		RenderMotorBox(1);
@@ -73,6 +73,9 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.beginPath();
 		// Calculate curve radius in px.
 		var pxCurveRadius;
+		if(curveRadius == Infinity) {
+			curveRadius = 32767;
+		}
 		pxCurveRadius = curveRadius/(that.Robot.Parameters.WheelBase/(that.Visual.Size*0.5));
 		if(curveRadius > 0) {
 			// Positive curve radius
@@ -174,15 +177,15 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.beginPath();
 		ctx.moveTo(xBegin, yCursor + PWMDiagramHeight);
 		ctx.lineTo(xBegin, yCursor);
-		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor], yCursor);
-		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor], yCursor + PWMDiagramHeight);
+		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor].toFixed(2), yCursor);
+		ctx.lineTo(xBegin + boxWidth*that.Robot.Measurements.PWM[motor].toFixed(2), yCursor + PWMDiagramHeight);
 		ctx.lineTo(xBegin + boxWidth, yCursor + PWMDiagramHeight);
 		ctx.stroke();
 		yCursor += PWMDiagramHeight;	// Move Cursor
 		// Draw PWM Number
 		yCursor += textYMargin + cellPadding;	// Move Cursor
 		ctx.font= textSize + "px Futura";
-		ctx.fillText((that.Robot.Measurements.PWM[motor]*100) + "% – " + that.Robot.Measurements.F[motor] + "Hz", xBegin, yCursor);
+		ctx.fillText((that.Robot.Measurements.PWM[motor]*100).toFixed(0) + "% – " + that.Robot.Measurements.F[motor].toFixed(0) + "Hz", xBegin, yCursor);
 		// Draw Measured Speed bar
 		yCursor += cellPadding;
 		ctx.fillStyle = DriftingRed;

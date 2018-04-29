@@ -52,6 +52,7 @@ extern float Color;
 extern float Desired_Speed;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+extern unsigned long int timeStamp; //  TimeStamp of SPI receival
 
 extern char sharpestCurve; // Tightest curve radius in cm
 extern float cruiseKp; // Proportional gain of the lineCruiser
@@ -61,6 +62,8 @@ extern float corneringPBrakeFactor; // Number between 0 and 1 to tell how much t
 extern float motorKp; // Proportional gain of the motors.
 extern float motorKd; // Differential gain of the motors.
 
+extern float decayRate; // Decay of speed after it loses a line
+extern float cruiseKi; // Decay of speed after it loses a line
 
 /*======
 	~~PhotonTCPServerInit~~

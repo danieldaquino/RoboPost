@@ -22,6 +22,7 @@
 	4. Dual Velocity Gauge
 	5. Line Cruiser
 	6. Start Stop module
+	7. Scheduler module
 	
 	# Wiring with Photon
 	
@@ -42,7 +43,7 @@
 Macros
 ========*/
 // Number of parameters inside the Infoboard array
-#define NUM_PARAM 12
+#define NUM_PARAM 15
 
 /*=======
 Globals
@@ -64,5 +65,17 @@ outputs: none
 
 ======*/
 void InfoBoardUpdate();
+
+/*======
+~~ PhotonSPIModuleInit ~~
+
+Initializes the photon SPI module, and schedules its update on the scheduler
+
+inputs: none
+outputs: none
+Globals affected: SPI module, and Scheduler.
+
+======*/
+void PhotonSPIModuleInit();
 
 #endif

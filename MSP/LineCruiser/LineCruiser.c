@@ -21,8 +21,13 @@ Includes
 Statics
 ========*/
 static int speedSetpoint;
-static float lastLastSensorPosition;
 static float lastSensorError;
+static double lastSharpness;
+
+// Create variables that we can overwrite to in case of losing the line
+static int internalSpeedSetpoint;
+static float internalLastSensorPosition;
+
 
 /*=======
 Static Function Prototypes
@@ -51,21 +56,59 @@ char lineCruise(float speed) {
 }
 
 static void controlCruise(void) {
+	static float accumDecay;
 	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
-		diffDrive(0, 32000); // If no line was detected, then stop the car.
-		return;
+		// internalLastSensorPosition will be the latest valid one.
+		accumDecay *= decayRate;
+		// Decay until reaches 15cm/s of speed
+		internalSpeedSetpoint = speedSetpoint*accumDecay + 15*(1-accumDecay);
 	}
+	else {
+		accumDecay = 1;
+		internalSpeedSetpoint = speedSetpoint;
+		internalLastSensorPosition = lastSensorPosition;
+	}
+	
 	// Get errors
-	float sensorError = 0 - lastSensorPosition;
+	float sensorError = 0 - internalLastSensorPosition;
 	float dSensorError = sensorError - lastSensorError;
 	
 	// Speed calculations
-	int newSpeed;
-	newSpeed = speedSetpoint*(1 - abs(dSensorError)*corneringDBrakeFactor - abs(sensorError)*corneringPBrakeFactor); // Slows down if line is moving too fast
+	float newSpeed;
+	float absSensorError;
+	float absDSensorError;
+	if(sensorError < 0) {
+		absSensorError = -sensorError;
+	}
+	else {
+		absSensorError = sensorError;
+	}
+	if(dSensorError < 0) {
+		absDSensorError = -dSensorError;
+	}
+	else {
+		absDSensorError = dSensorError;		
+	}
+	newSpeed = ((float) internalSpeedSetpoint)*(1 - absDSensorError*corneringDBrakeFactor - absSensorError*corneringPBrakeFactor); // Slows down if line is moving too fast
 	
 	// Calculate Radius
 	int newCurveRadius;
 	newCurveRadius = -sharpestCurve/(cruiseKp*sensorError + cruiseKd*dSensorError);
+	
+	// Integrate Sharpness
+	double newSharpness;
+	newSharpness = cruiseKi*lastSharpness + 1/((double) newCurveRadius);
+	// Add a saturation
+	if(newSharpness > 1/((double) sharpestCurve) ) {
+		newSharpness = 1/((double) sharpestCurve);
+	}
+	else if(newSharpness < -1/((double) sharpestCurve) ) {
+		newSharpness = -1/((double) sharpestCurve);		
+	}
+	lastSharpness = newSharpness;
+	
+	// Get that into new curve radius
+	newCurveRadius = 1/newSharpness;
 		
 	// Differential Drive
 	diffDrive(newSpeed, newCurveRadius);
@@ -75,8 +118,11 @@ static void controlCruise(void) {
 }
 
 char lineCruiserInit() {
-	diffDriverInit();	// Initialize Differential Drive	
-	lineSensorInit();	// Initialize Line Sensor
+	scheduleCallback(&controlCruise); // Schedule Control Cruise before the motor controller!
+	//******************************
+	diffDriverInit();	// Initialize Differential Drive. Should be after you scheduled control cruise. Should be before line Sensor	
+	//******************************
+	lineSensorInit();	// Initialize Line Sensor. Should be after diffDriverInit.
 	
 	// Default params
 	speedSetpoint = 0;	// For safety
@@ -85,6 +131,11 @@ char lineCruiserInit() {
 	cruiseKp = 0.45;
 	corneringDBrakeFactor = 0.95;
 	corneringPBrakeFactor = 0.05;
+	lastSharpness = 0;
+	// 0.954^30Hz = 0.25/s, meaning speed will be divided by four every second.
+	decayRate = 0.977;
+	cruiseKi = 0.5;
 	
-	scheduleCallback(&controlCruise);
+	internalSpeedSetpoint = 0;
+	internalLastSensorPosition = 0;
 }

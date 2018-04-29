@@ -47,6 +47,7 @@ function Load() {
 	// Setup Cloud Robot
 	TheCloudRobot = new CloudRobot(TheCarRobot, TheRobotDataCSV);
 	
+	
 	/*====
 	Initialize Views 
 	=====*/
@@ -68,20 +69,27 @@ function Load() {
 		document.getElementById("DesiredSpeed"),
 		document.getElementById("CruiseKd"),
 		document.getElementById("CruiseKp"),
+		document.getElementById("CruiseKi"),
 		document.getElementById("MotorKp"),
 		document.getElementById("MotorKd"),
 		document.getElementById("CruiseSharpness"),
 		document.getElementById("CorneringPBrake"),
 		document.getElementById("CorneringDBrake"),
+		document.getElementById("DecayRate"),
 		document.getElementById("DesiredSpeedDisplay"),
 		document.getElementById("CruiseKpDisplay"),
 		document.getElementById("CruiseKdDisplay"),
+		document.getElementById("CruiseKiDisplay"),
 		document.getElementById("CruiseSharpnessDisplay"),
 		document.getElementById("CorneringPBrakeDisplay"),
 		document.getElementById("CorneringDBrakeDisplay"),
+		document.getElementById("DecayRateDisplay"),
 		document.getElementById("MotorKpDisplay"),
 		document.getElementById("MotorKdDisplay")
 	);
+	
+	TheSettingsPanel.UpdateSettings();
+	TheCloudRobot.SendSettings();
 	
 	// Setup the Start Stop button
 	TheStartStopButton = new StartStopButton(TheCarRobot, TheCloudRobot, document.getElementById("StartStopButtonElement"));

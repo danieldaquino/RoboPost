@@ -74,8 +74,10 @@ function CarRobot() {
 	that.Settings.Cruise.Sharpness = 100;
 	that.Settings.Cruise.Kp = 0;
 	that.Settings.Cruise.Kd = 0;
+	that.Settings.Cruise.Ki = 0;
 	that.Settings.Cruise.DBrake = 0;
 	that.Settings.Cruise.PBrake = 0;
+	that.Settings.Cruise.DecayRate = 0;
 	that.Settings.Motor = new Object();
 	that.Settings.Motor.Kp = 0;
 	that.Settings.Motor.Kd = 0;
@@ -108,10 +110,10 @@ function CarRobot() {
 		that.Measurements.RevPWM[1] = TA2CCR2_REG/TA2CCR0_REG;
 		
 		// Then, calculate Frequencies...
-		// Assume that Input Clock is 32KHz
-		// f = 32KHz/TAxCCR0
-		that.Measurements.F[0] = 32000/TA0CCR0_REG;
-		that.Measurements.F[1] = 32000/TA2CCR0_REG;
+		// Assume that Input Clock is 4MHz
+		// f = 4MHz/TAxCCR0
+		that.Measurements.F[0] = 4000000/TA0CCR0_REG;
+		that.Measurements.F[1] = 4000000/TA2CCR0_REG;
 		
 		// Now the hardest part...
 		// Calculate Actual Linear speed and actual curve radius based on RPMs

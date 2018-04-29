@@ -55,7 +55,8 @@ An autonomous delivery system — BCIT Robotics Capstone
 ### Scheduler
 
 1. Timer A1
-2. P4.7 LED
+2. P4.7 GREEN LED
+3. P6.2 Computing Function Indicator.
 
 ### ucsiSpi
 

@@ -1,6 +1,8 @@
 #include "../ucsiSpi/ucsiSpi.h"
 #include "Photon_SPI_Module.h"
 #include <msp430.h>
+#include "../Scheduler/Scheduler.h"
+#include "DataErrorCheck/DataErrorCheck.h"
 
 // Includes necessary to get the variables and change parameters
 #include "../LineCruiser/DiffDriver/DualMotorController/DualMotorController.h"
@@ -79,27 +81,46 @@ static void InfoBoardFill() {
 	DataArray[i] = lastSensorPosition;	// lastSensorPosition
 	i++;
 	DataArray[i] = Color;
+	// Stamp checksum code
+	stampMessage(DataArray, NUM_PARAM*4);
 }
 
 static void ReceiveInfoBoard() {
-	int i;
-	i = 0;
-	robotPlay = CommandArray[i];
-	i++;
-	sharpestCurve = CommandArray[i];
-	i++;
-	cruiseKp = CommandArray[i];
-	i++;
-	cruiseKd = CommandArray[i];
-	i++;
-	corneringDBrakeFactor = CommandArray[i];
-	i++;
-	corneringPBrakeFactor = CommandArray[i];
-	i++;
-	motorKp = CommandArray[i];
-	i++;
-	motorKd = CommandArray[i];
-	i++;
-	Desired_Speed=CommandArray[i];
+	// Perform checksum check
+	if(checkDataError(CommandArray, NUM_PARAM*4)) {
+		//There was error. Ignore.
+		return;
+	}
+	else {
+		int i;
+		i = 0;
+		robotPlay = CommandArray[i];
+		i++;
+		sharpestCurve = CommandArray[i];
+		i++;
+		cruiseKp = CommandArray[i];
+		i++;
+		cruiseKd = CommandArray[i];
+		i++;
+		corneringDBrakeFactor = CommandArray[i];
+		i++;
+		corneringPBrakeFactor = CommandArray[i];
+		i++;
+		motorKp = CommandArray[i];
+		i++;
+		motorKd = CommandArray[i];
+		i++;
+		Desired_Speed=CommandArray[i];
+		i++;
+		decayRate = CommandArray[i];
+		i++;
+		cruiseKi = CommandArray[i];
+	}
+}
 
+void PhotonSPIModuleInit() {
+	Desired_Speed = 0;
+	dataErrorCheckInit();
+	ucsiB1SpiInit();
+	scheduleCallback(&InfoBoardUpdate);
 }

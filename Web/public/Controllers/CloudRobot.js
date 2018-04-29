@@ -22,6 +22,8 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	// Save our CSV controller
 	that.RobotDataCSV = InputRobotDataCSV;
 	
+	that.robotPlay = false;
+	
 	/*====
 	WebSockets Handling
 	=====*/	
@@ -30,7 +32,9 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	// Setup the measurement stream handler.
 	that.Socket.on('MStream', function(data){
 		that.UpdateMeasurements(data);
-		that.AppendToCSV(data);
+		if(that.robotPlay) {			
+			that.AppendToCSV(data);
+		}
 	});
 	
 	/*====
@@ -39,6 +43,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	that.RobotPlay = function() {
 		GetRequest("/robotPlay").then(function(response) {
 			console.log("Turning robot on... Got Response:" + response);
+			that.robotPlay = true;
 		}).catch(function(err) {
 			console.log("Something went wrong while turning the robot on.");
 			console.log(err);
@@ -48,6 +53,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	that.RobotPause = function() {
 		GetRequest("/robotPause").then(function(response) {
 			console.log("Turning robot off... Got Response:" + response);
+			that.robotPlay = false;
 		}).catch(function(err) {
 			console.log("Something went wrong while turning the robot off.");
 			console.log(err);
@@ -79,8 +85,10 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		JSONToSend.sharpestCurve = that.CarRobot.Settings.Cruise.Sharpness;
 		JSONToSend.cruiseKp = that.CarRobot.Settings.Cruise.Kp;
 		JSONToSend.cruiseKd = that.CarRobot.Settings.Cruise.Kd;
+		JSONToSend.cruiseKi = that.CarRobot.Settings.Cruise.Ki;
 		JSONToSend.corneringDBrakeFactor = that.CarRobot.Settings.Cruise.DBrake;
 		JSONToSend.corneringPBrakeFactor = that.CarRobot.Settings.Cruise.PBrake;
+		JSONToSend.decayRate = that.CarRobot.Settings.Cruise.DecayRate;
 		JSONToSend.motorKp = that.CarRobot.Settings.Motor.Kp;
 		JSONToSend.motorKd = that.CarRobot.Settings.Motor.Kd;
 		JSONToSend.desiredSpeed = that.CarRobot.Settings.DesiredSpeed;
@@ -103,6 +111,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 			that.CarRobot.Measurements.Speed,
 			that.CarRobot.SetPoints.CurveRadius,
 			that.CarRobot.Measurements.CurveRadius,
+			that.CarRobot.SetPoints.RPM[0],
 			that.CarRobot.Measurements.RPM[0],
 			that.CarRobot.SetPoints.RPM[1],
 			that.CarRobot.Measurements.RPM[1],
@@ -115,8 +124,10 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 			that.CarRobot.Settings.Cruise.Sharpness,
 			that.CarRobot.Settings.Cruise.Kp,
 			that.CarRobot.Settings.Cruise.Kd,
+			that.CarRobot.Settings.Cruise.Ki,
 			that.CarRobot.Settings.Cruise.DBrake,
 			that.CarRobot.Settings.Cruise.PBrake,
+			that.CarRobot.Settings.Cruise.DecayRate,
 			that.CarRobot.Settings.Motor.Kp,
 			that.CarRobot.Settings.Motor.Kd
 		]);

@@ -48,7 +48,7 @@ body {
 	opacity: 0;
 	pointer-events: none;
 	transition: all 0.5s;
-	height: calc(100vh - 100px);
+	height: calc(100% - 140px);
 	overflow-y: scroll;
 }
 

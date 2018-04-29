@@ -49,6 +49,19 @@ void stopRobot();
 
 /*================
 	
+	~~ offlineStopRobotOperations ~~
+	
+	This function will stop the robot in offline mode. Press S2 to start.
+	Make sure interrupts are disabled.
+	
+	Globals affected:	Port 1, P1.0, P1.1.
+						TA[0,2]CCR[1,2] also get reset.
+	
+================*/
+void offlineStopRobotOperations();
+
+/*================
+	
 	~~ robotPlayUpdate ~~
 	
 	This function will check robotPlay status from the internet. robot will stop if robotPlay is false.

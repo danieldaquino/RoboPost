@@ -21,7 +21,7 @@ Use at your own risk!?
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 12
+#define NUM_PARAM 15
 
 /*=======
 Function prototypes
@@ -59,6 +59,7 @@ extern float Color;
 extern float Desired_Speed;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
+extern unsigned long int timeStamp; // Timestamp of the latest SPI data
 
 extern char sharpestCurve; // Tightest curve radius in cm
 extern float cruiseKp; // Proportional gain of the lineCruiser
@@ -67,6 +68,9 @@ extern float corneringDBrakeFactor; // Number between 0 and 1 to tell how much t
 extern float corneringPBrakeFactor; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
 extern float motorKp; // Proportional gain of the motors.
 extern float motorKd; // Differential gain of the motors.
+
+extern float decayRate; // Decay rate of speed if robot misses the line
+extern float cruiseKi;	// Integrator constant
 
 /*======
 ~~SPIMSPLoop~~

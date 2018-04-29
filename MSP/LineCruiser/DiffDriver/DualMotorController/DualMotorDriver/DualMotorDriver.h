@@ -7,6 +7,7 @@
 	## Requirements
 	1. Two DC motors
 	2. Two TI DRV8871 Motor drivers
+	3. Scheduler module
 	
 	## Resources used:
 	
@@ -16,6 +17,7 @@
 	4. P2.5 for the Motor-2 Reverse PWM output
 	5. Timer A0 to generate PWM signals to the motor 1.
 	6. Timer A2 to generate PWM signals to the motor 2.
+	7. SMCLK. Make sure to input your SMCLK frequency into the macro in this file.
 	
 	## Customizing
 	
@@ -64,9 +66,15 @@ Macros
 #define MOTOR_2_REV_TIME_REG TA2CCR2
 #define MOTOR_2_REV_TIME_CTL TA2CCTL2
 
+#define MOTOR_1_FREQ_REG TA0CCR0
+#define MOTOR_2_FREQ_REG TA2CCR0
+
 #define MAX_DUTY_CYCLE 0.8
 #define MIN_FREQUENCY 100
 #define MAX_FREQUENCY 3000
+
+// Input the SMCLK you have. (Usually this is the same as the CPU frequency)
+#define SMCLK_FREQUENCY 16000000
 
 /*=======
 Globals
@@ -96,11 +104,22 @@ Use 100Hz for high stable speeds.
 
 inputs:
 	(char) Motor to be selected. please use 1 or 2
-	(int) frequency: frequency within the established range in MACROS
+	(unsigned int) frequency: frequency within the established range in MACROS
 outputs: return status... 0 is ok. 1 means failed.
 Globals affected: Timer A0 or Timer A2
 =======*/
-char shiftFrequency(char motor, int frequency);
+char shiftFrequency(char motor, unsigned int frequency);
+
+/*======
+~~ updateMotors ~~
+
+Motors update with all the next settings done in shiftFrequency and setDutyCycle.
+
+inputs: none
+outputs: none
+Globals affected: Timer A0 and Timer A2
+=======*/
+void updateMotors(void);
 
 /*======
 ~~setDutyCycle~~
