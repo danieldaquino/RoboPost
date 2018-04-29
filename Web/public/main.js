@@ -34,6 +34,7 @@ function Load() {
 	This should be the first in MVC
 	=====*/
 	TheCarRobot = new CarRobot();
+	TheCarRobot.RetrieveSettings();
 	
 	/*====
 	Initialize Controllers
@@ -88,7 +89,7 @@ function Load() {
 		document.getElementById("MotorKdDisplay")
 	);
 	
-	TheSettingsPanel.UpdateSettings();
+	TheSettingsPanel.UpdateGUIToSettings();
 	TheCloudRobot.SendSettings();
 	
 	// Setup the Start Stop button

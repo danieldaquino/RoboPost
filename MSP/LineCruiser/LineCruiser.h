@@ -51,6 +51,9 @@ float corneringPBrakeFactor;
 // The rate at which speed decays in every control loop, if no line was found.
 float decayRate;
 
+// The path to be chosen. 0 means go left always. 1 means always go right
+char pathChosen;
+
 /*=======
 Macros
 ========*/
@@ -68,13 +71,14 @@ MAKE SURE TO INITIALIZE THE LINE CRUISER FIRST!
 
 inputs:
 	(float) speed: The desired speed, in cm/s
+	(char) desiredPath: The desired path. 0 is left, 1 is right.
 outputs:
 	(char) Return Status:	0 means ok
 							1 means too fast
 							2 means curvature too small
-Globals affected:  Line sensor,	Timer A0, Timer A2, eventually Motor pins.
+Globals affected:  Line sensor, chosenPath,	Timer A0, Timer A2, eventually Motor pins.
 ======*/
-char lineCruise(float speed);
+char lineCruise(float speed, char desiredPath);
 
 /*======
 ~~lineCruiserInit~~

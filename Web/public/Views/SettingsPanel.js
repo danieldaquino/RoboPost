@@ -81,6 +81,32 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 			that.HideSettings();
 		}
 	}
+	
+	that.UpdateGUIToSettings = function() {
+		// Capture the values
+		that.DesiredSpeedSlider.value = that.CarRobot.Settings.DesiredSpeed;
+		that.CruiseKpSlider.value = that.CarRobot.Settings.Cruise.Kp;
+		that.CruiseKdSlider.value = that.CarRobot.Settings.Cruise.Kd;
+		that.CruiseKiSlider.value = that.CarRobot.Settings.Cruise.Ki;
+		that.SharpnessSlider.value = that.CarRobot.Settings.Cruise.Sharpness;
+		that.MotorKpSlider.value = that.CarRobot.Settings.Motor.Kp;
+		that.MotorKdSlider.value = that.CarRobot.Settings.Motor.Kd;
+		that.CorneringPBrakeSlider.value = that.CarRobot.Settings.Cruise.PBrake;
+		that.CorneringDBrakeSlider.value = that.CarRobot.Settings.Cruise.DBrake;
+		that.DecayRateSlider.value = that.CarRobot.Settings.Cruise.DecayRate;
+	
+		// Update values on screen
+		that.DesiredSpeedDisplay.innerText = that.CarRobot.Settings.DesiredSpeed;
+		that.CruiseKpDisplay.innerText = that.CarRobot.Settings.Cruise.Kp;
+		that.CruiseKdDisplay.innerText = that.CarRobot.Settings.Cruise.Kd;
+		that.CruiseKiDisplay.innerText = that.CarRobot.Settings.Cruise.Ki;
+		that.SharpnessDisplay.innerText = that.CarRobot.Settings.Cruise.Sharpness;
+		that.CorneringPBrakeDisplay.innerText = that.CarRobot.Settings.Cruise.PBrake;
+		that.CorneringDBrakeDisplay.innerText = that.CarRobot.Settings.Cruise.DBrake;
+		that.DecayRateDisplay.innerText = that.CarRobot.Settings.Cruise.DecayRate;
+		that.MotorKpDisplay.innerText = that.CarRobot.Settings.Motor.Kp;
+		that.MotorKdDisplay.innerText = that.CarRobot.Settings.Motor.Kd;	
+	}
 
 	that.UpdateSettings = function() {
 		// Capture the values
@@ -106,6 +132,9 @@ function SettingsPanel(InputCarRobot, InputCloudRobot, settingsButton, settingsP
 		that.DecayRateDisplay.innerText = that.CarRobot.Settings.Cruise.DecayRate;
 		that.MotorKpDisplay.innerText = that.CarRobot.Settings.Motor.Kp;
 		that.MotorKdDisplay.innerText = that.CarRobot.Settings.Motor.Kd;
+		
+		// Save
+		that.CarRobot.SaveSettings();
 	}
 	
 	/*======

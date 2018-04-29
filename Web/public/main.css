@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
 body {
-	font-family: 'Futura';
+	font-family: "Quicksand", sans-serif;
 }
 
 #MainContainer {
@@ -41,7 +43,7 @@ body {
 #SettingsPanelDiv {
 	position: fixed;
 	background-color: rgba(255, 255, 255, 0.9);
-	font-family: "Futura";
+	font-family: "Quicksand", sans-serif;
 	top: 100px;
 	right: 0px;
 	padding: 20px;

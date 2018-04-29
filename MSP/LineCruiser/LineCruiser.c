@@ -50,13 +50,15 @@ static void controlCruise(void);
 Function Definitions
 ========*/
 
-char lineCruise(float speed) {
+char lineCruise(float speed, char desiredPath) {
 	speedSetpoint = speed;
+	pathChosen = desiredPath;
 	return 0;
 }
 
 static void controlCruise(void) {
 	static float accumDecay;
+	// Check if we are off the line
 	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
 		// internalLastSensorPosition will be the latest valid one.
 		accumDecay *= decayRate;
@@ -66,7 +68,20 @@ static void controlCruise(void) {
 	else {
 		accumDecay = 1;
 		internalSpeedSetpoint = speedSetpoint;
-		internalLastSensorPosition = lastSensorPosition;
+		unsigned char arrayOfLines[4];
+		char numberOfLines;
+		// Separate lines
+		numberOfLines = scanLines(lastRawSensorData, arrayOfLines);
+		// Choose a path
+		if(pathChosen == 1) {
+			// We want to go RIGHT
+			internalLastSensorPosition = LSCalcPosition(arrayOfLines[3]);
+		}
+		else {
+			// We want to go LEFT
+			internalLastSensorPosition = LSCalcPosition(arrayOfLines[4 - numberOfLines]);			
+		}
+		
 	}
 	
 	// Get errors
@@ -135,6 +150,8 @@ char lineCruiserInit() {
 	// 0.954^30Hz = 0.25/s, meaning speed will be divided by four every second.
 	decayRate = 0.977;
 	cruiseKi = 0.5;
+	
+	pathChosen = 0;
 	
 	internalSpeedSetpoint = 0;
 	internalLastSensorPosition = 0;
