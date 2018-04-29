@@ -23,8 +23,6 @@ Includes
 Statics
 =======*/
 static float d[2];
-// Is the motor braking? 0 means no, 1 means yes
-unsigned char braking[2];
 
 static unsigned int new_MOTOR_1_FWD_TIME_REG;
 static unsigned int new_MOTOR_2_FWD_TIME_REG;
@@ -44,9 +42,7 @@ void setDutyCycle(char motor, float D) {
 	// CHECK FOR REVERSE CONDITIONS
 	char fwd = 1;
 	if(motor == 1 || motor == 2) {
-		// Save this PWM and braking if we need to change frequency
 		d[motor-1] = D;
-		braking[motor-1] = 0;
 	}
 	if(D < 0) {
 		// We are in reverse!
@@ -87,36 +83,6 @@ void setDutyCycle(char motor, float D) {
 	}
 }
 
-void brake(char motor, float D) {
-	if(motor == 1 || motor == 2) {
-		// Save this PWM and braking if we need to change frequency
-		d[motor-1] = D;
-		braking[motor-1] = 1;
-	}
-	if(D < 0) {
-		// Not allowed
-		D = 0;
-	}
-	
-	// CHECK FOR SAFETY 
-	if(D > MAX_DUTY_CYCLE) {
-		// TOO MUCH! Limit this
-		D = MAX_DUTY_CYCLE;
-	}
-	
-	if(motor == 1) {
-		//Motor 1 fwd. Set Motor1FWD and put the REV to ZERO duty cycle
-		new_MOTOR_1_FWD_TIME_REG = (unsigned int) (new_MOTOR_1_FREQ_REG*D);
-		new_MOTOR_1_REV_TIME_REG = (unsigned int) (new_MOTOR_1_FREQ_REG*D);
-		return;
-	}
-	else if(motor == 2) {
-		new_MOTOR_2_FWD_TIME_REG = (unsigned int) (new_MOTOR_2_FREQ_REG*D);
-		new_MOTOR_2_REV_TIME_REG = (unsigned int) (new_MOTOR_2_FREQ_REG*D);
-		return;
-	}
-}
-
 char shiftFrequency(char motor, unsigned int frequency) {
 	if(frequency > MAX_FREQUENCY || frequency < MIN_FREQUENCY) {
 		// Bad input
@@ -125,22 +91,12 @@ char shiftFrequency(char motor, unsigned int frequency) {
 	if(motor == 1) {
 		new_MOTOR_1_FREQ_REG = (SMCLK_FREQUENCY/4)/frequency;
 		// This prevents big big spikes on shifting.
-		if(braking) {
-			brake(1, d[0]);
-		}
-		else {
-			setDutyCycle(1, d[0]);
-		}
+		setDutyCycle(1, d[0]);
 	}
 	else if(motor == 2) {
 		new_MOTOR_2_FREQ_REG = (SMCLK_FREQUENCY/4)/frequency;		
 		// This prevents big big spikes on shifting.
-		if(braking) {
-			brake(2, d[1]);
-		}
-		else {
-			setDutyCycle(2, d[1]);
-		}
+		setDutyCycle(2, d[1]);
 	}
 	else {
 		// Bad input.
@@ -213,8 +169,6 @@ void setupPWM() {
 	// Initialize Duty cycle buffers to zero
 	d[0] = 0;
 	d[1] = 0;
-	braking[0] = 0;
-	braking[1] = 0;
 	
 	// Schedule the motor outputs
 	scheduleOutputCallback(&updateMotors);

@@ -1,0 +1,180 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:LineBotLib
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Battery BT1
+U 1 1 5AA5E37E
+P 1100 3250
+F 0 "BT1" H 1200 3350 50  0000 L CNN
+F 1 "7.4V" H 1200 3250 50  0000 L CNN
+F 2 "" V 1100 3310 50  0001 C CNN
+F 3 "" V 1100 3310 50  0001 C CNN
+F 4 "HP-G550-0850S2" H 1100 3250 60  0001 C CNN "Model"
+F 5 "Hyperion" H 1100 3250 60  0001 C CNN "Manufacturer"
+	1    1100 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L D24V6F3 U?
+U 1 1 5AA5F360
+P 2500 2950
+F 0 "U?" H 2350 3300 60  0000 C CNN
+F 1 "D24V6F3" H 2500 3200 60  0000 C CNN
+F 2 "" H 2500 2950 60  0001 C CNN
+F 3 "" H 2500 2950 60  0001 C CNN
+	1    2500 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L MSP430FF5529LP U?
+U 1 1 5AA5F96D
+P 4600 3500
+F 0 "U?" H 3900 4550 60  0000 C CNN
+F 1 "MSP430FF5529LP" H 4250 4450 60  0000 C CNN
+F 2 "" H 4400 3950 60  0001 C CNN
+F 3 "" H 4400 3950 60  0001 C CNN
+	1    4600 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L DRV8871 U?
+U 1 1 5AA60246
+P 7250 2350
+F 0 "U?" H 7000 2950 60  0000 C CNN
+F 1 "DRV8871" H 7150 2800 60  0000 C CNN
+F 2 "" H 7250 2350 60  0001 C CNN
+F 3 "" H 7250 2350 60  0001 C CNN
+	1    7250 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L DRV8871 U?
+U 1 1 5AA60358
+P 7250 4050
+F 0 "U?" H 7000 4650 60  0000 C CNN
+F 1 "DRV8871" H 7150 4500 60  0000 C CNN
+F 2 "" H 7250 4050 60  0001 C CNN
+F 3 "" H 7250 4050 60  0001 C CNN
+	1    7250 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L FIT0520 M?
+U 1 1 5AA6047C
+P 8500 2150
+F 0 "M?" H 8250 2700 60  0000 C CNN
+F 1 "FIT0520" H 8350 2600 60  0000 C CNN
+F 2 "" H 8500 2150 60  0001 C CNN
+F 3 "" H 8500 2150 60  0001 C CNN
+	1    8500 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L FIT0520 M?
+U 1 1 5AA604FF
+P 8500 3850
+F 0 "M?" H 8250 4400 60  0000 C CNN
+F 1 "FIT0520" H 8350 4300 60  0000 C CNN
+F 2 "" H 8500 3850 60  0001 C CNN
+F 3 "" H 8500 3850 60  0001 C CNN
+	1    8500 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L LineFollowerArray U?
+U 1 1 5AA607E1
+P 4550 5800
+F 0 "U?" H 4150 6400 60  0000 C CNN
+F 1 "LineFollowerArray" H 4450 6250 60  0000 C CNN
+F 2 "" H 4550 5800 60  0001 C CNN
+F 3 "" H 4550 5800 60  0001 C CNN
+	1    4550 5800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 2750 6200 2750
+Wire Wire Line
+	6200 2750 6200 2100
+Wire Wire Line
+	6200 2100 6750 2100
+Wire Wire Line
+	5650 2900 6300 2900
+Wire Wire Line
+	6300 2900 6300 2200
+Wire Wire Line
+	6300 2200 6750 2200
+Wire Wire Line
+	5650 3150 6300 3150
+Wire Wire Line
+	6300 3150 6300 3800
+Wire Wire Line
+	6300 3800 6750 3800
+Wire Wire Line
+	5650 3300 6200 3300
+Wire Wire Line
+	6200 3300 6200 3900
+Wire Wire Line
+	6200 3900 6750 3900
+Wire Wire Line
+	9400 2100 9700 2100
+Wire Wire Line
+	9700 2100 9700 1150
+Wire Wire Line
+	9700 1150 3450 1150
+Wire Wire Line
+	3450 1150 3450 2750
+Wire Wire Line
+	3450 2750 3600 2750
+Wire Wire Line
+	9400 3800 9750 3800
+Wire Wire Line
+	9750 3800 9750 5000
+Wire Wire Line
+	9750 5000 3450 5000
+Wire Wire Line
+	3450 5000 3450 3150
+Wire Wire Line
+	3450 3150 3600 3150
+$EndSCHEMATC
