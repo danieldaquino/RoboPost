@@ -86,6 +86,8 @@ void FillInfoBoard() {
 	sendValues[i] = decayRate;
 	i++;
 	sendValues[i] = cruiseKi;
+	i++;
+	sendValues[i] = commandColor;
 	stampMessage((unsigned char*) sendValues, NUM_PARAM*4);
 }
 
@@ -119,7 +121,7 @@ void ReceiveInfoBoard() {
 		i++;
 		lastSensorPosition = rcvdValues[i];	// sensor: Sensor data (-1 - +1)
 		i++;
-		Color = rcvdValues[i];		//color reading from msp
+		color = rcvdValues[i];		//color reading from msp
 	}
 }
 

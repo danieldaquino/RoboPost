@@ -93,7 +93,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		JSONToSend.motorKp = that.CarRobot.Settings.Motor.Kp;
 		JSONToSend.motorKd = that.CarRobot.Settings.Motor.Kd;
 		JSONToSend.desiredSpeed = that.CarRobot.Settings.DesiredSpeed;
-		JSONToSend.colorCommand = that.CarRobot.Targets.ColorCommand;
+		JSONToSend.commandColor = that.CarRobot.Targets.CommandColor;
 
 		PostRequest("/SET", JSON.stringify(JSONToSend)).then(function(response) {
 			console.log("Success!");

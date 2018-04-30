@@ -53,10 +53,7 @@ extern int TA2CCR1_REG;
 extern int TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 extern float lastSensorPosition;
-// color sensor reading
-extern float Color;
-// Desired speed
-extern float Desired_Speed;
+extern char color; // color sensor reading
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
 extern unsigned long int timeStamp; // Timestamp of the latest SPI data
@@ -70,7 +67,9 @@ extern float motorKp; // Proportional gain of the motors.
 extern float motorKd; // Differential gain of the motors.
 
 extern float decayRate; // Decay rate of speed if robot misses the line
-extern float cruiseKi;	// Integrator constant
+extern float cruiseKi; // Integrator constant
+extern float Desired_Speed; // Desired speed
+extern char commandColor; // Color of station to go to.
 
 /*======
 ~~SPIMSPLoop~~

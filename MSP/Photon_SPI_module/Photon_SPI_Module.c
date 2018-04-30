@@ -10,6 +10,7 @@
 #include "../LineCruiser/DiffDriver/DualMotorController/DualVelocityGauge/DualVelocityGauge.h"
 #include "../LineCruiser/LineCruiser.h"
 #include "../StartStop/StartStop.h"
+#include "../Docking/Color_sensor/Color_sensor.h"
 
 /*=======
 Static function prototypes
@@ -115,6 +116,8 @@ static void ReceiveInfoBoard() {
 		decayRate = CommandArray[i];
 		i++;
 		cruiseKi = CommandArray[i];
+		i++;
+		Command_Color = CommandArray[i];
 	}
 }
 

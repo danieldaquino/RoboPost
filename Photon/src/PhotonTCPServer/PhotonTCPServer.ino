@@ -119,6 +119,7 @@ void streamMeasurements() {
 	JSONResult["TA2CCR1_REG"] = TA2CCR1_REG;
 	JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
 	JSONResult["lastSensorPosition"] = lastSensorPosition;
+	JSONResult["color"] = color;
 
 	JSONResponse.printTo(server);
 	// Finish it up by sending null character
@@ -154,6 +155,7 @@ void HandleIncomingData(String data) {
 		JSONResult["TA2CCR1_REG"] = TA2CCR1_REG;
 		JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
 		JSONResult["lastSensorPosition"] = lastSensorPosition;
+		JSONResult["color"] = color;
 
 		JSONResponse.printTo(Serial);		
 		JSONResponse.printTo(server);
@@ -175,6 +177,7 @@ void HandleIncomingData(String data) {
 		Desired_Speed= LeJSON["variables"]["desiredSpeed"];
 		decayRate = LeJSON["variables"]["decayRate"];
 		cruiseKi = LeJSON["variables"]["cruiseKi"];
+		commandColor = LeJSON["variables"]["commandColor"];
 		
 		JSONResponse["status"] = 0;
 		

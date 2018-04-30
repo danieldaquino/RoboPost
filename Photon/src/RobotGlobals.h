@@ -36,16 +36,9 @@ int TA2CCR1_REG;
 int TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 float lastSensorPosition;
-
 // color sensor reading
-float Color;
-// Desired speed
-float Desired_Speed;
+char color;
 
-// Decay Rate
-float decayRate;
-// Integrator constant
-float cruiseKi;
 
 /*========
 Controls
@@ -63,5 +56,9 @@ float corneringDBrakeFactor; // Number between 0 and 1 to tell how much to slow 
 float corneringPBrakeFactor; // Number between 0 and 1 to tell how much to slow down in a given curve. 0 means never slows down. 1 means full stop on tightest curve.
 float motorKp; // Proportional gain of the motors.
 float motorKd; // Differential gain of the motors.
+float cruiseKi; // Integrator constant
+float decayRate; // Decay Rate
+float Desired_Speed; // Desired speed
+char commandColor; // The station color to go to.
 
 #endif

@@ -16,7 +16,7 @@
 Macros
 =======*/
 // Maximum size for JSON buffers. Depends on how big is the data you're sending.
-#define JSON_MAX_SIZE 500
+#define JSON_MAX_SIZE 900
 // How often the measurements will be sent, in milliseconds
 #define MSTREAM_REFRESH_PERIOD 100
 
@@ -47,9 +47,7 @@ extern int TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 extern float lastSensorPosition;
 //color sensor
-extern float Color;
-//desired speed
-extern float Desired_Speed;
+extern char color;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
 extern unsigned long int timeStamp; //  TimeStamp of SPI receival
@@ -64,6 +62,8 @@ extern float motorKd; // Differential gain of the motors.
 
 extern float decayRate; // Decay of speed after it loses a line
 extern float cruiseKi; // Decay of speed after it loses a line
+extern float Desired_Speed; //desired speed
+extern char commandColor; // Color of station to go to.
 
 /*======
 	~~PhotonTCPServerInit~~

@@ -3,5 +3,9 @@
 
 
 #define CS_ADDR 0x29
-#define Color;
+
+uint32_t Color;
+uint32_t Command_Color;
+
+
 #endif

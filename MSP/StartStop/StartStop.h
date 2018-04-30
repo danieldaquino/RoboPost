@@ -14,6 +14,11 @@
 	5. TA2CCR1
 	6. TA2CCR2
 	7. GIE
+	
+	## Requirements
+	
+	1. Color Module
+	2. SPI module
 			
 ===============================*/
 #ifndef START_STOP_H

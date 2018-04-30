@@ -24,6 +24,7 @@ Includes
 #include <stdlib.h>
 #include "../Scheduler/Scheduler.h"
 #include "Photon_SPI_module/Photon_SPI_Module.h"
+#include "../Docking/Color_sensor/Color_sensor.h"
 
 /*======
 Static function prototypes

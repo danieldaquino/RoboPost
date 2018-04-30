@@ -27,6 +27,7 @@
 #include "I2CModule/I2CModule.h"
 #include "Photon_SPI_module/Photon_SPI_Module.h"
 #include "StartStop/StartStop.h"
+#include "Color_Sensor.h"
 /*=================================
  * DEFINITIONS
  =================================*/

@@ -80,6 +80,7 @@ void setup() {
 	motorKp = 0; // Proportional gain of the motors.
 	motorKd = 0; // Differential gain of the motors.
 	Desired_Speed = 35;
+	commandColor = 0;
 }
 
 
