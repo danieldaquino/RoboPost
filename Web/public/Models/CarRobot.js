@@ -42,8 +42,8 @@ function CarRobot() {
 	that.Measurements.RevPWM[1] = 0.6;
 	// PWM frequencies
 	that.Measurements.F = new Array();
-	that.Measurements.F[0] = "3K";
-	that.Measurements.F[1] = "100 ";
+	that.Measurements.F[0] = 100;
+	that.Measurements.F[1] = 100;
 	// Wheel RPMs
 	that.Measurements.RPM = new Array();
 	that.Measurements.RPM[0] = 250;
@@ -51,8 +51,9 @@ function CarRobot() {
 	// General Robot Kinematics
 	that.Measurements.CurveRadius = 500;
 	that.Measurements.Speed = 0.6;
-	// Sensor
+	// Color
 	that.Measurements.Sensor = 0;
+	that.Measurements.Color = 0;
 	
 	/*=======
 	Robot Setpoints
@@ -65,6 +66,12 @@ function CarRobot() {
 	// General Robot Kinematics
 	that.SetPoints.CurveRadius = 400;
 	that.SetPoints.Speed = 0.4;
+	
+	/*======
+	Robot Targets
+	=======*/
+	that.Targets = new Object();
+	that.Targets.CommandColor = 0;
 	
 	/*=======
 	Robot Settings
@@ -120,15 +127,16 @@ function CarRobot() {
 		that.Settings.Motor.Kd = localStorage.getItem("MotorKd") || that.Settings.Motor.Kd;
 	}
 	
-	that.UpdateMeasurements = function(RPMLS, RPML, RPMRS, RPMR, TA0CCR0_REG, TA0CCR1_REG, TA0CCR2_REG, TA2CCR0_REG, TA2CCR1_REG, TA2CCR2_REG, lastSensorPosition) {
+	that.UpdateMeasurements = function(RPMLS, RPML, RPMRS, RPMR, TA0CCR0_REG, TA0CCR1_REG, TA0CCR2_REG, TA2CCR0_REG, TA2CCR1_REG, TA2CCR2_REG, lastSensorPosition, Color) {
 		// First update the RPMs, as they require least calculations.
 		that.SetPoints.RPM[0] = RPMLS;
 		that.Measurements.RPM[0] = RPML;
 		that.SetPoints.RPM[1] = RPMRS;
 		that.Measurements.RPM[1] = RPMR;
 		
-		// Then, update the sensor measurement
+		// Then, update the sensor measurements
 		that.Measurements.Sensor = lastSensorPosition;
+		that.Measurements.Color = Color;
 		
 		// Then, calculate the duty cycles...
 		that.Measurements.PWM[0] = TA0CCR1_REG/TA0CCR0_REG;

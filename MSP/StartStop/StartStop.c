@@ -81,6 +81,7 @@ void stopRobot3Sec()
             __delay_cycles(48000000);
         __enable_interrupt();   // Make sure interrupts are re-enabled
 }
+
 void Docking()
 {
     if((Color==1&&Command_Color==1)||(Color==2&&Command_Color==2))
@@ -88,6 +89,7 @@ void Docking()
         stopRobot3Sec();
     }
 }
+
 void robotPlayUpdate() {
 	if(robotPlay == 0) {
 		stopRobot();

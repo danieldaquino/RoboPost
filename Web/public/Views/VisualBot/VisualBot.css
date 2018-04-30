@@ -1,0 +1,22 @@
+/*-----VISUAL BOT------*/
+
+#BotCanvas {
+	position: fixed;
+	width: 100vw;
+	height: calc(100% - 100px);
+	left: 0px;
+	top: 100px;
+	transition: opacity 0.5s;
+	opacity: 0;
+}
+
+@font-face {
+	font-family: 'FontAwesome';
+	src: url('../../fontawesome/webfonts/fa-solid-900.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#Stage {
+	font-family: FontAwesome;
+} 

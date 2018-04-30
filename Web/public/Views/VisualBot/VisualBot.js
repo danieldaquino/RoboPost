@@ -30,6 +30,10 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		loadedCallback();
 	}
 	
+	that.RenderState = "Running";
+	that.PreviousRenderState = "Running";
+	
+	that.BlinkInterval = new Object();
 		
 	/*=======
 	Visual Settings
@@ -37,21 +41,61 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 	that.Visual = new Object();
 	that.Visual.Size = 500;
 	that.Visual.Margin = -50;
+	that.StationColor = 0
 	
 	/*=======
 	Exposed functions
 	========*/
 	that.Render = function() {
-		// Clear canvas for redrawing.
-		ctx.clearRect(0, 0, that.Canvas.width, that.Canvas.height);
-		RenderCurveRadius(that.Robot.Measurements.CurveRadius, DriftingRed, 10);
-		RenderCurveRadius(that.Robot.SetPoints.CurveRadius, SettleBlue, 10);
-		RenderCar();
-		RenderMotorBox(0);
-		RenderMotorBox(1);
-		RenderSpeedBox();
+		if(that.RenderState == "Running") {
+			// Clear canvas for redrawing.
+			that.Clear();
+			if(that.PreviousRenderState == "Completion") {
+				clearInterval(that.BlinkInterval);
+			}
+			RenderCurveRadius(that.Robot.Measurements.CurveRadius, DriftingRed, 10);
+			RenderCurveRadius(that.Robot.SetPoints.CurveRadius, SettleBlue, 10);
+			RenderCar();
+			RenderMotorBox(0);
+			RenderMotorBox(1);
+			RenderSpeedBox();
+		}
+		else if(that.RenderState == "Completion"){
+			if(that.PreviousRenderState == "Running") {
+				// Clear canvas for redrawing.
+				that.Clear();
+				RenderCar();
+				var IsShowing = false;
+				var BlinkCount = 0;
+				that.BlinkInterval = setInterval(function() {
+					that.Clear();
+					RenderCar();
+					if(IsShowing) {
+						if(that.StationColor == 1) {
+							RenderCompleteCircle(DriftingRed);
+						}
+						else if(that.StationColor == 2) {
+							RenderCompleteCircle(SettleBlue);
+						}
+						IsShowing = false;
+					}
+					else {
+						IsShowing = true;
+					}
+					BlinkCount++;
+					if(BlinkCount > 15) {
+						clearInterval(that.BlinkInterval);
+					}
+				}, 100);
+			}
+		}
+		that.PreviousRenderState = that.RenderState;
 	}
-
+	
+	that.Clear = function() {
+		ctx.clearRect(0, 0, that.Canvas.width, that.Canvas.height);
+	}
+	
 	/*=======
 	Internal functions
 	========*/
@@ -154,6 +198,7 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.lineTo(xBegin + boxWidth, yCursor);
 		ctx.stroke();
 		// Draw Block Heading
+		ctx.fillStyle = TapeBlack;
 		yCursor += headingYMargin;	// Move Cursor
 		ctx.font= headingSize + "px Quicksand";
 		if(motor == 0) {
@@ -214,5 +259,18 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.moveTo(xBegin, yCursor);
 		ctx.lineTo(xBegin + boxWidth, yCursor);
 		ctx.stroke();
+	}
+	
+	var RenderCompleteCircle = function(Color) {
+		var pxRadius = 50;
+		var marginDown = 60;
+		ctx.beginPath();
+		ctx.fillStyle = Color;
+		ctx.font= '72px FontAwesome';
+		// Check Circle
+		ctx.fillText('\uf058', that.Canvas.width/2 - 36, 75);
+
+		//ctx.arc(that.Canvas.width/2, marginDown, pxRadius, 0, Math.PI*2);
+		ctx.fill();
 	}
 }

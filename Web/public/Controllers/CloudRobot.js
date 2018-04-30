@@ -75,7 +75,8 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 			response.result.TA2CCR0_REG,
 			response.result.TA2CCR1_REG,
 			response.result.TA2CCR2_REG,
-			response.result.lastSensorPosition			
+			response.result.lastSensorPosition,
+			response.result.color
 		);
 		TheBotCanvas.Render();
 	}
@@ -92,6 +93,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		JSONToSend.motorKp = that.CarRobot.Settings.Motor.Kp;
 		JSONToSend.motorKd = that.CarRobot.Settings.Motor.Kd;
 		JSONToSend.desiredSpeed = that.CarRobot.Settings.DesiredSpeed;
+		JSONToSend.colorCommand = that.CarRobot.Targets.ColorCommand;
 
 		PostRequest("/SET", JSON.stringify(JSONToSend)).then(function(response) {
 			console.log("Success!");

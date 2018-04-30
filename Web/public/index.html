@@ -4,9 +4,22 @@
 		<!-- Import all Models -->
 		<script src="Models/CarRobot.js"></script>
 		<!-- Import all Views -->
-		<script src="Views/VisualBot.js"></script>
-		<script src="Views/SettingsPanel.js"></script>
-		<script src="Views/StartStopButton.js"></script>
+		<script src="Views/VisualBot/VisualBot.js"></script>
+		<link rel="stylesheet" type="text/css" href="Views/VisualBot/VisualBot.css"/>
+		
+		<script src="Views/Topbar/Topbar.js"></script>
+		<link rel="stylesheet" type="text/css" href="Views/Topbar/Topbar.css"/>
+		
+		<script src="Views/Topbar/SettingsPanel/SettingsPanel.js"></script>
+		<link rel="stylesheet" type="text/css" href="Views/Topbar/SettingsPanel/SettingsPanel.css"/>
+		
+		<script src="Views/Topbar/StartStopButton/StartStopButton.js"></script>
+		<link rel="stylesheet" type="text/css" href="Views/Topbar/StartStopButton/StartStopButton.css"/>
+		
+		<script src="Views/Target/Target.js"></script>
+		<link rel="stylesheet" type="text/css" href="Views/Target/Target.css"/>
+		
+		<script src="Views/Maestro.js"></script>
 		<!-- Import all Controllers -->
 		<script src="Controllers/FileSaver.js"></script>
 		<script src="Controllers/socket.io.js"></script>
@@ -30,9 +43,11 @@
 					<img id="Hero" src="/Graphics/logo.png"/>
 				</span>
 			</div>
-			<canvas id="BotCanvas">
+			<div id="Stage">
+				<canvas id="BotCanvas">
 			
-			</canvas>
+				</canvas>
+			</div>
 			<div id="SettingsPanelDiv">
 				<div>Desired Speed – <span id="DesiredSpeedDisplay"></span> cm/s</div>
 				<input id="DesiredSpeed" value="56" type="range" min="10" max="120" step="1">
