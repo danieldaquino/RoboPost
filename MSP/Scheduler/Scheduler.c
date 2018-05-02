@@ -35,6 +35,8 @@ static void (*outputCallbacks[MAX_CALLBACKS])(void);
 
 // compute Flag indicates if computation has to be done or not.
 static char computeFlag;
+// cancel Flag indicates if computation has been cancelled
+static char cancelFlag;
 
 void schedulerInit(void) {
 	//Setup TimerA1 for velocity measurements
@@ -70,6 +72,8 @@ void schedulerRun(void) {
 		}
 		//Indicate computation start
 		P4OUT |= GREEN_LED;
+		// Reset cancelFlag
+		cancelFlag = 0;
 		//*****************************
 		
 		// Call all input callbacks
@@ -77,14 +81,32 @@ void schedulerRun(void) {
 		for(i=0; i < callbackScheduleInputPointer; i++) {
 			P_CMPT_OUT |= CMPT;
 			inputCallbacks[i]();
+			if(cancelFlag) {
+				// if has been cancelled, exit this loop
+				break;
+			}
 			P_CMPT_OUT &= ~CMPT;
+		}
+		
+		if(cancelFlag) {
+			// if has been cancelled, start over
+			continue;
 		}
 		
 		// Call all Callbacks
 		for(i=0; i < callbackSchedulePointer; i++) {
 			P_CMPT_OUT |= CMPT;
 			callbacks[i]();
+			if(cancelFlag) {
+				// if has been cancelled, exit this loop
+				break;
+			}
 			P_CMPT_OUT &= ~CMPT;
+		}
+		
+		if(cancelFlag) {
+			// if has been cancelled, start over
+			continue;
 		}
 		
 		//*****************************
@@ -130,6 +152,10 @@ char scheduleOutputCallback(void (*callback) (void)) {
 	}
 }
 
+void cancelLoop() {
+	cancelFlag = 1;
+}
+
 #pragma vector = TIMER1_A1_VECTOR
 __interrupt void timerISR(void) {
 	if(computeFlag == 0) {
@@ -139,7 +165,7 @@ __interrupt void timerISR(void) {
 			outputCallbacks[i]();
 		}
 	}
-	else {
+	else if(computeFlag != 0 && cancelFlag == 0){
 		// error! handle it
 		offlineStopRobotOperations();
 	}

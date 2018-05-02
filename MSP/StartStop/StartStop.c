@@ -86,6 +86,7 @@ void stopRobot3Sec()
             {
                 InfoBoardUpdate();
             }
+        cancelLoop();			// Throw away this loop.
         __enable_interrupt();   // Make sure interrupts are re-enabled
 }
 
@@ -125,7 +126,7 @@ static void stopRobotOperations() {
 	if(BUTTON_1_PRESSED) {
 		// Ok, it was really pressed. Now, let's wait until it is released.		
 		while(BUTTON_1_PRESSED) {
-				// Wait to be released
+			// Wait to be released
 		}
 	}
 	// Time to turn on!

@@ -112,6 +112,18 @@ Globals affected: none
 char scheduleCallback(void (*callback) (void));
 
 /*======
+~~cancelLoop~~
+
+cancels the rest of the list of scheduler functions, doens't lock, and goes back to the beginning of scheduler
+
+inputs: none
+outputs: none
+						
+Globals affected: Scheduler, Timer A1
+======*/
+void cancelLoop();
+
+/*======
 ~~scheduleOutputCallback~~
 
 Adds a function to the output schedulers list. The function input will be called

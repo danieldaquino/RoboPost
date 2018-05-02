@@ -77,7 +77,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 		},
 		set(newValue) {
 			TheColor = newValue;
-			if(that.CarRobot.Measurements.Color == that.CarRobot.Targets.CommandColor) {
+			if(TheColor == that.CarRobot.Targets.CommandColor && that.CarRobot.Targets.CommandColor != 0) {
 				that.Target.ShowSelect();
 				that.VisualBot.RenderState = "Completion";
 				that.VisualBot.StationColor = that.CarRobot.Targets.CommandColor;

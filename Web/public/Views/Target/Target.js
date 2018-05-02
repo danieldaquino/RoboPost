@@ -40,16 +40,15 @@ function Target(CarRobot, CloudRobot) {
 	that.HTML.Main.appendChild(that.HTML.BlueTarget);
 	
 	that.SelectTarget = function(CommandColor) {
+		that.CarRobot.Targets.CommandColor = CommandColor;
 		setTimeout(function() {
 			if(CommandColor == 1) {
-				that.CarRobot.Targets.CommandColor = 1;
 				// Start animation
 				that.HTML.RedTarget.className = "TargetCircle PulsatingRed";
 				that.HTML.BlueTarget.className = "TargetCircle";
 				that.HTML.Label.innerText = "Going to: Red Station";
 			}
 			else if(CommandColor == 2) {
-				that.CarRobot.Targets.CommandColor = 2;
 				that.HTML.BlueTarget.className = "TargetCircle PulsatingBlue";			
 				that.HTML.RedTarget.className = "TargetCircle";
 				that.HTML.Label.innerText = "Going to: Blue Station";
