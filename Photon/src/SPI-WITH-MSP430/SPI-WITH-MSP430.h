@@ -21,7 +21,7 @@ Use at your own risk!?
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 15
+#define NUM_PARAM 16
 
 /*=======
 Function prototypes
@@ -54,6 +54,7 @@ extern int TA2CCR2_REG;
 // sensor: Sensor data (-1 - +1)
 extern float lastSensorPosition;
 extern char color; // color sensor reading
+extern long unsigned int RGBColor;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
 extern unsigned long int timeStamp; // Timestamp of the latest SPI data

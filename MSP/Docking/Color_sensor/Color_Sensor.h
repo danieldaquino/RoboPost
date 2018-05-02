@@ -7,5 +7,7 @@
 uint32_t Color;
 uint32_t Command_Color;
 
+unsigned long int RGBColor;
+
 
 #endif

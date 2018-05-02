@@ -121,6 +121,7 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 			that.CarRobot.Measurements.PWM[0],
 			that.CarRobot.Measurements.F[1],
 			that.CarRobot.Measurements.PWM[1],
+			that.CarRobot.Measurements.RGBColor,
 			0,
 			that.CarRobot.Settings.DesiredSpeed,
 			that.CarRobot.Settings.Cruise.Sharpness,

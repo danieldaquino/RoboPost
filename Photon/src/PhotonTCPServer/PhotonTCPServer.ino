@@ -120,6 +120,8 @@ void streamMeasurements() {
 	JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
 	JSONResult["lastSensorPosition"] = lastSensorPosition;
 	JSONResult["color"] = color;
+	JSONResult["RGBColor"] = RGBColor;
+
 
 	JSONResponse.printTo(server);
 	// Finish it up by sending null character
@@ -156,6 +158,7 @@ void HandleIncomingData(String data) {
 		JSONResult["TA2CCR2_REG"] = TA2CCR2_REG;
 		JSONResult["lastSensorPosition"] = lastSensorPosition;
 		JSONResult["color"] = color;
+		JSONResult["RGBColor"] = RGBColor;
 
 		JSONResponse.printTo(Serial);		
 		JSONResponse.printTo(server);

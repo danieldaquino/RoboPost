@@ -54,6 +54,8 @@ function CarRobot() {
 	// Color
 	that.Measurements.Sensor = 0;
 	that.Measurements.Color = 0;
+	that.Measurements.RGBColor = 0;
+	
 	
 	/*=======
 	Robot Setpoints

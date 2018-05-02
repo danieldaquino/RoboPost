@@ -48,6 +48,7 @@ extern int TA2CCR2_REG;
 extern float lastSensorPosition;
 //color sensor
 extern char color;
+extern long unsigned int RGBColor;
 
 extern char robotPlay; //  A “1” indicates the robot has to start running. A “0” indicates a stop signal.
 extern unsigned long int timeStamp; //  TimeStamp of SPI receival

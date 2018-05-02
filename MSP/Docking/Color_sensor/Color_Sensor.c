@@ -96,35 +96,33 @@ void ColorSensorInit()
     Data=PON|AEN;
         I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// enable color sensor
         scheduleInputCallback(&CSRead);
+    RGBColor = 0xFFFFFF;
 }
 char CSRead()
 {
     uint8_t r=0;
+    uint8_t g=0;
     uint8_t b=0;
     uint8_t receiveBuffer[2];
-    uint8_t White=1;
     I2CRead(CS_ADDR,COMMAND_BIT|RREG , 2, receiveBuffer);// read Red sensor reading
     r=receiveBuffer[0];
+	I2CRead(CS_ADDR,COMMAND_BIT|GREG , 2, receiveBuffer);// read Blue sensor reading
+	g=receiveBuffer[0];
     I2CRead(CS_ADDR,COMMAND_BIT|BREG , 2, receiveBuffer);// read Blue sensor reading
     b=receiveBuffer[0];
-    if((r>100&&b<80)&&White==1)
+    if(r>70 && b<80 && g<100)
     {
         Color= 1;
-        White=0;
     }
-    else if((r<80&&b>80)&&White==1)
+    else if(r<80 && b>80 && g>80)
     {
         Color= 2;
-        White=0;
     }
     else
     {
         Color= 0;
-        White=1;
-
     }
-
-
+    RGBColor = (r << 16) | (g << 8) | b;
 }
 
 

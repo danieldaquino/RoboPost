@@ -82,6 +82,8 @@ static void InfoBoardFill() {
 	DataArray[i] = lastRawSensorData;	// Sensor Data
 	i++;
 	DataArray[i] = Color;
+	i++;
+	DataArray[i] = RGBColor;
 	// Stamp checksum code
 	stampMessage(DataArray, NUM_PARAM*4);
 }

@@ -122,6 +122,8 @@ void ReceiveInfoBoard() {
 		lastSensorPosition = rcvdValues[i];	// sensor: Sensor data (-1 - +1)
 		i++;
 		color = rcvdValues[i];		//color reading from msp
+		i++;
+		RGBColor = rcvdValues[i];		//color reading from msp
 	}
 }
 

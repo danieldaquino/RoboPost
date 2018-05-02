@@ -38,6 +38,7 @@ int TA2CCR2_REG;
 float lastSensorPosition;
 // color sensor reading
 char color;
+long unsigned int RGBColor;
 
 
 /*========
