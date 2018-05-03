@@ -70,31 +70,29 @@ void stopRobot() {
 	__enable_interrupt();	// Make sure interrupts are re-enabled
 }
 
-void stopRobot3Sec()
-{
+void stopRobotAtStation() {
     __disable_interrupt();  // Make sure interrupts are disabled
     // Indicate we are stopped.
-    uint32_t dummy=0;
-    dummy=Command_Color;
-        P1OUT |= RED_LED;
-        // Remember, GIE is already off, so we don't need to stop that.
-            TA0CCR1 = TA0CCR0*0.8;
-            TA0CCR2 = TA0CCR0*0.8;
-            TA2CCR1 = TA0CCR0*0.8;
-            TA2CCR2 = TA0CCR0*0.8;
-            while(dummy==Command_Color)
-            {
-                InfoBoardUpdate();
-            }
-        cancelLoop();			// Throw away this loop.
-        __enable_interrupt();   // Make sure interrupts are re-enabled
+    uint32_t previousCommandColor=0;
+    previousCommandColor=Command_Color;
+	P1OUT |= RED_LED;
+	// Remember, GIE is already off, so we don't need to stop that.
+	TA0CCR1 = TA0CCR0*0.8;
+	TA0CCR2 = TA0CCR0*0.8;
+	TA2CCR1 = TA0CCR0*0.8;
+	TA2CCR2 = TA0CCR0*0.8;
+	while(previousCommandColor==Command_Color)
+	{
+		InfoBoardUpdate();
+	}
+	P1OUT &= ~RED_LED;
+	cancelLoop();			// Throw away this loop.
+	__enable_interrupt();   // Make sure interrupts are re-enabled
 }
 
-void Docking()
-{
-    if((Color==1&&Command_Color==1)||(Color==2&&Command_Color==2))
-    {
-        stopRobot3Sec();
+void Docking() {
+    if((Color==1&&Command_Color==1)||(Color==2&&Command_Color==2)) {
+        stopRobotAtStation();
     }
 }
 

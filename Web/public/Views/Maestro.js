@@ -59,7 +59,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 	// Append event listener to the Selecting target event
 	that.OriginalSelectTarget = that.Target.SelectTarget;
 	that.Target.SelectTarget = function(CommandColor) {
-		if(that.CarRobot.Targets.CommandColor == CommandColor) {
+		if(that.CarRobot.Targets.CommandColor == CommandColor && CommandColor != 0) {
 			// We are already going there. Ignore this event.
 			return;
 		}

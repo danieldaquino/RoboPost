@@ -39,18 +39,36 @@ function Target(CarRobot, CloudRobot) {
 	that.HTML.BlueTarget.style.color = SettleBlue;
 	that.HTML.Main.appendChild(that.HTML.BlueTarget);
 	
+	//NO TARGET
+	that.HTML.NoTarget = document.createElement("div");
+	that.HTML.NoTarget.className = "TargetCircle";
+	that.HTML.NoTarget.style.border = "solid #000000 3px";
+	that.HTML.NoTarget.style.background = "#FFFFFF";
+	that.HTML.NoTarget.style.color = "#000000";
+	that.HTML.Main.appendChild(that.HTML.NoTarget);
+
+	
 	that.SelectTarget = function(CommandColor) {
 		that.CarRobot.Targets.CommandColor = CommandColor;
 		setTimeout(function() {
-			if(CommandColor == 1) {
+			if(CommandColor == 0) {
+				// Start animation
+				that.HTML.NoTarget.className = "TargetCircle PulsatingBlack";
+				that.HTML.BlueTarget.className = "TargetCircle";
+				that.HTML.RedTarget.className = "TargetCircle";
+				that.HTML.Label.innerText = "Free Run";
+			}
+			else if(CommandColor == 1) {
 				// Start animation
 				that.HTML.RedTarget.className = "TargetCircle PulsatingRed";
 				that.HTML.BlueTarget.className = "TargetCircle";
+				that.HTML.NoTarget.className = "TargetCircle";
 				that.HTML.Label.innerText = "Going to: Red Station";
 			}
 			else if(CommandColor == 2) {
 				that.HTML.BlueTarget.className = "TargetCircle PulsatingBlue";			
 				that.HTML.RedTarget.className = "TargetCircle";
+				that.HTML.NoTarget.className = "TargetCircle";
 				that.HTML.Label.innerText = "Going to: Blue Station";
 			}
 			else {
@@ -64,6 +82,7 @@ function Target(CarRobot, CloudRobot) {
 	that.ShowSelect = function() {
 		that.HTML.RedTarget.className = "TargetCircle";
 		that.HTML.BlueTarget.className = "TargetCircle";
+		that.HTML.NoTarget.className = "TargetCircle";
 		that.HTML.Label.innerText = "Select Target";		
 	}
 	
@@ -85,6 +104,12 @@ function Target(CarRobot, CloudRobot) {
 		// Select Blue
 		that.SelectTarget(2);		
 	}
+	
+	that.HTML.NoTarget.onmouseup = function() {
+		// Select No Target
+		that.SelectTarget(0);		
+	}
+
 		
 	document.body.appendChild(that.HTML.Main);
 }

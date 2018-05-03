@@ -1,24 +1,3 @@
-/*===============================
-
-    Docking Module/Color_Sensor
-
-    this C module is part of Docking function.
-    It provides functions that allow you to communicate with color sensor which is needed for Docking.
-
-    Written by Tim Yue and Daniel Walnut
-
-    Resources used:
-
-    1. port 3.0(SDA) & port 3.1（SCL)
-    2. power pins 3.3V and GND
-    3. UCSI(B0)
-
-    Requirements:
-
-    1. ArrayUtils module
-    2. I2C_Module
-
-===============================*/
 /*=================================
  * includes
  =================================*/
@@ -47,33 +26,7 @@
 #define CREG    0x14
 #define RED     1
 #define BLUE    2
-/*==============================
 
-    ~~ColorSensorInit~~
-
-    Initializes the Color Sensor
-
-    inputs: none
-    outputs: none
-    Globals Affected: none
-
-==============================*/
-void ColorSensorInit();
-/*==============================
-
-    ~~CsRead~~
-
-    Get reading from color sensor and determine if it is blue or
-    red or something else
-
-
-    inputs: none
-    outputs: 1 if red,2 if blue, 0 if something else
-    Globals Affected: none
-
-==============================*/
-char CSRead();
-void Docking();
 void ColorSensorInit()
 {
     uint8_t receiveBuffer[30];
@@ -94,10 +47,11 @@ void ColorSensorInit()
     I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// turn on LED
     __delay_cycles(5);  //wait for led to fully turn on
     Data=PON|AEN;
-        I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// enable color sensor
-        scheduleInputCallback(&CSRead);
+	I2CWrite(CS_ADDR,COMMAND_BIT|ENABLE,&Data,TYPE_0_LENGTH);// enable color sensor
+	scheduleInputCallback(&CSRead);
     RGBColor = 0xFFFFFF;
 }
+
 char CSRead()
 {
     uint8_t r=0;
@@ -110,7 +64,7 @@ char CSRead()
 	g=receiveBuffer[0];
     I2CRead(CS_ADDR,COMMAND_BIT|BREG , 2, receiveBuffer);// read Blue sensor reading
     b=receiveBuffer[0];
-    if(r>70 && b<80 && g<100)
+    if(r>60 && b<60 && g<60)
     {
         Color= 1;
     }

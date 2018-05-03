@@ -170,6 +170,7 @@ __interrupt void timerISR(void) {
 		offlineStopRobotOperations();
 	}
 	TA1CTL &= ~TAIFG; // Clear interrupt flag
+	TA1R = 0; // Reset counter
 	__bic_SR_register_on_exit(CPUOFF); // Turn on the CPU!!
 	computeFlag = 1; // Start computations again!
 }

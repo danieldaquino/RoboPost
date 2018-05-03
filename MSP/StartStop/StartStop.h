@@ -53,16 +53,15 @@ void setupSafeMotorPower();
 void stopRobot();
 /*================
 
-    ~~ stopRobot3Sec ~~
+    ~~ stopRobotAtStation ~~
 
-    This function will stop the robot for 3sec. Resume after 3sec
-    Make sure interrupts are disabled before counting to 3sec and enable after
+    This function will stop the robot for as long as the color is seen.
 
     Globals affected:
                         TA[0,2]CCR[1,2] dynamic braking will be applied
 
 ================*/
-void stopRobot3Sec();
+void stopRobotAtStation();
 /*================
 	
 	~~ offlineStopRobotOperations ~~
@@ -75,7 +74,21 @@ void stopRobot3Sec();
 	
 ================*/
 void offlineStopRobotOperations();
+
+/*================
+	
+	~~ Docking ~~
+	
+	This function will stop the robot if it is on a station
+	
+	inputs: none
+	outputs: none
+	
+	Globals affected: Can stop schedueler, cancel scheduler, Eventually Motor pins will be affected.
+	
+================*/
 void Docking();
+
 /*================
 	
 	~~ robotPlayUpdate ~~
