@@ -18,7 +18,7 @@ Macros
 // Maximum size for JSON buffers. Depends on how big is the data you're sending.
 #define JSON_MAX_SIZE 900
 // How often the measurements will be sent, in milliseconds
-#define MSTREAM_REFRESH_PERIOD 100
+#define MSTREAM_REFRESH_PERIOD 34
 
 /*======
 Externally defined variables
