@@ -110,7 +110,7 @@ static void controlCruise(void) {
 	newSpeed = ((float) internalSpeedSetpoint)*(1 - absDSensorError*corneringDBrakeFactor - absSensorError*corneringPBrakeFactor); // Slows down if line is moving too fast
 	
 	// Calculate Radius
-	int newCurveRadius;
+	float newCurveRadius;
 	newCurveRadius = -sharpestCurve/(cruiseKp*sensorError + cruiseKd*dSensorError);
 	
 	// Integrate Sharpness
