@@ -77,12 +77,12 @@ void stopRobotAtStation() {
     previousCommandColor=Command_Color;
 	P1OUT |= RED_LED;
 	// Remember, GIE is already off, so we don't need to stop that.
-	TA0CCR1 = TA0CCR0*0.8;
-	TA0CCR2 = TA0CCR0*0.8;
-	TA2CCR1 = TA0CCR0*0.8;
-	TA2CCR2 = TA0CCR0*0.8;
 	while(previousCommandColor==Command_Color)
 	{
+		TA0CCR1 = TA0CCR0*0.8;
+		TA0CCR2 = TA0CCR0*0.8;
+		TA2CCR1 = TA0CCR0*0.8;
+		TA2CCR2 = TA0CCR0*0.8;
 		InfoBoardUpdate();
 		__delay_cycles(533334);
 	}
