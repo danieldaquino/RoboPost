@@ -26,6 +26,7 @@ Statics
 static int speedSetpoint;
 static float lastSensorError;
 static double lastSharpness;
+static float iSensorError;
 
 // Create variables that we can overwrite to in case of losing the line
 static int internalSpeedSetpoint;
@@ -90,6 +91,7 @@ static void controlCruise(void) {
 	// Get errors
 	float sensorError = 0 - internalLastSensorPosition;
 	float dSensorError = sensorError - lastSensorError;
+	iSensorError += sensorError;
 	
 	// Speed calculations
 	float newSpeed;
@@ -111,23 +113,8 @@ static void controlCruise(void) {
 	
 	// Calculate Radius
 	float newCurveRadius;
-	newCurveRadius = -sharpestCurve/(cruiseKp*sensorError + cruiseKd*dSensorError);
-	
-	// Integrate Sharpness
-	double newSharpness;
-	newSharpness = cruiseKi*lastSharpness + 1/((double) newCurveRadius);
-	// Add a saturation
-	if(newSharpness > 1/((double) sharpestCurve) ) {
-		newSharpness = 1/((double) sharpestCurve);
-	}
-	else if(newSharpness < -1/((double) sharpestCurve) ) {
-		newSharpness = -1/((double) sharpestCurve);		
-	}
-	lastSharpness = newSharpness;
-	
-	// Get that into new curve radius
-	newCurveRadius = 1/newSharpness;
-		
+	newCurveRadius = -sharpestCurve/(cruiseKp*sensorError + cruiseKd*dSensorError + cruiseKi*iSensorError);
+			
 	// Differential Drive
 	diffDrive(newSpeed, newCurveRadius);
 	
@@ -157,6 +144,8 @@ char lineCruiserInit() {
 	cruiseKi = 0.5;
 	
 	pathChosen = 0;
+	
+	iSensorError = 0;
 	
 	internalSpeedSetpoint = 0;
 	internalLastSensorPosition = 0;
