@@ -49,7 +49,6 @@ function Target(CarRobot, CloudRobot) {
 
 	
 	that.SelectTarget = function(CommandColor) {
-		that.CarRobot.Targets.CommandColor = CommandColor;
 		setTimeout(function() {
 			if(CommandColor == 0) {
 				// Start animation

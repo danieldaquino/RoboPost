@@ -23,6 +23,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 	that.VisualBot = VisualBot;
 	that.StartStopButton = StartStopButton;
 	that.Target = Target;
+	that.ColorTarget = 0;
 	
 	// STATE LOGIC
 	
@@ -32,6 +33,17 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 	}
 	
 	that.GoToRunningState = function() {
+		that.VisualBot.RenderState = "Running";
+		that.VisualBot.Render();
+		setTimeout(function() {
+			that.VisualBot.Canvas.style.opacity = 1;
+			that.Target.GoToCorner();
+		}, 500);
+	}
+	
+	that.GoToGoToNextState = function() {
+		that.VisualBot.RenderState = "Running";
+		that.VisualBot.Render();
 		setTimeout(function() {
 			that.VisualBot.Canvas.style.opacity = 1;
 			that.Target.GoToCorner();
@@ -45,6 +57,9 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 				break;
 			case "Running":
 				that.GoToRunningState();				
+				break;
+			case "GoToNext":
+				that.GoToGoToNextState();				
 				break;
 			default:
 				return false;
@@ -60,13 +75,25 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 	that.OriginalSelectTarget = that.Target.SelectTarget;
 	that.Target.SelectTarget = function(CommandColor) {
 		if(that.CarRobot.Targets.CommandColor == CommandColor && CommandColor != 0) {
-			// We are already going there. Ignore this event.
+			// We are already going there. Go to state "Go To next"
+			// Select the CommandColor on the UI
+			that.OriginalSelectTarget(CommandColor);
+			// Set the actual command color to zero to let it run.
+			that.CarRobot.Targets.CommandColor = 0;
+			that.ColorTarget = CommandColor;
+			// Go to "Go to next" state
+			that.GoToState("GoToNext");
 			return;
 		}
-		that.OriginalSelectTarget(CommandColor);
-		that.GoToState("Running");
-		that.VisualBot.RenderState = "Running";
-		that.VisualBot.Render();
+		else {
+			// Select it on UI
+			that.OriginalSelectTarget(CommandColor);
+			// Go to command color
+			that.CarRobot.Targets.CommandColor = CommandColor;
+			that.ColorTarget = CommandColor;
+			// Start Running
+			that.GoToState("Running");
+		}
 	}
 	
 	var TheColor = CarRobot.Measurements.Color;
@@ -77,12 +104,25 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 		},
 		set(newValue) {
 			TheColor = newValue;
-			if(TheColor == that.CarRobot.Targets.CommandColor && that.CarRobot.Targets.CommandColor != 0) {
+			if(that.State == "Running" && TheColor == that.CarRobot.Targets.CommandColor && that.CarRobot.Targets.CommandColor != 0) {
 				that.Target.ShowSelect();
 				that.VisualBot.RenderState = "Completion";
 				that.VisualBot.StationColor = that.CarRobot.Targets.CommandColor;
 				that.VisualBot.Render();
-			}			
+			}
+			else if(that.State == "GoToNext") {
+				if(TheColor == 0) {
+					// It saw white on the "GoToNext" state, which means we left the station. Debounce.
+					setTimeout(function() {
+						// Check if this is still white.
+						if(TheColor == 0) {
+							// Yes!! ready to set actual target.
+							that.CarRobot.Targets.CommandColor = that.ColorTarget;
+							that.GoToState("Running");
+						}
+					}, 500);
+				}
+			}
 		}
 	});
 	
