@@ -84,6 +84,7 @@ void stopRobotAtStation() {
 	while(previousCommandColor==Command_Color)
 	{
 		InfoBoardUpdate();
+		__delay_cycles(533334);
 	}
 	P1OUT &= ~RED_LED;
 	cancelLoop();			// Throw away this loop.
