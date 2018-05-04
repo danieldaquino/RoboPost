@@ -15,7 +15,7 @@
 
 ===============================*/
 
-function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
+function Maestro(CarRobot, VisualBot, StartStopButton, Target, CloudRobot) {
 	var that = this;
 	
 	that.State = "Choose";
@@ -23,6 +23,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 	that.VisualBot = VisualBot;
 	that.StartStopButton = StartStopButton;
 	that.Target = Target;
+	that.CloudRobot = CloudRobot;
 	that.ColorTarget = 0;
 	
 	// STATE LOGIC
@@ -80,6 +81,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 			that.OriginalSelectTarget(CommandColor);
 			// Set the actual command color to zero to let it run.
 			that.CarRobot.Targets.CommandColor = 0;
+			that.CloudRobot.SendSettings();
 			that.ColorTarget = CommandColor;
 			// Go to "Go to next" state
 			that.GoToState("GoToNext");
@@ -90,6 +92,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 			that.OriginalSelectTarget(CommandColor);
 			// Go to command color
 			that.CarRobot.Targets.CommandColor = CommandColor;
+			that.CloudRobot.SendSettings();
 			that.ColorTarget = CommandColor;
 			// Start Running
 			that.GoToState("Running");
@@ -118,9 +121,10 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target) {
 						if(TheColor == 0) {
 							// Yes!! ready to set actual target.
 							that.CarRobot.Targets.CommandColor = that.ColorTarget;
+							that.CloudRobot.SendSettings();
 							that.GoToState("Running");
 						}
-					}, 500);
+					}, 1500);
 				}
 			}
 		}

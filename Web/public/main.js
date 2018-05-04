@@ -98,5 +98,5 @@ function Load() {
 	// Setup the Start Stop button
 	TheStartStopButton = new StartStopButton(TheCarRobot, TheCloudRobot, document.getElementById("StartStopButtonElement"));
 	
-	TheMaestro = new Maestro(TheCarRobot, TheBotCanvas, TheStartStopButton, TheTargetView);
+	TheMaestro = new Maestro(TheCarRobot, TheBotCanvas, TheStartStopButton, TheTargetView, TheCloudRobot);
 }

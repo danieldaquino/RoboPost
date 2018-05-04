@@ -73,8 +73,6 @@ function Target(CarRobot, CloudRobot) {
 			else {
 				return false;
 			}
-			// SEND THE SETTINGS
-			that.CloudRobot.SendSettings();
 		}, 500);
 	}
 	
