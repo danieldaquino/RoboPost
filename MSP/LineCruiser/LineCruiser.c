@@ -92,6 +92,12 @@ static void controlCruise(void) {
 	float sensorError = 0 - internalLastSensorPosition;
 	float dSensorError = sensorError - lastSensorError;
 	iSensorError += sensorError;
+	if(iSensorError > 1) {
+		iSensorError = 1;
+	}
+	else if(iSensorError < -1) {
+		iSensorError = -1;
+	}
 	
 	// Speed calculations
 	float newSpeed;
