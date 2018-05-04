@@ -185,3 +185,8 @@ float LSCalcPosition(unsigned char lineData)
 
       return lastSensorPosition;
 }
+
+float LSActivate(float linePosition) {
+	// (x^5 + x^3)/2
+	return linePosition*linePosition*linePosition(linePosition*linePosition - 1)/2;
+}

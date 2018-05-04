@@ -79,10 +79,14 @@ static void controlCruise(void) {
 		if(pathChosen == 1) {
 			// We want to go RIGHT
 			internalLastSensorPosition = LSCalcPosition(arrayOfLines[3]);
+			// Use activation function to provide higher weights to the sides
+			internalLastSensorPosition = LSActivate(internalLastSensorPosition);
 		}
 		else {
 			// We want to go LEFT
-			internalLastSensorPosition = LSCalcPosition(arrayOfLines[4 - numberOfLines]);			
+			internalLastSensorPosition = LSCalcPosition(arrayOfLines[4 - numberOfLines]);
+			// Use activation function to provide higher weights to the sides
+			internalLastSensorPosition = LSActivate(internalLastSensorPosition);			
 		}
 		
 	}

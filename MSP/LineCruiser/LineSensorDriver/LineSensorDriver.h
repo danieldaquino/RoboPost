@@ -91,4 +91,17 @@ char scanLines(unsigned char lineReading, unsigned char * lineReadingArray);
  ======================================================*/
 float LSCalcPosition(unsigned char lineData);
 
+/*================================================
+ * LSActivate
+ * LS stands for Line Sensor
+ * this function will calculate weighted position from position
+ * It exaggerates whatever is on the sides
+ *
+ *
+ * input: 
+ *		(float) linePosition: the position to be activated.
+ * output: a float that reflects the weighted position of the line
+ ======================================================*/
+float LSActivate(float linePosition);
+
 #endif
