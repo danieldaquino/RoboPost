@@ -16,6 +16,7 @@ Includes
 #include "../Scheduler/Scheduler.h"
 #include "LineCruiser.h"
 #include "StartStop/StartStop.h"
+#include "../ArrayUtils/ArrayUtils.h"
 #include <math.h>
 
 
@@ -26,6 +27,13 @@ Statics
 static int speedSetpoint;
 static float lastSensorError;
 static double lastSharpness;
+
+// Recovery related variables
+static unsigned char previousArrayOfLines[4];
+static float lastStableLinePositions[4];
+static char previousNumberOfLines;
+static char previousChosenPath;
+static char forkRecoveryMode;
 
 // Create variables that we can overwrite to in case of losing the line
 static int internalSpeedSetpoint;
@@ -63,28 +71,93 @@ static void controlCruise(void) {
 	static float accumDecay;
 	// Check if we are off the line
 	if(lastRawSensorData == 0 || lastRawSensorData == 255) {
+		// ZERO LINE RECOVERY!
 		// internalLastSensorPosition will be the latest valid one.
 		accumDecay *= decayRate;
 		// Decay until reaches 15cm/s of speed
 		internalSpeedSetpoint = speedSetpoint*accumDecay + 15*(1-accumDecay);
 	}
 	else {
-		accumDecay = 1;
-		internalSpeedSetpoint = speedSetpoint;
+		// There is at least one line...
 		unsigned char arrayOfLines[4];
 		char numberOfLines;
 		// Separate lines
 		numberOfLines = scanLines(lastRawSensorData, arrayOfLines);
-		// Choose a path
-		if(pathChosen == 1) {
-			// We want to go RIGHT
-			internalLastSensorPosition = LSCalcPosition(arrayOfLines[3]);
-		}
-		else {
-			// We want to go LEFT
-			internalLastSensorPosition = LSCalcPosition(arrayOfLines[4 - numberOfLines]);			
+		
+		// Check if we just lost a line in a fork.
+		if((numberOfLines == 1 && previousNumberOfLines == 2)) {
+			// We might have lost a line.
+			// BEGIN FORK LINE RECOVERY!
+			char i;
+			// For each of the previous lines, calculate last stable line positions
+			for(i=3;i > 1;i--) {
+				lastStableLinePositions[i] = LSCalcPosition(previousArrayOfLines[i]);
+			}
 		}
 		
+		// Handle fork recovery mode (if we are still in it)
+		if((forkRecoveryMode == 1) && numberOfLines == 1) {
+			// We are still in fork recovery mode !!
+			float currentLineCandidatePosition;
+			// Calculate the current and only line, to see if it is good to follow.
+			currentLineCandidatePosition = LSCalcPosition(arrayOfLines[3]);
+			// Calculate distance from right line
+			distanceFromR = abs(currentLineCandidatePosition - lastStableLinePositions[3]);
+			// Calculate distance from left line
+			distanceFromL = abs(currentLineCandidatePosition - lastStableLinePositions[2]);
+			// Check if the candidate is closest to the line
+			if(previousChosenPath == 1) {
+				// We wanted to go RIGHT
+				if(distanceFromR > distanceFromL) {
+					// We are probably seeing the LEFT line.
+					// Continue on the fork recovery mode.
+					// internalLastSensorPosition will be the latest valid one.
+					accumDecay *= decayRate;
+					// Decay until reaches 15cm/s of speed
+					internalSpeedSetpoint = speedSetpoint*accumDecay + 15*(1-accumDecay);
+				}
+				else {
+					// We are seeing the correct line! Get out of fork recovery mode.
+					forkRecoveryMode = 0;
+				}
+			}
+			else {
+				// We wanted to go LEFT
+				if(distanceFromR < distanceFromL) {
+					// We are probably seeing the RIGHT line.
+					// Continue on the fork recovery mode.
+					// internalLastSensorPosition will be the latest valid one.
+					accumDecay *= decayRate;
+					// Decay until reaches 15cm/s of speed
+					internalSpeedSetpoint = speedSetpoint*accumDecay + 15*(1-accumDecay);
+				}
+				else {
+					// We are seeing the correct line! Get out of fork recovery mode.
+					forkRecoveryMode = 0;
+				}
+			}
+		}
+		
+		// If fork recovery mode is off, go back to normal...
+		if(forkRecoveryMode == 0) {		
+			// Choose a path
+			if(pathChosen == 1) {
+				// We want to go RIGHT
+				internalLastSensorPosition = LSCalcPosition(arrayOfLines[3]);
+			}
+			else {
+				// We want to go LEFT
+				internalLastSensorPosition = LSCalcPosition(arrayOfLines[4 - numberOfLines]);			
+			}
+		
+			// No recovery. Just normal operation
+			accumDecay = 1;
+			internalSpeedSetpoint = speedSetpoint;
+			previousNumberOfLines = numberOfLines;
+			CopyArray(arrayOfLines, previousArrayOfLines, 4);
+			forkRecoveryMode = 0;
+			previousChosenPath = pathChosen;
+		}
 	}
 	
 	// Get errors
@@ -160,4 +233,6 @@ char lineCruiserInit() {
 	
 	internalSpeedSetpoint = 0;
 	internalLastSensorPosition = 0;
+	
+	forkRecoveryMode = 0;
 }

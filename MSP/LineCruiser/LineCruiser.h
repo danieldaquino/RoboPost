@@ -25,6 +25,7 @@
 	1. DiffDriver Module
 	2. LineSensorDriver Module
 	3. Scheduler Module
+	4. Array Utils module
 	
 ===============================*/
 #ifndef LINE_CRUISER_H
