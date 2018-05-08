@@ -99,4 +99,15 @@ function Load() {
 	TheStartStopButton = new StartStopButton(TheCarRobot, TheCloudRobot, document.getElementById("StartStopButtonElement"));
 	
 	TheMaestro = new Maestro(TheCarRobot, TheBotCanvas, TheStartStopButton, TheTargetView, TheCloudRobot);
+	
+	// Setup the map view
+	TheMap = new Map(document.getElementById("TheMapContainer"), document.getElementById("TheMapButton"));
+	TheMap.Resize();
+	
+	document.body.onresize = function() {
+		TheBotCanvas.Resize();
+		TheMap.Resize();
+	}
 }
+
+
