@@ -5,18 +5,21 @@
 	View for the selection and handling of the robot targets.
 	
 	Requirements:
-	1. CloudRobot.js
+	1. Stations.js
+	2. CarRobot
 	
 ===============================*/
 
 var DriftingRed = "rgb(236, 60, 30)";
 var SettleBlue = "rgb(80, 211, 251)";
 
-function Map(MapContainer, MapButton) {
+function Map(MapContainer, MapButton, Stations, CarRobot) {
 	var that = this;
 	that.MapContainer = MapContainer;
 	that.MapContainer.className = "MapContainer";
 	that.MapButton = MapButton;
+	that.Stations = Stations;
+	that.CarRobot = CarRobot;
 	
 	// Create Map Box
 	that.Map = document.createElement("div");
@@ -43,6 +46,11 @@ function Map(MapContainer, MapButton) {
 	that.DropZones[0].addEventListener('drop', function(e) {
 		// DROP
 		var TheID = e.dataTransfer.getData("TheID");
+		// TELL ROBOT TO GO TO SMALL LOOP
+		that.Stations.PathChosen[e.dataTransfer.getData('TheColorCode')] = 1;
+		if(that.CarRobot.Targets.CommandColor == e.dataTransfer.getData('TheColorCode')) {
+			that.CarRobot.Targets.PathChosen = 1;
+		}
 		that.DropZones[0].appendChild(document.getElementById(TheID));
 	});
 	that.Map.appendChild(that.DropZones[0]);
@@ -64,6 +72,11 @@ function Map(MapContainer, MapButton) {
 	that.DropZones[1].addEventListener('drop', function(e) {
 		// DROP
 		var TheID = e.dataTransfer.getData("TheID");
+		// TELL ROBOT TO GO TO SMALL LOOP
+		that.Stations.PathChosen[e.dataTransfer.getData('TheColorCode')] = 1;
+		if(that.CarRobot.Targets.CommandColor == e.dataTransfer.getData('TheColorCode')) {
+			that.CarRobot.Targets.PathChosen = 1;
+		}
 		that.DropZones[1].appendChild(document.getElementById(TheID));
 	});
 	that.Map.appendChild(that.DropZones[1]);
@@ -85,6 +98,11 @@ function Map(MapContainer, MapButton) {
 	that.DropZones[2].addEventListener('drop', function(e) {
 		// DROP
 		var TheID = e.dataTransfer.getData("TheID");
+		// TELL ROBOT TO GO TO SMALL LOOP
+		that.Stations.PathChosen[e.dataTransfer.getData('TheColorCode')] = 1;
+		if(that.CarRobot.Targets.CommandColor == e.dataTransfer.getData('TheColorCode')) {
+			that.CarRobot.Targets.PathChosen = 1;
+		}
 		that.DropZones[2].appendChild(document.getElementById(TheID));
 	});
 	that.Map.appendChild(that.DropZones[2]);
@@ -106,6 +124,11 @@ function Map(MapContainer, MapButton) {
 	that.DropZones[3].addEventListener('drop', function(e) {
 		// DROP
 		var TheID = e.dataTransfer.getData("TheID");
+		// TELL ROBOT TO GO TO BIG LOOP
+		that.Stations.PathChosen[e.dataTransfer.getData('TheColorCode')] = 0;
+		if(that.CarRobot.Targets.CommandColor == e.dataTransfer.getData('TheColorCode')) {
+			that.CarRobot.Targets.PathChosen = 0;
+		}
 		that.DropZones[3].appendChild(document.getElementById(TheID));
 	});
 
@@ -121,6 +144,7 @@ function Map(MapContainer, MapButton) {
 	that.RedStation.addEventListener('dragstart', function(e) {
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('TheID', this.id);
+		e.dataTransfer.setData('TheColorCode', 1);
 		this.style.opacity = 0.4;
 		that.ShowAllDropZones();
 	}, false);
@@ -138,6 +162,7 @@ function Map(MapContainer, MapButton) {
 	that.BlueStation.addEventListener('dragstart', function(e) {
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('TheID', this.id);
+		e.dataTransfer.setData('TheColorCode', 2);
 		this.style.opacity = 0.4;
 		that.ShowAllDropZones();
 	}, false);
