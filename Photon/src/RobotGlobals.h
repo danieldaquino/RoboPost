@@ -61,5 +61,6 @@ float cruiseKi; // Integrator constant
 float decayRate; // Decay Rate
 float Desired_Speed; // Desired speed
 char commandColor; // The station color to go to.
+char desiredPathChosen; // The path to take. 0 for left, 1 for right.
 
 #endif

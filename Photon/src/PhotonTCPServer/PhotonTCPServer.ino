@@ -181,6 +181,7 @@ void HandleIncomingData(String data) {
 		decayRate = LeJSON["variables"]["decayRate"];
 		cruiseKi = LeJSON["variables"]["cruiseKi"];
 		commandColor = LeJSON["variables"]["commandColor"];
+		desiredPathChosen = LeJSON["variables"]["desiredPathChosen"];
 		
 		JSONResponse["status"] = 0;
 		

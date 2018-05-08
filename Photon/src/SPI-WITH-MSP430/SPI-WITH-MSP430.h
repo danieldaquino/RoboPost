@@ -21,7 +21,7 @@ Use at your own risk!?
 /*=======
 Globals
 ========*/
-#define NUM_PARAM 16
+#define NUM_PARAM 17
 
 /*=======
 Function prototypes
@@ -71,6 +71,7 @@ extern float decayRate; // Decay rate of speed if robot misses the line
 extern float cruiseKi; // Integrator constant
 extern float Desired_Speed; // Desired speed
 extern char commandColor; // Color of station to go to.
+extern char desiredPathChosen; // The path to take. 0 for left, 1 for right.
 
 /*======
 ~~SPIMSPLoop~~

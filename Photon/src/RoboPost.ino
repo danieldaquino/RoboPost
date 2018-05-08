@@ -81,6 +81,7 @@ void setup() {
 	motorKd = 0; // Differential gain of the motors.
 	Desired_Speed = 35;
 	commandColor = 0;
+	desiredPathChosen = 0;
 	RGBColor = 0xFFFFFF;
 }
 
