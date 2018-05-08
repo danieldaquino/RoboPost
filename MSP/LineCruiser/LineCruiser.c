@@ -93,7 +93,19 @@ static void controlCruise(void) {
 			for(i=3;i > 1;i--) {
 				lastStableLinePositions[i] = LSCalcPosition(previousArrayOfLines[i]);
 			}
-			forkRecoveryMode = 1;
+			float distanceBetweenEachOther;
+			distanceBetweenEachOther = lastStableLinePositions[3] - lastStableLinePositions[2];
+			// Absolute
+			if(distanceBetweenEachOther < 0) {
+				distanceBetweenEachOther = -distanceBetweenEachOther;
+			}
+			// Only start recovery mode if the previous lines are relatively far apart and NOT CONVERGING!
+			if(distanceBetweenEachOther > 1) {
+				forkRecoveryMode = 1;
+			}
+			else {
+				forkRecoveryMode = 0;
+			}
 		}
 		
 		// Handle fork recovery mode (if we are still in it)
