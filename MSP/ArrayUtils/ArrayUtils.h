@@ -15,6 +15,11 @@
 #define ARRAY_UTILS_H
 
 /*=========
+Includes
+=========*/
+#include <stdint.h>
+
+/*=========
 Function prototypes
 =========*/
 

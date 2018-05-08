@@ -93,6 +93,7 @@ static void controlCruise(void) {
 			for(i=3;i > 1;i--) {
 				lastStableLinePositions[i] = LSCalcPosition(previousArrayOfLines[i]);
 			}
+			forkRecoveryMode = 1;
 		}
 		
 		// Handle fork recovery mode (if we are still in it)
@@ -102,9 +103,19 @@ static void controlCruise(void) {
 			// Calculate the current and only line, to see if it is good to follow.
 			currentLineCandidatePosition = LSCalcPosition(arrayOfLines[3]);
 			// Calculate distance from right line
-			distanceFromR = abs(currentLineCandidatePosition - lastStableLinePositions[3]);
+			float distanceFromR;
+			distanceFromR = currentLineCandidatePosition - lastStableLinePositions[3];
+			// Get the absolute
+			if(distanceFromR < 0) {
+				distanceFromR = -distanceFromR;
+			}
 			// Calculate distance from left line
-			distanceFromL = abs(currentLineCandidatePosition - lastStableLinePositions[2]);
+			float distanceFromL;
+			distanceFromL = currentLineCandidatePosition - lastStableLinePositions[2];
+			// Get the absolute
+			if(distanceFromL < 0) {
+				distanceFromL = -distanceFromL;
+			}
 			// Check if the candidate is closest to the line
 			if(previousChosenPath == 1) {
 				// We wanted to go RIGHT
