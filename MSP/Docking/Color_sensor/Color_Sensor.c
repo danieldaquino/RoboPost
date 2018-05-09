@@ -68,7 +68,7 @@ char CSRead()
     {
         Color= 1;
     }
-    else if(r<80 && b>80 && g>80)
+    else if(r<80 && b>100 && g>100)
     {
         Color= 2;
     }
