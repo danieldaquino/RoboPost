@@ -88,6 +88,8 @@ void FillInfoBoard() {
 	sendValues[i] = cruiseKi;
 	i++;
 	sendValues[i] = commandColor;
+	i++;
+	sendValues[i] = desiredPathChosen;
 	stampMessage((unsigned char*) sendValues, NUM_PARAM*4);
 }
 

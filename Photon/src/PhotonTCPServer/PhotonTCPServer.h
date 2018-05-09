@@ -16,7 +16,7 @@
 Macros
 =======*/
 // Maximum size for JSON buffers. Depends on how big is the data you're sending.
-#define JSON_MAX_SIZE 900
+#define JSON_MAX_SIZE 950
 // How often the measurements will be sent, in milliseconds
 #define MSTREAM_REFRESH_PERIOD 34
 
@@ -65,6 +65,7 @@ extern float decayRate; // Decay of speed after it loses a line
 extern float cruiseKi; // Decay of speed after it loses a line
 extern float Desired_Speed; //desired speed
 extern char commandColor; // Color of station to go to.
+extern char desiredPathChosen; // The path to take. 0 for left, 1 for right.
 
 /*======
 	~~PhotonTCPServerInit~~

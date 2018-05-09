@@ -79,5 +79,5 @@ int main(void)
 }
 
 void wifiSetCruiseSpeed() {
-    lineCruise(Desired_Speed, 1);
+    lineCruise(Desired_Speed, desiredPathChosen);
 }

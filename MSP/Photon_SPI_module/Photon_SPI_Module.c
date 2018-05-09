@@ -120,11 +120,14 @@ static void ReceiveInfoBoard() {
 		cruiseKi = CommandArray[i];
 		i++;
 		Command_Color = CommandArray[i];
+		i++;
+		desiredPathChosen = CommandArray[i];
 	}
 }
 
 void PhotonSPIModuleInit() {
 	Desired_Speed = 0;
+	desiredPathChosen = 0;
 	dataErrorCheckInit();
 	ucsiB1SpiInit();
 	scheduleCallback(&InfoBoardUpdate);

@@ -201,7 +201,7 @@ static void controlCruise(void) {
 		absDSensorError = -dSensorError;
 	}
 	else {
-		absDSensorError = dSensorError;		
+		absDSensorError = dSensorError;	
 	}
 	newSpeed = ((float) internalSpeedSetpoint)*(1 - absDSensorError*corneringDBrakeFactor - absSensorError*corneringPBrakeFactor); // Slows down if line is moving too fast
 	

@@ -6,6 +6,11 @@
 	
 	Requirements:
 	
+	Models
+	1. Stations
+	2. CarRobot
+	3. CloudRobot
+	
 	Views
 	2. StartStopButton
 	3. VisualBot
@@ -15,7 +20,7 @@
 
 ===============================*/
 
-function Maestro(CarRobot, VisualBot, StartStopButton, Target, CloudRobot) {
+function Maestro(CarRobot, VisualBot, StartStopButton, Target, CloudRobot, Stations) {
 	var that = this;
 	
 	that.State = "Choose";
@@ -24,6 +29,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target, CloudRobot) {
 	that.StartStopButton = StartStopButton;
 	that.Target = Target;
 	that.CloudRobot = CloudRobot;
+	that.Stations = Stations;
 	that.ColorTarget = 0;
 	
 	// STATE LOGIC
@@ -81,6 +87,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target, CloudRobot) {
 			that.OriginalSelectTarget(CommandColor);
 			// Set the actual command color to zero to let it run.
 			that.CarRobot.Targets.CommandColor = 0;
+			that.CarRobot.Targets.PathChosen = that.Stations.PathChosen[CommandColor];
 			that.CloudRobot.SendSettings();
 			that.ColorTarget = CommandColor;
 			// Go to "Go to next" state
@@ -92,6 +99,7 @@ function Maestro(CarRobot, VisualBot, StartStopButton, Target, CloudRobot) {
 			that.OriginalSelectTarget(CommandColor);
 			// Go to command color
 			that.CarRobot.Targets.CommandColor = CommandColor;
+			that.CarRobot.Targets.PathChosen = that.Stations.PathChosen[CommandColor];
 			that.CloudRobot.SendSettings();
 			that.ColorTarget = CommandColor;
 			// Start Running

@@ -36,6 +36,8 @@ function Load() {
 	TheCarRobot = new CarRobot();
 	TheCarRobot.RetrieveSettings();
 	
+	TheStations = new Stations();
+	
 	/*====
 	Initialize Controllers
 	Must come before views!
@@ -98,5 +100,16 @@ function Load() {
 	// Setup the Start Stop button
 	TheStartStopButton = new StartStopButton(TheCarRobot, TheCloudRobot, document.getElementById("StartStopButtonElement"));
 	
-	TheMaestro = new Maestro(TheCarRobot, TheBotCanvas, TheStartStopButton, TheTargetView, TheCloudRobot);
+	TheMaestro = new Maestro(TheCarRobot, TheBotCanvas, TheStartStopButton, TheTargetView, TheCloudRobot, TheStations);
+	
+	// Setup the map view
+	TheMap = new Map(document.getElementById("TheMapContainer"), document.getElementById("TheMapButton"), TheStations, TheCarRobot);
+	TheMap.Resize();
+	
+	document.body.onresize = function() {
+		TheBotCanvas.Resize();
+		TheMap.Resize();
+	}
 }
+
+

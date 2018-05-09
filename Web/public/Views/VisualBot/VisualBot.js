@@ -96,14 +96,15 @@ function VisualBot(canvasObject, InputCarRobot, loadedCallback) {
 		ctx.clearRect(0, 0, that.Canvas.width, that.Canvas.height);
 	}
 	
+	that.Resize = function() {
+		that.Canvas.width = window.innerWidth;
+		that.Canvas.height = window.innerHeight - 100;
+		that.Render();	
+	}
+	
 	/*=======
 	Internal functions
 	========*/
-	document.body.onresize = function() {
-		that.Canvas.width = window.innerWidth;
-		that.Canvas.height = window.innerHeight - 100;
-		that.Render();
-	}
 		
 	var RenderCar = function() {
 		ctx.drawImage(RobotImage, that.Canvas.width/2 - that.Visual.Size/2, that.Canvas.height - that.Visual.Size - that.Visual.Margin, that.Visual.Size, that.Visual.Size);

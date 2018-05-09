@@ -74,6 +74,7 @@ function CarRobot() {
 	=======*/
 	that.Targets = new Object();
 	that.Targets.CommandColor = 0;
+	that.Targets.PathChosen = 0;
 	
 	/*=======
 	Robot Settings
