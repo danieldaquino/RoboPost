@@ -89,4 +89,17 @@ void PhotonTCPServerLoop();
 ======*/
 void PhotonTCPServerInit();
 
+/*======
+	~~ledToggle~~
+
+	Function to turn robot and led indicator on or off
+	
+	defined externally
+	
+	inputs: none
+	outputs: none
+
+======*/
+int ledToggle(String command);
+
 #endif

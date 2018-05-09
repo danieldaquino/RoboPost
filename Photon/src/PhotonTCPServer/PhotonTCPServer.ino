@@ -141,7 +141,18 @@ void HandleIncomingData(String data) {
 	JsonObject& JSONResponse = outgoingJSONBuffer.createObject();
 	
 	const char * theCommand = LeJSON["command"];
-	if(strcmp(theCommand, "M") == 0) {
+	if(strcmp(theCommand, "Stop") == 0) {
+		// User wants to stop!!
+		JSONResponse["ID"] = LeJSON["ID"];
+		JSONResponse["status"] = ledToggle("off");
+
+		JSONResponse.printTo(Serial);		
+		JSONResponse.printTo(server);
+		// Finish it up by sending null character
+		server.print('\0');
+	}
+
+	else if(strcmp(theCommand, "M") == 0) {
 		// User wants measurements!
 		JSONResponse["ID"] = LeJSON["ID"];
 		JSONResponse["time"] = Time.now();

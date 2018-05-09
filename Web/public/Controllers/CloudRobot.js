@@ -37,6 +37,10 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 		}
 	});
 	
+	that.Socket.on('StopSuccess', function(data){
+		that.robotPlay = false;
+	});
+	
 	/*====
 	Cloud API Calls
 	=====*/
@@ -51,6 +55,8 @@ function CloudRobot(InputCarRobot, InputRobotDataCSV) {
 	}
 
 	that.RobotPause = function() {
+		// FAST STOP
+		that.Socket.emit('Stop');
 		GetRequest("/robotPause").then(function(response) {
 			console.log("Turning robot off... Got Response:" + response);
 			that.robotPlay = false;

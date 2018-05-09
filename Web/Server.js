@@ -142,6 +142,21 @@ function SetupServer() {
 			socket.emit('MStream', data);
 		});
 		
+		// Setup listener for fast stop button
+		socket.on('Stop', function(){
+			console.log('Stopping Robot.');
+			PhotonTCPClient.SendToPhoton("Stop",{}).then(function(response) {
+				if(response.status == 0) {
+					socket.emit('StopSuccess');
+				}
+				else {
+					console.log("WARNING! ROBOT DID NOT RESPOND CORRECTLY TO STOP!")
+				}
+			}).catch(function(err) {
+				console.log("FATAL ERROR ON FAST ROBOT STOP FUNCTION");
+			});
+		});
+		
 		socket.on('disconnect', function(){
 			console.log('a user disconnected from WebSockets');
 		});
