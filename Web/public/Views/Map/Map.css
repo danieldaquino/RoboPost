@@ -46,16 +46,19 @@
 
 .DropZone {
 	position: absolute;
-	border-radius: 5px;
+	border-radius: 8px;
+	transition: opacity 0.5s;
 }
 
 .DropZone.Active {
-	border: dashed 2px #44F587;
+	border: dashed 5px #44F587;
+	opacity: 0.5;
 }
 
 .DropZone.DragOver {
 	position: absolute;
-	border: dashed 4px #44F587;
+	border: dashed 5px #44F587;
+	opacity: 1;
 }
 
 .StationCircle {
