@@ -100,7 +100,7 @@ static void controlCruise(void) {
 				distanceBetweenEachOther = -distanceBetweenEachOther;
 			}
 			// Only start recovery mode if the previous lines are relatively far apart and NOT CONVERGING!
-			if(distanceBetweenEachOther > 0.95) {
+			if(distanceBetweenEachOther > 1) {
 				forkRecoveryMode = 1;
 			}
 			else {
