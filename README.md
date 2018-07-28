@@ -1,5 +1,5 @@
 ﻿![RoboPostLogo](Media/logo.png)
-## An autonomous delivery system for BCIT capstone — By Daniel Walnut and Tim Yue
+## An autonomous delivery system — By Daniel Walnut and Tim Yue
 
 The aim of this project is to build a line following robot that will follow a line at a constant speed and be able to recognize different docking zones scattered around the track and park there.
 
