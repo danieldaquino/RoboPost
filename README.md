@@ -13,7 +13,7 @@ Check out this video demo on Youtube:
 
 If you want to know how it works in more details, please visit our wiki!
 
-[How it works](https://github.com/danielwalnut/RoboPost/wiki/Home.md)
+[How it works — Wiki](https://github.com/danielwalnut/RoboPost/wiki)
 
 # Setting up your own RoboPost
 
