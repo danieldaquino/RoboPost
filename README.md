@@ -9,6 +9,12 @@ Check out this video demo on Youtube:
 
 **Note:** Project is no longer under active development
 
+# How does it work?
+
+If you want to know how it works in more details, please visit our wiki!
+
+[How it works](https://github.com/danielwalnut/RoboPost/wiki/Home.md)
+
 # Setting up your own RoboPost
 
 ## Getting the hardware
