@@ -51,10 +51,10 @@ Specifically, the following is absolutely necessary for use in the control syste
 
 ![Function definition](Media/processingInputOutputDef.png)
 ![Step 1](Media/step1.png)
-![Step 2](Media/newStep2.png)
+![Step 2](Media/leStep2.png)
 ![Step 3](Media/step3.png)
 ![Step 4](Media/step4.png)
-![Step 5](Media/newStep5.png)
+![Step 5](Media/leStep5.png)
 
 **After the lines have been separated,** a decision is made on which line to follow. The track contains a maximum of two lines, and therefore the decision becomes either **left or right, which will entail the larger loop or the smaller loop.** Refer to the track diagrams below
 
