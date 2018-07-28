@@ -17,7 +17,7 @@ We also made the assembly in a lab.
 
 If you are interested in building your own custom robot based on our design, read on.
 
-If you are interested in ordering a hardware built by us, please open an issue on Github or email Daniel at me@danielwalnut.com
+If you are interested in ordering a hardware built by us, please open an issue on Github or email Daniel at [me@danielwalnut.com](mailto:me@danielwalnut.com)
 
 ### Components needed
 
@@ -107,4 +107,4 @@ General information about each module can be found in the ```README.md``` of mos
 
 # Questions?
 
-Feel free to open an issue or email us!
+Feel free to open an issue or email Daniel at [me@danielwalnut.com](mailto:me@danielwalnut.com)
