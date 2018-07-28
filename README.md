@@ -1,85 +1,110 @@
-﻿![RoboPostLogo](logo.png)
+﻿![RoboPostLogo](Media/logo.png)
+## An autonomous delivery system — BCIT Robotics Capstone
 ### By Daniel Walnut and Tim Yue
-An autonomous delivery system — BCIT Robotics Capstone
 
-# Components
+The aim of this project is to build a line following robot that will follow a line at a constant speed and be able to recognize different docking zones scattered around the track and park there.
+
+Check out this video demo on Youtube:
+
+[RoboPost Demo Video – Youtube](https://www.youtube.com/watch?v=mAnifTH91ZA)
+
+# Setting up your own RoboPost
+
+## Getting the hardware
+
+Our custom hardware was designed and built with 3d printed parts, and our own lab-etched PCB boards.
+We also made the assembly in a lab.
+
+If you are interested in building your own custom robot based on our design, read on.
+
+If you are interested in ordering a hardware built by us, please open an issue on Github or email Daniel at me@danielwalnut.com
+
+### Components needed
 
 1. MSP4305529LP Evaluation Board
 2. Particle Photon
 3. TI DRV8871 Adafruit Breakout Board
-4. 2 DC Motors with an encoder
+4. 2 6V DC Motors with attached encoder
 5. SparkFun Line Follower Sensor Array
+6. Grove I2C Color Sensor Module
+7. 3d-printed Chassis *(Custom-built)*
+8. 3d-printed Motor couple *(Custom-built)*
+9. PCB Main Dedicated Board *(Custom-built)*
+10. Two wheels
+11. Omni-wheel
+12. 2 Cell (7.4V) Lipo battery
+13. 5V Voltage regulator
+14. 3v3 Voltage Regulator
+15. Battery Voltage monitor
+16. Track *(Custom-built)*
+17. Docking Stations *(Custom-built)*
 
-# Used Resources
+### Schematic
 
-## In the MSP
+The schematic below is from the PCB Main dedicated board design. It does not include some connections external to the board.
 
-### StartStop
+![RoboPostSchematic](Media/Schematic.png)
 
-1. P1.1
-2. PORT1 ISR
-3. TA0CCR1
-4. TA0CCR2
-5. TA2CCR1
-6. TA2CCR2
-7. P1.0
+Connections external to the board are done by connecting external pins. This includes:
 
-### UARTIO module
+1. From battery to Battery terminal
+2. From motor driver output to motor
+3. From power pins (3v3/5v) to sensor power inputs
+4. From i2c pins in sensors to i2c bus on the board.
 
-1. UCSI_A1
-2. P4.4
-3. P4.5
+### Installing Software into your computer
 
-### DualMotorDriver module
+Now that you have the hardware, it is time to setup the software!
 
-1. Timer A0
-1. Timer A2
-2. P1.2 - Motor 1 Forward FPWM
-3. P1.3 - Motor 1 Reverse FPWM
-4. P2.4 - Motor 2 Forward FPWM
-5. P2.5 - Motor 2 Reverse FPWM
+**Note:** This installation procedure assumes you have a UNIX operating system, such as macOS or Linux, and that you are familiar with the command line. If you are using Microsoft Windows, some steps might be different.
+**Note:** This installation procesure also assumes that the RoboPost firmware for both MSP430 and Particle Photon are already flashed into the robot.
 
-### DualVelocityGauge module
+1. Remove the robot from packaging.
+2. Attach the battery to the velcro tape mount.
+3. Connect Voltage Monitor. A loud beep will occur and the voltages should appear on screen.
+4. You should see 6.7V minimum on the total voltage monitor. If it is below, it is necessary to charge the battery, or the robot will not work as expected
+5. Connect the battery terminals to the Robot.
+6. You should immediately see the Line Follower Array and the Photon light up.
+7. Setup the Photon to connect to the Wi-Fi network of your choice. *More instructions on that can be found on [https://setup.particle.io](https://setup.particle.io)*
+8. Make sure you have Git [https://git-scm.com/](https://git-scm.com/)
+9. Clone this repo into your computer
+	```$ git clone https://github.com/danielwalnut/RoboPost.git```
+10. Generate a keys.json file within the Web folder. This allows the Node.js Application to connect to the correct device.
+	```$ cd RoboPost/Web```
+	```$ touch keys.json```
+	Then open the file, and create its contents, **in the following format:**
+	```{```
+	```    "ID": <YOUR PARTICLE-ACCOUNT-ID IN DOUBLE QUOTES>,```
+	```    "Token": <YOUR PHOTON-ACCESS-KEY IN DOUBLE QUOTES>```
+	```}```
+	Your keys can be found at [https://console.particle.io](https://console.particle.io)
+11. Make sure you have Node.js 8.x.x [https://nodejs.org/en/](https://nodejs.org/en/) and NPM [https://npmjs.com/](https://npmjs.com/)
+12. In order to install the required module packages, open a UNIX terminal, make sure you are in the ```Web``` folder and type:
+	```$ npm install```
+13. Now the installation should have been successful. Make sure the installation happened with no error
+14. The software is now setup.
 
-1. P2.0 - Encoder of Motor 1, channel A
-2. P2.2 - Encoder of Motor 2, channel A
-3. PORT2 ISR
-4. Timer A1
+### Operating the Robot
 
-### I2CModule
+1. After the robot is assembled and software is installed, power the robot by plugging the battery connector with power on the board.
+2. Make sure Photon is connected to the same Wi-Fi network as the computer.
+3. On a UNIX terminal, go to the ```Web``` folder and start the server:
+	```$ cd <path-to-RoboPost>/Web```
+	```$ npm start```
+4. After a few seconds, you should see on the screen
 
-1. UCB0 module
-2. P3.0 – SDA
-3. P3.1 - SCL
+![Server has launched!](Media/server-launched.png)
 
-### Scheduler
+5. Open your favorite web browser and go to [http://localhost:3000/](http://localhost:3000/)
+6. The user interface will be displayed, to adjust parameters, click the cog at top right corner and drag the sliders. To set the robot in motion, click the **play** button on top left corner of the *UI* then press **PB1** on the *MSP430*.
+7. To download statistic information, click the **download** button to the left of the cog in the *UI*.
 
-1. Timer A1
-2. P4.7 GREEN LED
-3. P6.2 Computing Function Indicator.
+# Hacking RoboPost
 
-### ucsiSpi
+If you want to improve the software in RoboPost to suit your needs, you will need to understand the firmware more deeply.
 
-1. P4.1 MOSI
-2. P4.2 MISO
-3. P4.3 SCLK
-4. P6.5 SS
-5. UCSI B1
+General information about each module can be found in the ```README.md``` of most modules, and deeper information, such as descriptions of each functions can be found in the header ```.h``` files of most modules.
 
-## In the Photon
+# Questions?
 
-### SPI
-
-1. MOSI --> A5
-2. MISO --> A4
-3. SCLK --> A3
-4. SS --> A2
-
-### TCPServer
-
-1. Port 23
-
-## In the Node Server
-
-1. Port 3000
-
+Feel free to open an issue or email us!
