@@ -3,11 +3,11 @@
 
 The aim of this project is to build a line following robot that will follow a line at a constant speed and be able to recognize different docking zones scattered around the track and park there.
 
-Check out this video demo on Youtube:
+**Note:** This project is retired and not under current development. Feel free to contact us if needed.
 
-[RoboPost Demo Video – Youtube](https://www.youtube.com/watch?v=mAnifTH91ZA)
+# SHOW ME THE DEMO!!
 
-**Note:** Project is no longer under active development
+Here you go: [RoboPost Demo Video – Youtube](https://www.youtube.com/watch?v=mAnifTH91ZA)
 
 # How does it work?
 
