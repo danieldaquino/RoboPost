@@ -22,7 +22,7 @@ Its basic principle of operation is that there are 8 IR LED/Sensor pairs, each w
 ![Line Transmission Hardware Diagram](Media/LineTransmissionHardware.png)
 ![Line Transmission Software Diagram](Media/Software.png)
 
-Multiple sensors used *including* the line sensor array can only be interfaced through *I2C*, therefore an ** *I2C module* is needed to communicate with them.**
+Multiple sensors used *including* the line sensor array can only be interfaced through *I2C*, therefore an **I2C module is needed to communicate with them.**
 
 The *I2C module* was developed based on an example code from Texas Instruments, adapted to fit the current software environment. This module conforms to the I2C communication protocol thus making sensor interfacing possible.
 
@@ -66,6 +66,7 @@ Specifically, the following is absolutely necessary for use in the control syste
 The LEDs closer to the edges are given higher value. These values are then summed and divided by number of active bits (⚫︎) to get an average value which is an approximation of the position of the line. Lastly, the new value is normalized to be between -1 and 1 for calculation. The process is shown in the diagram below:
 
 ![Line Position Calculation Procedure](Media/lineCalc.png)
+
 
 
 
