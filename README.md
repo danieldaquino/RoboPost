@@ -71,13 +71,17 @@ Now that you have the hardware, it is time to setup the software!
 9. Clone this repo into your computer
 	```$ git clone https://github.com/danielwalnut/RoboPost.git```
 10. Generate a keys.json file within the Web folder. This allows the Node.js Application to connect to the correct device.
-	```$ cd RoboPost/Web```
-	```$ touch keys.json```
+	```
+	$ cd RoboPost/Web
+	$ touch keys.json
+	```
 	Then open the file, and create its contents, **in the following format:**
-	```{```
-	```    "ID": <YOUR PARTICLE-ACCOUNT-ID IN DOUBLE QUOTES>,```
-	```    "Token": <YOUR PHOTON-ACCESS-KEY IN DOUBLE QUOTES>```
-	```}```
+	```
+	{
+	    "ID": <YOUR PARTICLE-ACCOUNT-ID IN DOUBLE QUOTES>,
+	    "Token": <YOUR PHOTON-ACCESS-KEY IN DOUBLE QUOTES>
+	}
+	```
 	Your keys can be found at [https://console.particle.io](https://console.particle.io)
 11. Make sure you have Node.js 8.x.x [https://nodejs.org/en/](https://nodejs.org/en/) and NPM [https://npmjs.com/](https://npmjs.com/)
 12. In order to install the required module packages, open a UNIX terminal, make sure you are in the ```Web``` folder and type:
@@ -90,8 +94,10 @@ Now that you have the hardware, it is time to setup the software!
 1. After the robot is assembled and software is installed, power the robot by plugging the battery connector with power on the board.
 2. Make sure Photon is connected to the same Wi-Fi network as the computer.
 3. On a UNIX terminal, go to the ```Web``` folder and start the server:
-	```$ cd <path-to-RoboPost>/Web```
-	```$ npm start```
+	```
+	$ cd <path-to-RoboPost>/Web
+	$ npm start
+	```
 4. After a few seconds, you should see on the screen
 
 ![Server has launched!](Media/server-launched.png)
