@@ -1,5 +1,5 @@
 ﻿![RoboPostLogo](Media/logo.png)
-## An autonomous delivery system — By Daniel Walnut and Tim Yue
+## An autonomous delivery system — By Daniel D'Aquino and Tim Yue
 
 The aim of this project is to build a line following robot that will follow a line at a constant speed and be able to recognize different docking zones scattered around the track and park there.
 
@@ -23,8 +23,6 @@ Our custom hardware was designed and built with 3d printed parts, and our own la
 We also made the assembly in a lab.
 
 If you are interested in building your own custom robot based on our design, read on.
-
-If you are interested in ordering a hardware built by us, please open an issue on Github or email Daniel at [me@danielwalnut.com](mailto:me@danielwalnut.com)
 
 ### Components needed
 
@@ -120,4 +118,4 @@ General information about each module can be found in the ```README.md``` of mos
 
 # Questions?
 
-Feel free to open an issue or email Daniel at [me@danielwalnut.com](mailto:me@danielwalnut.com)
+Feel free to open an issue
